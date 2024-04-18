@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <br/>
+      <h4 class="text-center">Visualization to Widget one-way Interaction</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="p-sm">
+        <div class="control-panel-header">
+          <table class="w-100">
+            <tr>
+              <td>
+                <h6 class="panel-heading display-inline">Control Panel</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="p-sm">
+          <form>
+            <div class="form-group">
+              <label>Acceleration</label>
+              <provenance-slider [attr.data-label]="'Acceleration'" id="{{'provenance-slider-Acceleration'}}"
+                ngDefaultControl [value]="appFilters.Acceleration.model[0]"
+                [highValue]="appFilters.Acceleration.model[1]" [(provenance)]="appFilters.Acceleration.provenance"
+                [options]="appFilters.Acceleration.qFilterSliderConfig" mode="interaction" [visualize]="true"
+                [freeze]="false" />
+            </div>
+            <hr>
+            <div class="form-group">
+              <label>Horsepower</label>
+              <provenance-slider [attr.data-label]="'Horsepower'" id="{{'provenance-slider-Horsepower'}}"
+                ngDefaultControl [value]="appFilters.Horsepower.model[0]" [highValue]="appFilters.Horsepower.model[1]"
+                [(provenance)]="appFilters.Horsepower.provenance" [options]="appFilters.Horsepower.qFilterSliderConfig"
+                mode="interaction" [visualize]="true" [freeze]="false" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="p-sm">
+        <div class="visualization-header">
+          <table class="w-100">
+            <tr>
+              <td>
+                <h6 class="panel-heading display-inline">Visualization</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="p-sm">
+          <div class="w-100 h-fullpanel">
+            <div id="visualization-canvas">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

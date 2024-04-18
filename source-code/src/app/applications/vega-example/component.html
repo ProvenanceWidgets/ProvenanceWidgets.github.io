@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <br/>
+      <h4 class="text-center">Vega Integration</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="p-sm">
+        <div class="control-panel-header">
+          <table class="w-100">
+            <tr>
+              <td>
+                <h6 class="panel-heading display-inline">Control Panel</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="p-sm">
+          <form>
+            <div class="form-group">
+              <label for="voyager-radio-input">Sex</label>
+              <provenance-radiobutton [mode]="'interaction'" [data]="data" [name]="'voyager-radio-input'"
+                [(selected)]="selected" (selectedChange)="changeRadioButtonSelection($event)">
+              </provenance-radiobutton>
+            </div>
+            <hr>
+            <div class="form-group">
+              <label for="voyager-slider-input">Year</label>
+              <provenance-slider [mode]="'interaction'" [value]="1850" [highValue]="2000"
+                [options]="{ floor: 1850, ceil: 2000, showTicks: true, tickStep: 25 }"
+                (userChangeEnd)="changeSliderSelection($event)"></provenance-slider>
+            </div>
+            <hr>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="p-sm">
+        <div class="visualization-header">
+          <table class="w-100">
+            <tr>
+              <td>
+                <h6 class="panel-heading display-inline">Visualization</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="p-sm">
+          <div class="w-100 h-fullpanel">
+            <div id="visualization-canvas">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
