@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <br/>
+      <h4 class="text-center">Widget to Visualization one-way Interaction</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="p-sm">
+        <div class="control-panel-header">
+          <table class="w-100">
+            <tr>
+              <td>
+                <h6 class="panel-heading display-inline">Control Panel</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="p-sm">
+          <form>
+            <div class="form-group">
+              <label>Year</label>
+              <provenance-slider [attr.data-label]="'Year'" id="{{'provenance-single-slider-year'}}" ngDefaultControl
+                [value]="appFilters.year.model" (selectedChange)="appFilters.year.model = $event.value; updateVis()"
+                [options]="appFilters.year.qFilterSliderConfig" mode="interaction" [visualize]="true" [freeze]="false" />
+            </div>
+            <hr>
+            <!-- <div class="form-group">
+              <label>Fertility</label>
+              <provenance-slider [attr.data-label]="'Fertility'" id="{{'provenance-slider-fertility'}}" ngDefaultControl
+                [value]="appFilters.fertility.model[0]" [highValue]="appFilters.fertility.model[1]"
+                (selectedChange)="appFilters.fertility.model = [$event.value, $event.highValue]; updateVis()"
+                [options]="appFilters.fertility.qFilterSliderConfig" mode="interaction" [visualize]="true"
+                [freeze]="false" />
+            </div>
+            <hr> -->
+            <div class="form-group">
+              <label>Life Expectancy</label>
+              <provenance-slider [attr.data-label]="'Life Expectancy'" id="{{'provenance-slider-life_expect'}}"
+                ngDefaultControl [value]="appFilters.life_expect.model[0]" [highValue]="appFilters.life_expect.model[1]"
+                (selectedChange)="appFilters.life_expect.model = [$event.value, $event.highValue]; updateVis()"
+                [options]="appFilters.life_expect.qFilterSliderConfig" mode="interaction" [visualize]="true"
+                [freeze]="false" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="p-sm">
+        <div class="visualization-header">
+          <table class="w-100">
+            <tr>
+              <td>
+                <h6 class="panel-heading display-inline">Visualization</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="p-sm">
+          <div class="w-100 h-fullpanel">
+            <div id="visualization-canvas">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <br/>
+      <h4 class="text-center">Playground</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Single Slider
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-slider ngDefaultControl name="name-singleSlider" id="id-singleSlider"
+            [(value)]="widgetModel['singleSlider']['model']['value']"
+            [options]="widgetModel['singleSlider']['config']" [mode]="widgetModel['singleSlider']['mode']['value']" />
+        </ng-template>            
+      </p-card>
+    </div>
+
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Range Slider
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-slider ngDefaultControl name="name-rangeSlider" id="id-rangeSlider"
+            [(value)]="widgetModel['rangeSlider']['model']['value']"
+            [(highValue)]="widgetModel['rangeSlider']['model']['highValue']"
+            [options]="widgetModel['rangeSlider']['config']" [mode]="widgetModel['rangeSlider']['mode']['value']" />
+        </ng-template>
+        
+      </p-card>
+    </div>
+
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Radiobutton Group
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-radiobutton ngDefaultControl name="name-radiobuttonGroup" id="id-radiobuttonGroup"
+            [data]="widgetModel['radiobuttonGroup']['model']['options']"
+            [(selected)]="widgetModel['radiobuttonGroup']['model']['value']"
+            [mode]="widgetModel['radiobuttonGroup']['mode']['value']" />
+        </ng-template>
+      </p-card>
+    </div>
+
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Checkbox Group
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-checkbox ngDefaultControl name="name-checkboxGroup" id="id-checkboxGroup"
+            [data]="widgetModel['checkboxGroup']['model']['options']"
+            [(selected)]="widgetModel['checkboxGroup']['model']['value']"
+            [mode]="widgetModel['checkboxGroup']['mode']['value']" />
+        </ng-template>
+      </p-card>
+    </div>
+
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Single Select Dropdown
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-dropdown ngDefaultControl name="name-singleSelectDropdown" id="id-singleSelectDropdown"
+            [options]="widgetModel['singleSelectDropdown']['model']['options']" optionLabel="name" dataKey="code"
+            [mode]="widgetModel['singleSelectDropdown']['mode']['value']" placeholder="Select one option"
+            [(selected)]="widgetModel['singleSelectDropdown']['model']['value']" [showClear]="true" [filter]="true" />
+        </ng-template>
+      </p-card>
+    </div>
+
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Multi Select Dropdown
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-multiselect ngDefaultControl name="name-multiSelectDropdown" id="id-multiSelectDropdown"
+            [options]="widgetModel['multiSelectDropdown']['model']['options']" optionLabel="name" dataKey="code"
+            [mode]="widgetModel['multiSelectDropdown']['mode']['value']" placeholder="Select option(s)"
+            [(selected)]="widgetModel['multiSelectDropdown']['model']['value']" [showClear]="true" [filter]="true" />
+        </ng-template>
+      </p-card>
+    </div>
+    
+    <div class="col-md-3 mt-md mb-md">
+      <p-card class="w-100">
+        <ng-template pTemplate="subtitle">
+          Input Text
+        </ng-template>
+        <ng-template pTemplate="content">
+          <provenance-inputtext ngDefaultControl name="inputText" id="id-inputText"
+            [mode]="widgetModel['inputText']['mode']['value']" [(value)]="widgetModel['inputText']['model']['value']">
+          </provenance-inputtext>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>
