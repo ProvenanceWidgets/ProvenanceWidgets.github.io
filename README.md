@@ -1,6 +1,5 @@
 # ProvenanceWidgets Homepage
-This repository comprises the homepage for ProvenanceWidgets.
-
+The homepage for ProvenanceWidgets.
 
 ## Setup
 - Open the command line/terminal on your machine and navigate to this project's top-level directory (i.e. where this file is).
@@ -9,10 +8,14 @@ This repository comprises the homepage for ProvenanceWidgets.
 - `npm install` - installs required libraries from package.json. 
 
 ## Run
-- `ng serve` - compile and serve the application locally
-- Open the browser at http://localhost:4200
-- Enjoy!
+- `npm run start`
+- Open the browser (preferrably Chrome) at [http://localhost:4200](http://localhost:4200).
 
+## Test
+- `npm run test`
 
-## Build and Deployment
-- `ng build --configuration production --build-optimizer` > outputs the build in the `./dist/` folder.
+## Build
+- `npm run build`  outputs the build in the `./dist/` folder.
+
+## Deployment
+- Github Actions is setup via the `.github/workflows/build.yaml` file. Built files are pushed to `gh-pages` branch and served via Github Pages at [https://provenancewidgets.github.io](https://provenancewidgets.github.io).
