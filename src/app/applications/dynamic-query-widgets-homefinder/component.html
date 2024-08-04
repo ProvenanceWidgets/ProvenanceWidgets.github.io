@@ -25,14 +25,16 @@
                 [value]="appFilters['Rooms'].model" (selectedChange)="appFilters['Rooms'].model = $event.value; updateVis()"
                 [options]="appFilters['Rooms'].qFilterSliderConfig" mode="interaction" [visualize]="false" [freeze]="true" />
             </div>
-            <!-- <hr> -->
+            <br/>
+            <hr>
             <div class="form-group">
               <label>Price</label>
               <provenance-slider [attr.data-label]="'Room'" id="{{'provenance-single-slider-price'}}" ngDefaultControl
                 [value]="appFilters['Price'].model[0]" [highValue]="appFilters['Price'].model[1]" (selectedChange)="appFilters['Price'].model[0] = $event.value; appFilters['Price'].model[1] = $event.highValue; updateVis()"
                 [options]="appFilters['Price'].qFilterSliderConfig" mode="interaction" [visualize]="false" [freeze]="true" />
             </div>
-            <!-- <hr> -->
+            <br/>
+            <hr>
             <div class="form-group">
               <label>Lot Config</label>
               <provenance-radiobutton ngDefaultControl id="{{'provenance-radiobutton-lotconfig'}}"
@@ -44,9 +46,10 @@
                   [freeze]="true"
                   />
             </div>
-            <!-- <hr> -->
+            <hr>
             <div class="form-group">
               <label>Heating Type</label>
+              <br/><br/>
               <provenance-multiselect dndDropzone id="{{'provenance-multiselect-heatingtype'}}" ngDefaultControl
                 [attr.data-label]="'Heating Type'" [(selected)]="appFilters['Heating Type'].model"
                 (selectedChange)="updateVis()" 

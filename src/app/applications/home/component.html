@@ -1,15 +1,61 @@
-<div class="container">
+<div class="container" style="font-family: monospace;">
+  <br />
   <div class="row">
     <div class="col-md-12 text-center">
-      <img style="border:1px solid grey" src="assets/images/architecture.png" width="75%" />
+      <h2><img src="assets/images/logo-dark.png" height="36" alt="ProvenanceWidgets Logo" />ProvenanceWidgets</h2>
+      <h5 class="text-muted">A JavaScript Library of UI Controls to Track and Dynamically Overlay Analytic Provenance
+      </h5>
+      <h6 class="text-muted">Arpit Narechania, Kaustubh Odak, Mennatallah El-Assady, Alex Endert</h6>
+      <h6 class="text-muted">Georgia Institute of Technology and ETH Zürich</h6>
+      <div class="text-center mt-md">
+        <a href="https://github.com/ProvenanceWidgets/ProvenanceWidgets" target="_blank" class="btn btn-info"><i
+            class="pi pi-github"></i>&nbsp;View on Github</a>&nbsp;
+        <a href="https://arxiv.org/pdf/2407.17431" target="_blank" class="btn btn-success"><i
+            class="pi pi-file-pdf"></i>&nbsp;Paper (VIS 2024)</a>&nbsp;
+        <a href="https://github.com/ProvenanceWidgets/Supplemental-Material" target="_blank" class="btn btn-warning"><i
+            class="pi pi-link"></i>&nbsp;Supplemental Material (VIS 2024)</a>
+      </div>
     </div>
   </div>
   <hr>
   <div class="row">
+    <div class="col-md-6">
+      <div class="p-md" style="text-align: justify;">
+        <small>
+          ProvenanceWidgets is a Javascript library of UI control elements such as radio buttons, checkboxes, and
+          dropdowns to track and dynamically overlay a user's analytic provenance. These in situ overlays not only save
+          screen space but also minimize the amount of time and effort needed to access the same information from
+          elsewhere in the UI. In this paper, we discuss how we design modular UI control elements to track how often and
+          how recently a user interacts with them and design visual overlays showing an aggregated summary as well as a
+          detailed temporal history. We demonstrate the capability of ProvenanceWidgets by recreating three prior widget
+          libraries: (1) Scented Widgets, (2) Phosphor objects, and (3) Dynamic Query Widgets. We also evaluated its
+          expressiveness and conducted case studies with visualization developers to evaluate its effectiveness. We find
+          that ProvenanceWidgets enables developers to implement custom provenance-tracking applications effectively.
+          ProvenanceWidgets is available as open-source software to help application
+          developers build custom provenance-based systems.
+        </small>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="p-md">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/7l6jKbS2SFI?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>  
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Showcase</h4>
+      <br />
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-3">
       <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/playground')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Playground</div>
+          <h5 class="text-center">Playground</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/playground.png" width="100%" />
@@ -19,7 +65,7 @@
     <div class="col-md-3" (click)="navigateToRoute('/scented-widgets')">
       <p-card class="w-100 cursor-pointer">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Scented Widgets</div>
+          <h5 class="text-center">Scented Widgets</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/scented-widgets.png" width="100%" />
@@ -29,7 +75,7 @@
     <div class="col-md-3">
       <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/phosphor-objects')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Phosphor Objects</div>
+          <h5 class="text-center">Phosphor Objects</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/phosphor-objects.png" width="100%" />
@@ -39,7 +85,7 @@
     <div class="col-md-3">
       <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/data-distribution')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Data Distribution</div>
+          <h5 class="text-center">Data Distribution</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/data-distribution.png" width="100%" />
@@ -47,12 +93,12 @@
       </p-card>
     </div>
   </div>
-  <br/>
+  <br />
   <div class="row">
     <div class="col-md-3">
       <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/vega-example')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Vega Integration</div>
+          <h5 class="text-center">Vega Integration</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/vega-example.png" width="100%" />
@@ -60,9 +106,9 @@
       </p-card>
     </div>
     <div class="col-md-3">
-      <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/dynamic-query-widgets-homefinder')" >
+      <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/dynamic-query-widgets-homefinder')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Dynamic Query Widgets</div>
+          <h5 class="text-center">Dynamic Query Widgets</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/dynamic-query-widgets-homefinder.png" width="100%" />
@@ -72,7 +118,7 @@
     <div class="col-md-3">
       <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/widgets-to-vis-one-way')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Widgets to Visualization one-way</div>
+          <h5 class="text-center">Widgets to Visualization one-way</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/widgets-to-vis-one-way.png" width="100%" />
@@ -82,7 +128,7 @@
     <div class="col-md-3">
       <p-card class="w-100 cursor-pointer" (click)="navigateToRoute('/vis-to-widgets-one-way')">
         <ng-template pTemplate="subtitle">
-          <div class="text-center">Visualization to Widgets one-way</div>
+          <h5 class="text-center">Visualization to Widgets one-way</h5>
         </ng-template>
         <ng-template pTemplate="content">
           <img style="border:1px solid grey" src="assets/images/vis-to-widgets-one-way.png" width="100%" />
@@ -90,4 +136,23 @@
       </p-card>
     </div>
   </div>
+  <br/>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Documentation</h4>
+      <span>Coming Soon...</span>
+    </div>
+  </div>
+  <br />
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Contact</h4>
+      <span>Email Arpit at arpitnarechania [at] gmail.com</span>
+    </div>
+  </div>
+  <br />
+  <hr>
+  <br />
 </div>
