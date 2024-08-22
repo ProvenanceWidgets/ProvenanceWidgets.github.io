@@ -2,10 +2,14 @@ import React from 'react';
 import type { SliderComponent } from 'provenance-widgets';
 import type { NgWebComponent } from './types';
 import StateView from './StateView';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 type SliderComponentProps = Pick<SliderComponent, 'id' | 'mode' | 'value' | 'highValue' | 'options' | 'provenance' | 'provenanceChange' | 'selectedChange' | 'visualize' | 'freeze'>;
 
 export default function ProvenanceSlider (props: SliderComponentProps) {
+    
+  const isBrowser = useIsBrowser();
+  if (!isBrowser) return <div>loading...</div>
 
   const ref = React.useRef<HTMLDivElement>(null);
 

@@ -2,10 +2,15 @@ import React from 'react';
 import type { InputtextComponent } from 'provenance-widgets';
 import type { NgWebComponent } from './types';
 import StateView from './StateView';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 type InputtextComponentProps = Pick<InputtextComponent, 'id' | 'value' | 'visualize' | 'freeze' | 'provenance' | 'provenanceChange' | 'valueChange'>;
 
 export default function ProvenanceInputText(props: InputtextComponentProps) {
+    
+    const isBrowser = useIsBrowser();
+    if (!isBrowser) return <div>loading...</div>
+    
     const ref = React.useRef<HTMLDivElement>(null);
 
     const [value, setValue] = React.useState<any>(null);

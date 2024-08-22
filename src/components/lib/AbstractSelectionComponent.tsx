@@ -2,6 +2,7 @@ import React from 'react';
 import type { MultiselectComponent } from 'provenance-widgets';
 import type { NgWebComponent } from './types';
 import StateView from './StateView';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 type AbstractProps = Pick<MultiselectComponent, 'provenance' | 'provenanceChange' | 'selectedChange' | 'visualize' | 'freeze' | 'selected'>;
 
@@ -15,9 +16,11 @@ interface SelectionProps extends AbstractProps {
 }
 
 export default function AbstractSelectionComponent (props: SelectionProps) {
+    
+    const isBrowser = useIsBrowser();
+    if (!isBrowser) return <div>loading...</div>
 
     const ref = React.useRef<HTMLDivElement>(null);
-
     const [selected, setSelected] = React.useState<any>(null);
     const [provenance, setProvenance] = React.useState<any>({});
 

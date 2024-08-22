@@ -129,7 +129,7 @@ const config: Config = {
   } satisfies Preset.ThemeConfig,
 
   clientModules: [
-    'node_modules/provenance-widgets/web-components/index.js'
+    require.resolve('./src/pw.js')
   ],
 
   themes: ['@docusaurus/theme-live-codeblock'],
