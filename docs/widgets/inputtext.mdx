@@ -1,0 +1,173 @@
+---
+sidebar_position: 3
+---
+import PlaygroundAdmonition from './_pg_admonition.mdx';
+import APIAdmonition from './_api_admonition.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
+
+# InputText
+
+An InputText is a user interface control element that allows users to input text.
+
+## Playground
+
+```jsx live
+<ProvenanceInputText 
+  id="jsx-provenance-inputtext"
+  value=""
+  freeze={false}
+  visualize={true}
+  provenanceChange={console.log} // hardcoded
+  valueChange={console.log} // hardcoded
+/>
+```
+
+<PlaygroundAdmonition />
+
+<Tabs>
+    <TabItem 
+        value='inputtext.component.ts' 
+        label={
+            <Avatar 
+            src="https://cdn.simpleicons.org/angular/red"
+            name="inputtext.component.ts"
+            />
+        }
+    >
+
+    ```typescript
+    import { Component } from '@angular/core';
+    import type { InputTextProvenance } from 'provenance-widgets';
+
+    @Component({
+      selector: 'inputtext-root',
+      templateUrl: './inputtext.component.html',
+      styleUrls: ['./inputtext.component.css']
+    })
+    export class InputTextComponent {
+      value = '';
+      freeze = false;
+      visualize = true;
+      provenance?: InputTextProvenance = undefined;
+      provenanceChange(event) {
+        console.log('Provenance value: ', event.detail);
+        provenance = event.detail;
+      }
+      valueChange(event) {
+        console.log('Value: ', event.detail);
+        value = event.detail;
+      }
+    }
+    ```
+
+    </TabItem>
+    <TabItem 
+        value="inputtext.component.html" 
+        label={
+            <Avatar 
+                src="https://cdn.simpleicons.org/angular/red"
+                name="inputtext.component.html"
+            />
+        }
+    >
+    
+    ```html
+    <provenance-inputtext 
+      id="angular-provenance-inputtext"
+      [value]="value"
+      [freeze]="freeze"
+      [visualize]="visualize"
+      (provenanceChange)="provenanceChange($event)"
+      (valueChange)="valueChange($event)"
+    />
+    <!-- two-way binding is also supported:
+        [(value)]="value"
+        [(provenance)]="provenance"
+    -->
+    ```
+    
+    </TabItem>
+    <TabItem 
+        value='web-components' 
+        label={
+            <Avatar 
+                src="https://cdn.simpleicons.org/webcomponentsdotorg"
+                name="slider.webcomponent.ts"
+            />
+        }
+    >
+    
+    ```typescript
+    import type { NgElement, WithProperties } from "@angular/elements";
+    import type { InputTextProvenance } from "provenance-widgets";
+
+    // Create a new instance of the InputTextComponent
+    const inputtext = document.createElement('web-provenance-inputtext') as NgElement & WithProperties<InputTextProvenance>;
+
+    // Set properties
+    inputtext.value = '';
+    inputtext.freeze = false;
+    inputtext.visualize = true;
+    inputtext.addEventListener('provenanceChange', (event) => {
+      console.log('Provenance value: ', event.detail);
+    });
+
+    inputtext.addEventListener('valueChange', (event) => {
+      console.log('Value: ', event.detail);
+    });
+
+    // Append it to the DOM
+    document.body.appendChild(inputtext);
+    ```
+    
+    </TabItem>
+</Tabs>
+
+## API
+
+:::warning
+
+The InputText component extends the [PrimeNG AutoComplete component](https://www.primefaces.org/primeng-v15-lts/autocomplete), but completely overrides the default behavior, with no provisions to interact with the underlying AutoComplete component. The InputText component only supports the following properties and events, and does not support any other properties or events from the AutoComplete component.
+
+:::
+
+<APIHeaderTable selector="provenance-inputtext"/>
+
+<APIPropertyTable 
+    rows={[
+        {
+            name: 'value',
+            type: 'any',
+            default: 'undefined',
+            required: false,
+            description: <>Value of the input field. Two-way binding is supported. <i>NOTE: the value can be an object too - see <a href="https://www.primefaces.org/primeng-v15-lts/autocomplete#objects" target="_blank" rel="noreferrer">AutoComplete Objects</a>.</i></>
+        }
+    ]}
+    provenance={{
+        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/inputtext/inputtext.component.ts#L34',
+        text: 'InputTextProvenance'
+    }}
+/>
+
+### Events
+
+<APIEventTable 
+    rows={[
+        {
+            name: 'valueChange',
+            type: 'any',
+            description: 'Emits the updated value when the input field value changes.'
+        },
+        {
+            name: 'provenanceChange',
+            type: {
+                link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/inputtext/inputtext.component.ts#L34',
+                text: '<InputTextProvenance>'
+            },
+            description: 'Emits the provenance when the input field value changes.'
+        }
+    ]}
+/>

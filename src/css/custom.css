@@ -1,0 +1,54 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #295bac;
+  --ifm-color-primary-dark: #25529b;
+  --ifm-color-primary-darker: #234d92;
+  --ifm-color-primary-darkest: #1d4078;
+  --ifm-color-primary-light: #2d64bd;
+  --ifm-color-primary-lighter: #2f69c6;
+  --ifm-color-primary-lightest: #4379d2;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #fb8d3d;
+  --ifm-color-primary-dark: #fa7b1e;
+  --ifm-color-primary-darker: #fa720f;
+  --ifm-color-primary-darkest: #d65d04;
+  --ifm-color-primary-light: #fc9f5c;
+  --ifm-color-primary-lighter: #fca86b;
+  --ifm-color-primary-lightest: #fdc399;
+  --ifm-pre-background: rgb(246, 247, 248);
+}
+
+web-provenance-slider.ngx-slider {
+  margin-top: 0px !important;
+  margin-bottom: 50px;
+}
+
+#provenance-widgets-tooltip {
+  color: var(--ifm-color-gray-900);
+}
+
+.p-element label {
+  color: var(--ifm-color-gray-900);
+}
+
+.p-dropdown-label {
+  min-width: 200px !important;
+}
+
+.p-multiselect-label {
+  min-width: 200px !important;
+  color: var(--ifm-color-gray-900);
+}
+
+header time {
+  display: none;
+}

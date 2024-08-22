@@ -1,0 +1,194 @@
+---
+sidebar_position: 6
+---
+import PlaygroundAdmonition from './_pg_admonition.mdx';
+import APIAdmonition from './_api_admonition.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
+
+# Slider
+
+A Slider is a user interface control element that allows users to select a numeric value or range from a given range. 
+
+## Playground
+
+```jsx live
+<ProvenanceSlider 
+  id="jsx-provenance-slider"
+  value={50}
+  highValue={150}
+  options={{ floor: 0, ceil: 250, showTicks: true, tickStep: 25 }}
+  freeze={false}
+  visualize={true}
+  provenanceChange={console.log} // hardcoded
+  selectedChange={console.log} // hardcoded
+>
+</ProvenanceSlider>
+```
+
+<PlaygroundAdmonition />
+
+<Tabs>
+  <TabItem 
+    value='slider.component.ts' 
+    label={
+      <Avatar 
+        src="https://cdn.simpleicons.org/angular/red"
+        name="slider.component.ts"
+      />
+    }
+  >
+
+    ```typescript
+    import { Component } from '@angular/core';
+    import type { SliderProvenance } from 'provenance-widgets';
+
+    @Component({
+      selector: 'slider-root',
+      templateUrl: './slider.component.html',
+      styleUrls: ['./slider.component.css']
+    })
+    export class SliderComponent {
+      value = 50;
+      highValue = 150;
+      options = {
+        floor: 0,
+        ceil: 250,
+        showTicks: true,
+        tickStep: 25
+      };
+      freeze = false;
+      visualize = true;
+      provenance?: SliderProvenance = undefined;
+      provenanceChange(event) {
+        console.log('Provenance value: ', event.detail);
+        provenance = event.detail;
+      }
+      selectedChange(event) {
+        console.log('Selected value: ', event.detail);
+      }
+    }
+    ```
+
+  </TabItem>
+  <TabItem 
+    value="slider.component.html" 
+    label={
+      <Avatar 
+        src="https://cdn.simpleicons.org/angular/red"
+        name="slider.component.html"
+      />
+    }
+  >
+
+      ```html
+      <provenance-slider 
+        id="angular-provenance-slider"
+        [value]="value"
+        [highValue]="highValue"
+        [options]="options"
+        [freeze]="freeze"
+        [visualize]="visualize"
+        (selectedChange)="selectedChange($event)"
+        [provenance]="provenance" 
+        (provenanceChange)="provenanceChange($event)" 
+      />
+      <!-- two-way binding is also supported:
+        [(provenance)]="provenance"
+      -->
+      ```
+
+  </TabItem>
+  <TabItem 
+    value='web-components' 
+    label={
+      <Avatar 
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="slider.webcomponent.ts"
+      />
+    }
+  >
+
+  ```typescript
+  import type { NgElement, WithProperties } from '@angular/elements'
+  import { SliderComponent } from 'provenance-widgets'
+
+  // Create a new instance of the SliderComponent
+  const slider = document.createElement("web-provenance-slider") as NgElement & WithProperties<SliderComponent>
+  
+  // Set the properties
+  slider.value = 50
+  slider.highValue = 150
+  slider.options = {
+    floor: 0,
+    ceil: 250,
+    showTicks: true,
+    tickStep: 25
+  }
+  slider.freeze = false
+  slider.visualize = true
+  slider.addEventListener('selectedChange', (event) => {
+    console.log('Selected value: ', event.detail)
+  })
+  slider.addEventListener('provenanceChange', (event) => {
+    console.log('Provenance value: ', event.detail)
+  })
+
+  // Append it to the DOM
+  document.body.appendChild(slider)
+  ```
+
+  </TabItem>
+</Tabs>
+
+## API
+
+<APIAdmonition />
+<APIHeaderTable
+  extends={{
+    link: 'https://angular-slider.github.io/ngx-slider/docs',
+    text: 'ngx-slider'
+  }}
+  selector="provenance-slider"
+/>
+
+### Properties
+
+<APIPropertyTable 
+  rows={[]}
+  provenance={{
+    link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/slider/slider.component.ts#L32',
+    text: 'SliderProvenance'
+  }}
+/>
+
+:::warning
+
+The widget does not update when the `value` or `highValue` properties are changed. Use the `provenance` property for this purpose instead.
+
+:::
+
+### Events
+
+<APIEventTable 
+  rows={[
+    {
+      name: 'selectedChange',
+      type: {
+        link: 'https://github.com/angular-slider/ngx-slider/blob/67c1c7fc245a2c02fd5a3af08bd1995b7902451d/src/ngx-slider/lib/change-context.ts#L3',
+        text: '<ChangeContext>'
+      },
+      description: 'Emits the updated value when the slider value changes'
+    },
+    {
+      name: 'provenanceChange',
+      type: {
+        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/slider/slider.component.ts#L32',
+        text: '<SliderProvenance>'
+      },
+      description: 'Emits the provenance when the slider value changes'
+    }
+  ]}
+/>
