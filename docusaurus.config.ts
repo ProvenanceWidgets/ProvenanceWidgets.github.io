@@ -96,7 +96,7 @@ const config: Config = {
               href: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets',
             },
             {
-              label: 'arXiv',
+              label: 'arXiv Preprint',
               href: 'https://arxiv.org/abs/2407.17431',
             },
             {
@@ -114,6 +114,14 @@ const config: Config = {
             },
             {
               label: 'Kaustubh Odak kaustubhodak1 [at] gmail.com',
+              href: 'mailto:'
+            },
+            {
+              label: 'Mennatallah El-Assady menna.elassady [at] ai.ethz.ch',
+              href: 'mailto:'
+            },
+            {
+              label: 'Alex Endert endert [at] gatech.edu',
               href: 'mailto:'
             }
           ],
