@@ -69,7 +69,7 @@ function HomepageHeader() {
             style={{ color: 'var(--ifm-background-surface-color)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
             onClick={copyToClipboard}
           >
-            Cite the Paper
+            Cite (bibtex)
             {
               isCopied ?
               <svg 

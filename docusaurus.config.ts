@@ -109,20 +109,20 @@ const config: Config = {
           title: 'Contacts',
           items: [
             {
-              label: 'Arpit Narechania arpitnarechania [at] gmail.com',
-              href: 'mailto:'
+              label: 'Arpit Narechania',
+              href: 'https://arpitnarechania.github.io/'
             },
             {
-              label: 'Kaustubh Odak kaustubhodak1 [at] gmail.com',
-              href: 'mailto:'
+              label: 'Kaustubh Odak',
+              href: 'https://kaustubhodak.me/'
             },
             {
-              label: 'Mennatallah El-Assady menna.elassady [at] ai.ethz.ch',
-              href: 'mailto:'
+              label: 'Mennatallah El-Assady',
+              href: 'https://el-assady.com/'
             },
             {
               label: 'Alex Endert endert [at] gatech.edu',
-              href: 'mailto:'
+              href: 'https://va.gatech.edu/endert/'
             }
           ],
         },
