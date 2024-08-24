@@ -51,7 +51,7 @@ function HomepageHeader() {
           <br />
           {(siteConfig.customFields["institutes"] as string[]).join(" and ")}
         </p>
-        <div className={styles.buttons}>
+        <div className="flex flex-column justify-content-center align-items-center gap-2 md:flex-row">
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro"

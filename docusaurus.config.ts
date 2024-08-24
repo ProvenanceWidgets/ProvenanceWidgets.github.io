@@ -121,7 +121,7 @@ const config: Config = {
               href: 'https://el-assady.com/'
             },
             {
-              label: 'Alex Endert endert [at] gatech.edu',
+              label: 'Alex Endert',
               href: 'https://va.gatech.edu/endert/'
             }
           ],
