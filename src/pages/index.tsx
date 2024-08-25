@@ -42,8 +42,11 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <Heading as="h1" className="hero__title">
+        <Heading as="h1" className="hero__title hidden sm:block">
           {siteConfig.title}
+        </Heading>
+        <Heading as="h1" className="text-5xl block sm:hidden">
+          Provenance Widgets
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <p className='blog-authors-list-page'>
