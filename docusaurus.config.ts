@@ -77,7 +77,11 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        {href: 'https://provenancewidgets.github.io/showcase/', label: 'Showcase', position: 'left'},
+        {
+          to: 'docs/showcase/', 
+          label: 'Showcase', 
+          position: 'left'
+        },
         {
           href: `https://github.com/ProvenanceWidgets/ProvenanceWidgets`,
           label: 'GitHub',
@@ -134,6 +138,14 @@ const config: Config = {
       theme: prismThemes.oneLight,
       darkTheme: prismThemes.oceanicNext
     },
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
+    announcementBar: {
+      content: '⚠️ ProvenanceWidgets is not yet fully compatible with Safari. We recommend using a chromium-based browser or Firefox for the best experience.',
+      backgroundColor: 'var(--ifm-color-danger-darker)',
+      textColor: 'white'
+    }
   } satisfies Preset.ThemeConfig,
 
   clientModules: [
