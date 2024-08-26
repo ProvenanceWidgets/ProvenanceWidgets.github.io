@@ -57,7 +57,7 @@ function HomepageHeader() {
         <div className="flex flex-column justify-content-center align-items-center gap-2 md:flex-row">
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro"
+            to="/docs"
           >
             Get Started
           </Link>
