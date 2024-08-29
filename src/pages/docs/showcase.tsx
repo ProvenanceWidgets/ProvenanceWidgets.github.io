@@ -52,7 +52,7 @@ const description = 'Demonstrations of the ProvenanceWidgets library in action.'
 
 export default function Showcase() {
     return (
-        <Layout {...{ title, description }}>
+        <Layout {...{ title, description }} wrapperClassName={styles.layout}>
             <div className="container padding-top--md padding-bottom--lg">
                 <Heading as="h1" className="hero__title">
                     {title}

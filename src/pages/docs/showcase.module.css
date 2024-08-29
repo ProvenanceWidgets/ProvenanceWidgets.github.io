@@ -16,3 +16,7 @@
 .paragraphReset {
     text-decoration: none;
 }
+
+.layout {
+    background-color: var(--ifm-color-emphasis-100);
+}
