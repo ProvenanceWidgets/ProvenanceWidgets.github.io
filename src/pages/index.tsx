@@ -29,8 +29,8 @@ function HomepageHeader() {
       shorttitle = {{ProvenanceWidgets}},
       author = {{Narechania}, Arpit and {Odak}, Kaustubh and {El-Assady}, Mennatallah and {Endert}, Alex},
       journal = {IEEE Transactions on Visualization and Computer Graphics (TVCG)},
-      doi = {10.48550/arXiv.2407.17431},
-      url = {https://doi.org/10.48550/arXiv.2407.17431},
+      doi = {10.1109/TVCG.2024.3456144},
+      url = {https://doi.org/10.1109/TVCG.2024.3456144},
       year = {2024},
       publisher = {IEEE}
     }`
