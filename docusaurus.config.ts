@@ -106,6 +106,10 @@ const config: Config = {
               href: "https://github.com/ProvenanceWidgets/ProvenanceWidgets",
             },
             {
+              label: "2024 TVCG paper",
+              href: "https://doi.org/10.1109/TVCG.2024.3456144",
+            },
+            {
               label: "arXiv Preprint",
               href: "https://arxiv.org/abs/2407.17431",
             },
