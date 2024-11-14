@@ -62,9 +62,15 @@ const config: Config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
+        gtag: {
+          trackingID: 'G-XD9VD9JL4D',
+          anonymizeIP: true,
+        },
       } satisfies Preset.Options,
-    ],
+    ]
   ],
+
+  plugins: ['docusaurus-plugin-hotjar'],
 
   themeConfig: {
     // Replace with your project's social card
@@ -94,6 +100,9 @@ const config: Config = {
           position: "right",
         },
       ],
+    },
+    hotjar: {
+      applicationId: 5207146,
     },
     footer: {
       style: "dark",
