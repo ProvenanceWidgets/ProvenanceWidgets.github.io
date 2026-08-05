@@ -1,0 +1,229 @@
+---
+sidebar_position: 2
+---
+
+import PlaygroundAdmonition from './_pg_admonition.mdx';
+import APIAdmonition from './_api_admonition.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
+
+# Dropdown
+
+A Dropdown is a user interface control element that allows users to select one option from a set of options.
+
+## Playground
+
+```jsx live
+<ProvenanceDropdown 
+  id="jsx-provenance-dropdown"
+  name="jsx-provenance-dropdown"
+  options={[
+    { label: 'New York', value: 'New York' },
+    { label: 'Rome', value: 'Rome' },
+    { label: 'London', value: 'London' },
+    { label: 'Istanbul', value: 'Istanbul' },
+    { label: 'Paris', value: 'Paris' }
+  ]}
+  selected={{ label: 'New York', value: 'New York' }}
+  optionLabel="label"
+  dataKey="value"
+  freeze={false}
+  visualize={true}
+  provenanceChange={console.log} // hardcoded
+  selectedChange={console.log} // hardcoded
+/>
+```
+
+<PlaygroundAdmonition />
+
+<Tabs>
+    <TabItem 
+        value='dropdown.component.ts' 
+        label={
+        <Avatar 
+            src="https://cdn.simpleicons.org/angular/red"
+            name="dropdown.component.ts"
+        />
+        }
+    >
+
+        ```typescript
+        import { Component } from '@angular/core';
+
+        @Component({
+            selector: 'dropdown-root',
+            templateUrl: './dropdown.component.html',
+            styleUrls: ['./dropdown.component.css']
+        })
+        export class DropdownComponent {
+            data = [
+                { label: 'New York', value: 'New York' },
+                { label: 'Rome', value: 'Rome' },
+                { label: 'London', value: 'London' },
+                { label: 'Istanbul', value: 'Istanbul' },
+                { label: 'Paris', value: 'Paris' }
+            ];
+            selected = data[0];
+            freeze = false;
+            visualize = true;
+
+            provenanceChange(event) {
+                console.log(event.detail);
+            }
+
+            selectedChange(event) {
+                console.log(event.detail);
+                // Mandatory to update the selected property manually, or use two-way binding
+                selected = event.detail;
+            }
+        }
+        ```
+
+    </TabItem>
+    <TabItem 
+        value="dropdown.component.html" 
+        label={
+        <Avatar 
+            src="https://cdn.simpleicons.org/angular/red"
+            name="dropdown.component.html"
+        />
+        }
+    >
+
+        ```html
+        <provenance-dropdown 
+            id="html-provenance-dropdown"
+            name="html-provenance-dropdown"
+            [data]="data"
+            [selected]="selected"
+            optionLabel="label"
+            dataKey="value"
+            [freeze]="freeze"
+            [visualize]="visualize"
+            (provenanceChange)="provenanceChange($event)"
+            (selectedChange)="selectedChange($event)"
+        ></provenance-dropdown>
+        ```
+
+    </TabItem>
+    <TabItem
+        value="web-components"
+        label={
+        <Avatar 
+            src="https://cdn.simpleicons.org/webcomponentsdotorg"
+            name="dropdown.webcomponent.ts"
+        />
+        }
+    >
+
+        ```typescript
+        import { DropdownComponent } from 'provenance-widgets';
+        import type { NgElement, WithProperties } from '@angular/elements'
+
+        // Create a new instance of the Dropdown
+        const dropdown = document.createElement("web-provenance-dropdown") as NgElement & WithProperties<DropdownComponent>;
+
+        const data = [
+            { label: 'New York', value: 'New York' },
+            { label: 'Rome', value: 'Rome' },
+            { label: 'London', value: 'London' },
+            { label: 'Istanbul', value: 'Istanbul' },
+            { label: 'Paris', value: 'Paris' }
+        ];
+        // Set the properties
+        dropdown.options = data;
+        dropdown.selected = data[0];
+        dropdown.optionLabel = 'label';
+        dropdown.dataKey = 'value';
+        dropdown.freeze = false;
+        dropdown.visualize = true;
+        
+        dropdown.addEventListener('provenanceChange', (event) => {
+            console.log(event.detail);
+        });
+
+        dropdown.addEventListener('selectedChange', (event) => {
+            console.log(event.detail);
+            // Mandatory to update the selected property manually
+            dropdown.selected = event.detail;
+        });
+        
+        // Append it to the DOM
+        document.body.appendChild(dropdown);
+        ```
+
+    </TabItem>
+</Tabs>
+
+## API
+
+<APIAdmonition />
+
+<APIHeaderTable 
+    extends={{
+        link: 'https://www.primefaces.org/primeng-v15-lts/dropdown',
+        text: 'p-dropdown',
+    }}
+    selector='provenance-dropdown'
+/>
+
+### Properties
+
+<APIPropertyTable 
+    provenance={{
+        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
+        text: 'Provenance'
+    }}
+    rows={[
+        {
+            name: 'options',
+            type: 'any[]',
+            default: 'undefined',
+            required: true,
+            description: <>An array of objects to display as options</>
+        },
+        {
+            name: 'optionLabel',
+            type: 'string',
+            default: '',
+            required: true,
+            description: 'Name of the label field in the option object'
+        },
+        {
+            name: 'dataKey',
+            type: 'string',
+            default: '',
+            required: true,
+            description: 'Name of the value field in the option object'
+        },
+        {
+            name: 'selected',
+            type: 'any',
+            default: '',
+            required: false,
+            description: 'The selected option. Two-way binding is supported.'
+        }
+    ]}
+/>
+
+### Events
+
+<APIEventTable 
+    rows={[
+        {
+            name: 'selectedChange',
+            type: 'any',
+            description: 'Emits the updated selected value when the dropdown selection changes.'
+        },
+        {
+            name: 'provenanceChange',
+            type: {
+                link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
+                text: '<Provenance>'
+            },
+            description: 'Emits the provenance when the dropdown selection changes.'
+        }
+    ]}
+/>

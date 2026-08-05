@@ -1,0 +1,229 @@
+---
+sidebar_position: 4
+---
+
+import PlaygroundAdmonition from './_pg_admonition.mdx';
+import APIAdmonition from './_api_admonition.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
+
+# Multiselect
+
+A Multiselect is a user interface control element that allows users to select one or more options from a set of options.
+
+## Playground
+
+```jsx live
+<ProvenanceMultiselect 
+  id="jsx-provenance-multiselect"
+  name="jsx-provenance-multiselect"
+  options={[
+    { label: 'New York', value: 'New York' },
+    { label: 'Rome', value: 'Rome' },
+    { label: 'London', value: 'London' },
+    { label: 'Istanbul', value: 'Istanbul' },
+    { label: 'Paris', value: 'Paris' }
+  ]}
+  selected={[{ label: 'New York', value: 'New York' }]}
+  optionLabel="label"
+  dataKey="value"
+  freeze={false}
+  visualize={true}
+  provenanceChange={console.log} // hardcoded
+  selectedChange={console.log} // hardcoded
+/>
+```
+
+<PlaygroundAdmonition />
+
+<Tabs>
+    <TabItem 
+        value='multiselect.component.ts' 
+        label={
+        <Avatar 
+            src="https://cdn.simpleicons.org/angular/red"
+            name="multiselect.component.ts"
+        />
+        }
+    >
+
+        ```typescript
+        import { Component } from '@angular/core';
+
+        @Component({
+            selector: 'multiselect-root',
+            templateUrl: './multiselect.component.html',
+            styleUrls: ['./multiselect.component.css']
+        })
+        export class MultiselectComponent {
+            data = [
+                { label: 'New York', value: 'New York' },
+                { label: 'Rome', value: 'Rome' },
+                { label: 'London', value: 'London' },
+                { label: 'Istanbul', value: 'Istanbul' },
+                { label: 'Paris', value: 'Paris' }
+            ];
+            selected = data.slice(0, 1);
+            freeze = false;
+            visualize = true;
+
+            provenanceChange(event) {
+                console.log(event.detail);
+            }
+
+            selectedChange(event) {
+                console.log(event.detail);
+                // Mandatory to update the selected property manually, or use two-way binding
+                selected = event.detail;
+            }
+        }
+        ```
+
+    </TabItem>
+    <TabItem 
+        value="multiselect.component.html" 
+        label={
+        <Avatar 
+            src="https://cdn.simpleicons.org/angular/red"
+            name="multiselect.component.html"
+        />
+        }
+    >
+
+        ```html
+        <provenance-multiselect 
+            id="html-provenance-multiselect"
+            name="html-provenance-multiselect"
+            [data]="data"
+            [selected]="selected"
+            optionLabel="label"
+            dataKey="value"
+            [freeze]="freeze"
+            [visualize]="visualize"
+            (provenanceChange)="provenanceChange($event)"
+            (selectedChange)="selectedChange($event)"
+        ></provenance-multiselect>
+        ```
+
+    </TabItem>
+    <TabItem
+        value="web-components"
+        label={
+        <Avatar 
+            src="https://cdn.simpleicons.org/webcomponentsdotorg"
+            name="multiselect.webcomponent.ts"
+        />
+        }
+    >
+
+        ```typescript
+        import { MultiselectComponent } from 'provenance-widgets';
+        import type { NgElement, WithProperties } from '@angular/elements'
+
+        // Create a new instance of the Multiselect
+        const multiselect = document.createElement("web-provenance-multiselect") as NgElement & WithProperties<MultiselectComponent>;
+
+        const data = [
+            { label: 'New York', value: 'New York' },
+            { label: 'Rome', value: 'Rome' },
+            { label: 'London', value: 'London' },
+            { label: 'Istanbul', value: 'Istanbul' },
+            { label: 'Paris', value: 'Paris' }
+        ];
+        // Set the properties
+        multiselect.options = data;
+        multiselect.selected = data[0];
+        multiselect.optionLabel = 'label';
+        multiselect.dataKey = 'value';
+        multiselect.freeze = false;
+        multiselect.visualize = true;
+        
+        multiselect.addEventListener('provenanceChange', (event) => {
+            console.log(event.detail);
+        });
+
+        multiselect.addEventListener('selectedChange', (event) => {
+            console.log(event.detail);
+            // Mandatory to update the selected property manually
+            multiselect.selected = event.detail;
+        });
+        
+        // Append it to the DOM
+        document.body.appendChild(multiselect);
+        ```
+
+    </TabItem>
+</Tabs>
+
+## API
+
+<APIAdmonition />
+
+<APIHeaderTable 
+    extends={{
+        link: 'https://www.primefaces.org/primeng-v15-lts/multiselect',
+        text: 'p-multiselect',
+    }}
+    selector='provenance-multiselect'
+/>
+
+### Properties
+
+<APIPropertyTable 
+    provenance={{
+        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
+        text: 'Provenance'
+    }}
+    rows={[
+        {
+            name: 'options',
+            type: 'any[]',
+            default: 'undefined',
+            required: true,
+            description: <>An array of objects to display as options</>
+        },
+        {
+            name: 'optionLabel',
+            type: 'string',
+            default: '',
+            required: true,
+            description: 'Name of the label field in the option object'
+        },
+        {
+            name: 'dataKey',
+            type: 'string',
+            default: '',
+            required: true,
+            description: 'Name of the value field in the option object'
+        },
+        {
+            name: 'selected',
+            type: 'any[]',
+            default: '',
+            required: false,
+            description: 'The selected options. It must have the same structure as the options array. Two-way binding is supported.'
+        }
+    ]}
+/>
+
+### Events
+
+<APIEventTable 
+    rows={[
+        {
+            name: 'selectedChange',
+            type: 'any[]',
+            description: 'Emits the updated selected values when the multiselect selection changes.'
+        },
+        {
+            name: 'provenanceChange',
+            type: {
+                link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
+                text: '<Provenance>'
+            },
+            description: 'Emits the provenance when the multiselect selection changes.'
+        }
+    ]}
+/>
