@@ -2,6 +2,8 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const config: Config = {
   title: "ProvenanceWidgets",
   tagline:
@@ -62,10 +64,14 @@ const config: Config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
-        gtag: {
-          trackingID: 'G-XD9VD9JL4D',
-          anonymizeIP: true,
-        },
+        ...(isProduction
+          ? {
+              gtag: {
+                trackingID: "G-XD9VD9JL4D",
+                anonymizeIP: true,
+              },
+            }
+          : {}),
       } satisfies Preset.Options,
     ]
   ],
