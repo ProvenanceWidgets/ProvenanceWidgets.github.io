@@ -1,194 +1,173 @@
 ---
 sidebar_position: 6
+title: Slider
+description: Single-value and range sliders with Aggregate and Temporal provenance.
 ---
-import PlaygroundAdmonition from './_pg_admonition.mdx';
-import APIAdmonition from './_api_admonition.mdx';
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Avatar from '@site/src/components/Avatar';
-import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
 
 # Slider
 
-A Slider is a user interface control element that allows users to select a numeric value or range from a given range. 
+SW provides a single-value `Singleslider` and a two-handle `Rangeslider`. Both update visually throughout a drag and commit one provenance interaction when the drag ends.
 
-## Playground
+Add a `ProvenanceButton` whose `target` exactly matches the slider `id` to open its Aggregate and Temporal views.
 
-```jsx live
-<ProvenanceSlider 
-  id="jsx-provenance-slider"
-  value={50}
-  highValue={150}
-  options={{ floor: 0, ceil: 250, showTicks: true, tickStep: 25 }}
-  freeze={false}
-  visualize={true}
-  provenanceChange={console.log} // hardcoded
-  selectedChange={console.log} // hardcoded
->
-</ProvenanceSlider>
+## Single slider
+
+<Tabs groupId="framework">
+  <TabItem value="react" label="React">
+
+```tsx
+import { useState } from "react";
+import { ProvenanceButton, Singleslider } from "provenance-widgets";
+
+export function ScoreSlider() {
+  const [score, setScore] = useState(45);
+
+  return (
+    <div>
+      <ProvenanceButton target="score" />
+      <Singleslider
+        id="score"
+        value={score}
+        onChange={setScore}
+        onSelectedChange={value => console.log("committed", value)}
+        min={0}
+        max={100}
+        step={1}
+        showTicks
+        tickStep={10}
+        dataLabel="Score"
+      />
+    </div>
+  );
+}
 ```
 
-<PlaygroundAdmonition />
-
-<Tabs>
-  <TabItem 
-    value='slider.component.ts' 
-    label={
-      <Avatar 
-        src="https://cdn.simpleicons.org/angular/red"
-        name="slider.component.ts"
-      />
-    }
-  >
-
-    ```typescript
-    import { Component } from '@angular/core';
-    import type { SliderProvenance } from 'provenance-widgets';
-
-    @Component({
-      selector: 'slider-root',
-      templateUrl: './slider.component.html',
-      styleUrls: ['./slider.component.css']
-    })
-    export class SliderComponent {
-      value = 50;
-      highValue = 150;
-      options = {
-        floor: 0,
-        ceil: 250,
-        showTicks: true,
-        tickStep: 25
-      };
-      freeze = false;
-      visualize = true;
-      provenance?: SliderProvenance = undefined;
-      provenanceChange(event) {
-        console.log('Provenance value: ', event.detail);
-        provenance = event.detail;
-      }
-      selectedChange(event) {
-        console.log('Selected value: ', event.detail);
-      }
-    }
-    ```
-
   </TabItem>
-  <TabItem 
-    value="slider.component.html" 
-    label={
-      <Avatar 
-        src="https://cdn.simpleicons.org/angular/red"
-        name="slider.component.html"
-      />
-    }
-  >
+  <TabItem value="web-components" label="Web Components">
 
-      ```html
-      <provenance-slider 
-        id="angular-provenance-slider"
-        [value]="value"
-        [highValue]="highValue"
-        [options]="options"
-        [freeze]="freeze"
-        [visualize]="visualize"
-        (selectedChange)="selectedChange($event)"
-        [provenance]="provenance" 
-        (provenanceChange)="provenanceChange($event)" 
-      />
-      <!-- two-way binding is also supported:
-        [(provenance)]="provenance"
-      -->
-      ```
+```html
+<web-provenance-slider
+  id="score"
+  value="45"
+  min="0"
+  max="100"
+  step="1"
+  data-label="Score"
+></web-provenance-slider>
+```
 
-  </TabItem>
-  <TabItem 
-    value='web-components' 
-    label={
-      <Avatar 
-        src="https://cdn.simpleicons.org/webcomponentsdotorg"
-        name="slider.webcomponent.ts"
-      />
-    }
-  >
+```js
+const slider = document.querySelector("#score");
+slider.options = { showTicks: true, tickStep: 10 };
 
-  ```typescript
-  import type { NgElement, WithProperties } from '@angular/elements'
-  import { SliderComponent } from 'provenance-widgets'
+slider.addEventListener("valueChange", event => {
+  console.log("live value", event.detail);
+});
 
-  // Create a new instance of the SliderComponent
-  const slider = document.createElement("web-provenance-slider") as NgElement & WithProperties<SliderComponent>
-  
-  // Set the properties
-  slider.value = 50
-  slider.highValue = 150
-  slider.options = {
-    floor: 0,
-    ceil: 250,
-    showTicks: true,
-    tickStep: 25
-  }
-  slider.freeze = false
-  slider.visualize = true
-  slider.addEventListener('selectedChange', (event) => {
-    console.log('Selected value: ', event.detail)
-  })
-  slider.addEventListener('provenanceChange', (event) => {
-    console.log('Provenance value: ', event.detail)
-  })
-
-  // Append it to the DOM
-  document.body.appendChild(slider)
-  ```
+slider.addEventListener("selectedChange", event => {
+  console.log("committed value", event.detail.value);
+});
+```
 
   </TabItem>
 </Tabs>
 
-## API
+## Range slider
 
-<APIAdmonition />
-<APIHeaderTable
-  extends={{
-    link: 'https://angular-slider.github.io/ngx-slider/docs',
-    text: 'ngx-slider'
-  }}
-  selector="provenance-slider"
-/>
+The preferred React value is a tuple: `value={[low, high]}`. The PW-compatible `value={low}` plus `highValue={high}` form is also supported.
 
-### Properties
+<Tabs groupId="framework">
+  <TabItem value="react" label="React">
 
-<APIPropertyTable 
-  rows={[]}
-  provenance={{
-    link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/slider/slider.component.ts#L32',
-    text: 'SliderProvenance'
-  }}
-/>
+```tsx
+import { useState } from "react";
+import { ProvenanceButton, Rangeslider } from "provenance-widgets";
 
-:::warning
+export function PriceRange() {
+  const [price, setPrice] = useState([75, 180]);
 
-The widget does not update when the `value` or `highValue` properties are changed. Use the `provenance` property for this purpose instead.
+  return (
+    <div>
+      <ProvenanceButton target="price-range" />
+      <Rangeslider
+        id="price-range"
+        value={price}
+        onChange={setPrice}
+        onSelectedChange={range => console.log("committed", range)}
+        options={{
+          floor: 0,
+          ceil: 250,
+          step: 1,
+          showTicks: true,
+          tickStep: 25,
+        }}
+        dataLabel="Price"
+      />
+    </div>
+  );
+}
+```
 
-:::
+  </TabItem>
+  <TabItem value="web-components" label="Web Components">
 
-### Events
+```html
+<web-provenance-slider
+  id="price-range"
+  value="75"
+  high-value="180"
+  min="0"
+  max="250"
+  data-label="Price"
+></web-provenance-slider>
+```
 
-<APIEventTable 
-  rows={[
-    {
-      name: 'selectedChange',
-      type: {
-        link: 'https://github.com/angular-slider/ngx-slider/blob/67c1c7fc245a2c02fd5a3af08bd1995b7902451d/src/ngx-slider/lib/change-context.ts#L3',
-        text: '<ChangeContext>'
-      },
-      description: 'Emits the updated value when the slider value changes'
-    },
-    {
-      name: 'provenanceChange',
-      type: {
-        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/slider/slider.component.ts#L32',
-        text: '<SliderProvenance>'
-      },
-      description: 'Emits the provenance when the slider value changes'
-    }
-  ]}
-/>
+```js
+const range = document.querySelector("#price-range");
+range.options = { showTicks: true, tickStep: 25 };
+
+range.addEventListener("selectedChange", event => {
+  const { value, highValue } = event.detail;
+  console.log([value, highValue]);
+});
+```
+
+  </TabItem>
+</Tabs>
+
+## React properties
+
+Both sliders also accept all [common provenance properties](../index.mdx#common-provenance-properties).
+
+| Property | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `value` | `number` or `[number, number]` | — | Controlled value. Use a tuple for a range slider. |
+| `defaultValue` | `number` or `[number, number]` | minimum / full range | Initial value for uncontrolled use. |
+| `highValue` | `number` | — | PW-compatible upper value for `Rangeslider`. |
+| `defaultHighValue` | `number` | — | PW-compatible uncontrolled upper value. |
+| `min` / `max` | `number` | `0` / `100` | Numeric domain. |
+| `step` | `number` | `1` | Value increment. |
+| `options` | `object` | `{}` | PW-compatible `{floor, ceil, step, showTicks, tickStep, ticksArray}`. Direct props take precedence. |
+| `showTicks` | `boolean` | `false` | Shows axis ticks below the track. |
+| `tickStep` | `number` | `step` | Distance between generated ticks. |
+| `ticksArray` | `number[]` | — | Explicit tick values. |
+| `onChange` | `(value, event) => void` | — | Fires continuously while a handle moves. |
+| `onSelectedChange` | `(value, event) => void` | — | Fires when the drag is committed. |
+| `recordExternalChanges` | `boolean` | `true` | Range slider only. Records new controlled values supplied outside the drag interaction. |
+| `sliderProps` | `object` | `{}` | Additional props forwarded to the underlying PrimeReact slider. |
+
+Range values are normalized to the configured bounds. A zero-width range is rejected because it cannot be represented by ranged Aggregate provenance.
+
+## Web Component events
+
+| Event | `event.detail` |
+| --- | --- |
+| `valueChange` | Live single value, or live lower range value. |
+| `highValueChange` | Live upper range value. |
+| `selectedChange` | `{value}` for a single slider; `{value, highValue}` for a range slider. |
+| `provenanceChange` | Latest serialized provenance snapshot. |
+
+Clicking an Aggregate bar or Temporal point restores the corresponding numeric value and calls the public value callbacks.

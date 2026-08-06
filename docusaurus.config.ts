@@ -46,6 +46,20 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
+          lastVersion: "current",
+          versions: {
+            current: {
+              label: "SW",
+              banner: "none",
+              badge: false,
+            },
+            "1.0": {
+              label: "PW",
+              path: "pw",
+              banner: "none",
+              badge: false,
+            },
+          },
         },
         blog: {
           showReadingTime: false,

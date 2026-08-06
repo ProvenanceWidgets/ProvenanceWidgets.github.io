@@ -1,173 +1,91 @@
 ---
 sidebar_position: 3
+title: InputText
+description: A text input that records committed searches and restores prior values.
 ---
-import PlaygroundAdmonition from './_pg_admonition.mdx';
-import APIAdmonition from './_api_admonition.mdx';
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Avatar from '@site/src/components/Avatar';
-import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
 
 # InputText
 
-An InputText is a user interface control element that allows users to input text.
+`InputText` separates typing from a committed provenance interaction. `onChange` updates the live field value; pressing **Enter** records the current text and calls `onValueChange`.
 
-## Playground
+Repeated identical searches are meaningful: each Enter press creates another Temporal interaction and increases that text's Aggregate frequency.
 
-```jsx live
-<ProvenanceInputText 
-  id="jsx-provenance-inputtext"
-  value=""
-  freeze={false}
-  visualize={true}
-  provenanceChange={console.log} // hardcoded
-  valueChange={console.log} // hardcoded
-/>
+<Tabs groupId="framework">
+  <TabItem value="react" label="React">
+
+```tsx
+import { useState } from "react";
+import { InputText, ProvenanceButton } from "provenance-widgets";
+
+export function SearchInput() {
+  const [query, setQuery] = useState("");
+
+  return (
+    <div>
+      <ProvenanceButton target="search" />
+      <InputText
+        id="search"
+        value={query}
+        onChange={setQuery}
+        onValueChange={value => console.log("searched", value)}
+        placeholder="Search and press Enter"
+        dataLabel="Search"
+      />
+    </div>
+  );
+}
 ```
 
-<PlaygroundAdmonition />
+  </TabItem>
+  <TabItem value="web-components" label="Web Components">
 
-<Tabs>
-    <TabItem 
-        value='inputtext.component.ts' 
-        label={
-            <Avatar 
-            src="https://cdn.simpleicons.org/angular/red"
-            name="inputtext.component.ts"
-            />
-        }
-    >
+```html
+<web-provenance-inputtext
+  id="search"
+  value=""
+  placeholder="Search and press Enter"
+  data-label="Search"
+></web-provenance-inputtext>
+```
 
-    ```typescript
-    import { Component } from '@angular/core';
-    import type { InputTextProvenance } from 'provenance-widgets';
+```js
+const input = document.querySelector("#search");
 
-    @Component({
-      selector: 'inputtext-root',
-      templateUrl: './inputtext.component.html',
-      styleUrls: ['./inputtext.component.css']
-    })
-    export class InputTextComponent {
-      value = '';
-      freeze = false;
-      visualize = true;
-      provenance?: InputTextProvenance = undefined;
-      provenanceChange(event) {
-        console.log('Provenance value: ', event.detail);
-        provenance = event.detail;
-      }
-      valueChange(event) {
-        console.log('Value: ', event.detail);
-        value = event.detail;
-      }
-    }
-    ```
+input.addEventListener("valueChange", event => {
+  console.log("committed value", event.detail);
+});
 
-    </TabItem>
-    <TabItem 
-        value="inputtext.component.html" 
-        label={
-            <Avatar 
-                src="https://cdn.simpleicons.org/angular/red"
-                name="inputtext.component.html"
-            />
-        }
-    >
-    
-    ```html
-    <provenance-inputtext 
-      id="angular-provenance-inputtext"
-      [value]="value"
-      [freeze]="freeze"
-      [visualize]="visualize"
-      (provenanceChange)="provenanceChange($event)"
-      (valueChange)="valueChange($event)"
-    />
-    <!-- two-way binding is also supported:
-        [(value)]="value"
-        [(provenance)]="provenance"
-    -->
-    ```
-    
-    </TabItem>
-    <TabItem 
-        value='web-components' 
-        label={
-            <Avatar 
-                src="https://cdn.simpleicons.org/webcomponentsdotorg"
-                name="slider.webcomponent.ts"
-            />
-        }
-    >
-    
-    ```typescript
-    import type { NgElement, WithProperties } from "@angular/elements";
-    import type { InputTextProvenance } from "provenance-widgets";
+input.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
+});
+```
 
-    // Create a new instance of the InputTextComponent
-    const inputtext = document.createElement('web-provenance-inputtext') as NgElement & WithProperties<InputTextProvenance>;
-
-    // Set properties
-    inputtext.value = '';
-    inputtext.freeze = false;
-    inputtext.visualize = true;
-    inputtext.addEventListener('provenanceChange', (event) => {
-      console.log('Provenance value: ', event.detail);
-    });
-
-    inputtext.addEventListener('valueChange', (event) => {
-      console.log('Value: ', event.detail);
-    });
-
-    // Append it to the DOM
-    document.body.appendChild(inputtext);
-    ```
-    
-    </TabItem>
+  </TabItem>
 </Tabs>
 
-## API
+## React properties
 
-:::warning
+InputText also accepts all [common provenance properties](../index.mdx#common-provenance-properties).
 
-The InputText component extends the [PrimeNG AutoComplete component](https://www.primefaces.org/primeng-v15-lts/autocomplete), but completely overrides the default behavior, with no provisions to interact with the underlying AutoComplete component. The InputText component only supports the following properties and events, and does not support any other properties or events from the AutoComplete component.
+| Property | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `value` | `string` or object | — | Controlled text. If `field` is set, text is read from that object field. |
+| `defaultValue` | `string` or object | `""` | Initial uncontrolled value. |
+| `field` | `string` | — | Optional property to read from an object value. |
+| `placeholder` | `string` | — | Native input placeholder. |
+| `onChange` | `(value, event) => void` | — | Fires while the user types and when history is restored. |
+| `onInputChange` | `(value, event) => void` | — | Alias for live input changes. |
+| `onValueChange` | `(value, event) => void` | — | Fires when Enter commits the text or history restores a value. |
+| `inputProps` | `object` | `{}` | Additional props forwarded to the underlying PrimeReact input. |
 
-:::
+When the Aggregate view is open, selecting a previous string commits that value back to the input. Clicking a Temporal point restores that exact historical search and closes the provenance panel cleanly.
 
-<APIHeaderTable selector="provenance-inputtext"/>
+## Web Component events
 
-<APIPropertyTable 
-    rows={[
-        {
-            name: 'value',
-            type: 'any',
-            default: 'undefined',
-            required: false,
-            description: <>Value of the input field. Two-way binding is supported. <i>NOTE: the value can be an object too - see <a href="https://www.primefaces.org/primeng-v15-lts/autocomplete#objects" target="_blank" rel="noreferrer">AutoComplete Objects</a>.</i></>
-        }
-    ]}
-    provenance={{
-        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/inputtext/inputtext.component.ts#L34',
-        text: 'InputTextProvenance'
-    }}
-/>
-
-### Events
-
-<APIEventTable 
-    rows={[
-        {
-            name: 'valueChange',
-            type: 'any',
-            description: 'Emits the updated value when the input field value changes.'
-        },
-        {
-            name: 'provenanceChange',
-            type: {
-                link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/main/projects/provenance-widgets/src/lib/inputtext/inputtext.component.ts#L34',
-                text: '<InputTextProvenance>'
-            },
-            description: 'Emits the provenance when the input field value changes.'
-        }
-    ]}
-/>
+| Event | `event.detail` |
+| --- | --- |
+| `valueChange` | Text committed by Enter or restored from provenance. |
+| `provenanceChange` | Latest serialized provenance snapshot. |
