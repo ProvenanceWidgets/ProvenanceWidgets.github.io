@@ -1,22 +1,76 @@
+.layout {
+  min-height: 100%;
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.pageHeader {
+  margin-bottom: 1.5rem;
+}
+
+.pageHeader :global(.hero__subtitle) {
+  margin-bottom: 0;
+}
+
 .linkReset {
-    color: inherit;
+  color: inherit;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .linkReset:hover {
-    color: inherit;
-    text-decoration: none;
-    transform: scale(1.01);
-    transition: transform 0.2s ease-in-out;
+  color: inherit;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.linkReset :global(.card__image),
+.pendingCard :global(.card__image) {
+  display: flex;
+  height: 10.5rem;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.linkReset :global(.card__image img),
+.pendingCard :global(.card__image img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .titleOverride {
-    color: var(--ifm-link-color);
+  margin-bottom: 0.75rem;
+  color: var(--ifm-link-color);
+  font-size: 1.05rem;
+  line-height: 1.25;
 }
 
 .paragraphReset {
-    text-decoration: none;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.65;
 }
 
-.layout {
-    background-color: var(--ifm-color-emphasis-100);
+.pendingCard {
+  opacity: 0.82;
+}
+
+.status {
+  flex: 0 0 auto;
+  padding: 0.2rem 0.42rem;
+  border-radius: 999px;
+  color: var(--ifm-color-emphasis-700);
+  background: var(--ifm-color-emphasis-200);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }

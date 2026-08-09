@@ -110,6 +110,12 @@ const config: Config = {
           label: "Docs",
         },
         {
+          to: "docs/showcase/",
+          label: "Showcase",
+          position: "left",
+          activeBaseRegex: "^/docs/showcase/",
+        },
+        {
           href: `https://github.com/ProvenanceWidgets/ProvenanceWidgets`,
           label: "GitHub",
           position: "right",
