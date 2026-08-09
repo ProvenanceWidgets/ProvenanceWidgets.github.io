@@ -37,13 +37,13 @@ const papers: Paper[] = [
       "ProvenanceWidgets augments familiar controls - including sliders, dropdowns, checkboxes, radio buttons, and text inputs - with in-situ aggregate and temporal views of interaction history. Developers can use the library to help people recall, revisit, and reason about their analytic process without leaving the control panel.",
     links: [
       {
-        label: "Paper",
-        href: "https://doi.org/10.1109/TVCG.2024.3456144",
+        label: "PDF",
+        href: "https://narechania.com/docs/publications/provenance_widgets_2024.pdf",
         kind: "primary",
       },
       {
-        label: "Preprint",
-        href: "https://arxiv.org/abs/2407.17431",
+        label: "DOI",
+        href: "https://doi.org/10.1109/TVCG.2024.3456144",
       },
       {
         label: "Video",
@@ -78,21 +78,17 @@ const papers: Paper[] = [
       "SuperProvenanceWidgets extends the library from individual controls to the interface as a whole. Its SuperWidget summarizes which controls were used, how often, when, and in what sequence - supporting workflow auditing and sharing, reflection on exploration bias, and interface personalization.",
     links: [
       {
-        label: "Paper",
-        href: "https://doi.org/10.1145/3772363.3798409",
+        label: "PDF",
+        href: "https://narechania.com/docs/publications/superprovenancewidgets_chi_2026.pdf",
         kind: "primary",
       },
       {
-        label: "PDF",
-        href: "https://narechania.com/docs/publications/superprovenancewidgets_chi_2026.pdf",
+        label: "DOI",
+        href: "https://doi.org/10.1145/3772363.3798409",
       },
       {
-        label: "Showcase",
-        href: "https://provenancewidgets.github.io/showcase/",
-      },
-      {
-        label: "Source code",
-        href: "https://github.com/ProvenanceWidgets/ProvenanceWidgets",
+        label: "Video",
+        href: "https://www.youtube.com/watch?v=7EFYw_0JrZM",
       },
     ],
     bibtex: `@article{verma2026superprovenancewidgets,

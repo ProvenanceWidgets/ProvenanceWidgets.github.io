@@ -110,11 +110,6 @@ const config: Config = {
           label: "Docs",
         },
         {
-          to: "docs/showcase/",
-          label: "Showcase",
-          position: "left",
-        },
-        {
           href: `https://github.com/ProvenanceWidgets/ProvenanceWidgets`,
           label: "GitHub",
           position: "right",

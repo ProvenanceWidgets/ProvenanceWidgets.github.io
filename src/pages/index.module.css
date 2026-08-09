@@ -5,10 +5,10 @@
   isolation: isolate;
   overflow: hidden;
   padding: 5.75rem 1.5rem 5.25rem;
-  color: #fff;
+  color: #1d2733;
   background:
-    linear-gradient(135deg, rgba(29, 39, 52, 0.98), rgba(37, 42, 50, 0.95)),
-    #252a32;
+    linear-gradient(135deg, rgba(242, 251, 251, 0.98), rgba(255, 248, 243, 0.96)),
+    #fff;
   text-align: center;
 }
 
@@ -18,7 +18,7 @@
   z-index: -1;
   width: 20rem;
   height: 20rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(29, 39, 52, 0.09);
   border-radius: 50%;
   content: "";
 }
@@ -38,8 +38,8 @@
   z-index: -1;
   inset: 0;
   background:
-    radial-gradient(circle at 24% 42%, rgba(72, 213, 210, 0.12), transparent 27rem),
-    radial-gradient(circle at 78% 64%, rgba(255, 145, 60, 0.13), transparent 25rem);
+    radial-gradient(circle at 24% 42%, rgba(72, 213, 210, 0.16), transparent 27rem),
+    radial-gradient(circle at 78% 64%, rgba(255, 145, 60, 0.14), transparent 25rem);
 }
 
 .heroContent {
@@ -58,7 +58,7 @@
 
 .heroTitle {
   margin-bottom: 0.85rem;
-  color: #fff;
+  color: #1d2733;
   font-size: clamp(3rem, 7vw, 5.5rem);
   letter-spacing: -0.055em;
   line-height: 0.98;
@@ -71,7 +71,7 @@
 .heroSubtitle {
   width: min(760px, 100%);
   margin: 0 auto;
-  color: #dce2e8;
+  color: #425466;
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   line-height: 1.65;
 }
@@ -109,9 +109,9 @@
 }
 
 .secondaryAction {
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: #fff;
-  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(29, 39, 52, 0.24);
+  color: #263442;
+  background: rgba(255, 255, 255, 0.64);
 }
 
 .primaryAction:hover,
@@ -128,9 +128,9 @@
 }
 
 .secondaryAction:hover {
-  border-color: rgba(255, 255, 255, 0.58);
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(29, 39, 52, 0.48);
+  color: #17202a;
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .main {
@@ -340,6 +340,44 @@
 [data-theme="dark"] .paperMeta span {
   color: #8ce5e1;
   background: rgba(72, 213, 210, 0.13);
+}
+
+[data-theme="dark"] .heroBanner {
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(29, 39, 52, 0.98), rgba(37, 42, 50, 0.95)),
+    #252a32;
+}
+
+[data-theme="dark"] .heroBanner::before,
+[data-theme="dark"] .heroBanner::after {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .heroGlow {
+  background:
+    radial-gradient(circle at 24% 42%, rgba(72, 213, 210, 0.12), transparent 27rem),
+    radial-gradient(circle at 78% 64%, rgba(255, 145, 60, 0.13), transparent 25rem);
+}
+
+[data-theme="dark"] .heroTitle {
+  color: #fff;
+}
+
+[data-theme="dark"] .heroSubtitle {
+  color: #dce2e8;
+}
+
+[data-theme="dark"] .secondaryAction {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+[data-theme="dark"] .secondaryAction:hover {
+  border-color: rgba(255, 255, 255, 0.58);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .paperPreview {
