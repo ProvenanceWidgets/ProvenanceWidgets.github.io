@@ -1,6 +1,5 @@
 import React from "react";
-import Link from "@docusaurus/Link";
-import { useLocation } from "@docusaurus/router";
+import { useHistory, useLocation } from "@docusaurus/router";
 import {
   useActiveDocContext,
   useDocsPreferredVersion,
@@ -10,57 +9,63 @@ import {
 
 import styles from "./styles.module.css";
 
-type Props = {
-  onNavigate?: () => void;
-};
-
 function getMainDoc(version: GlobalVersion) {
   return version.docs.find(doc => doc.id === version.mainDocId)!;
 }
 
-export default function DocsVersionSwitch({ onNavigate }: Props) {
+function getVersionLabel(version: GlobalVersion) {
+  return version.name === "current" ? "2.0" : "1.0";
+}
+
+export default function DocsVersionSwitch(): JSX.Element {
   const docsPluginId = "default";
+  const history = useHistory();
   const { search, hash } = useLocation();
   const versions = useVersions(docsPluginId);
   const activeDocContext = useActiveDocContext(docsPluginId);
   const { savePreferredVersionName } =
     useDocsPreferredVersion(docsPluginId);
   const orderedVersions = [...versions].sort((left, right) => {
-    const order = { PW: 0, SW: 1 };
-    return (order[left.label] ?? 2) - (order[right.label] ?? 2);
+    const order = { current: 0, "1.0": 1 };
+    return (order[left.name] ?? 2) - (order[right.name] ?? 2);
   });
+  const activeVersionName =
+    activeDocContext.activeVersion?.name ?? orderedVersions[0]?.name;
 
   return (
-    <div className={styles.wrapper}>
-      <span className={styles.label}>Documentation</span>
-      <div
-        className={styles.switcher}
-        role="group"
+    <span className={styles.picker}>
+      <select
+        className={styles.select}
+        value={activeVersionName}
         aria-label="Documentation version"
+        onChange={event => {
+          const selectedVersion = versions.find(
+            version => version.name === event.currentTarget.value,
+          );
+
+          if (!selectedVersion) {
+            return;
+          }
+
+          const target =
+            activeDocContext.alternateDocVersions[selectedVersion.name] ??
+            getMainDoc(selectedVersion);
+
+          savePreferredVersionName(selectedVersion.name);
+          history.push(`${target.path}${search}${hash}`);
+        }}
       >
         {orderedVersions.map(version => {
-          const target =
-            activeDocContext.alternateDocVersions[version.name] ??
-            getMainDoc(version);
-          const active =
-            activeDocContext.activeVersion?.name === version.name;
-
           return (
-            <Link
+            <option
               key={version.name}
-              className={`${styles.option} ${active ? styles.active : ""}`}
-              to={`${target.path}${search}${hash}`}
-              aria-current={active ? "page" : undefined}
-              onClick={() => {
-                savePreferredVersionName(version.name);
-                onNavigate?.();
-              }}
+              value={version.name}
             >
-              {version.label}
-            </Link>
+              {getVersionLabel(version)}
+            </option>
           );
         })}
-      </div>
-    </div>
+      </select>
+    </span>
   );
 }

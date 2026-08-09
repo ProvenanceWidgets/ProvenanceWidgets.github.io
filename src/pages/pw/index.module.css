@@ -1,0 +1,31 @@
+.heroBanner {
+  position: relative;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.citationLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.videoSection {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.video {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+
+  .video {
+    height: auto;
+    aspect-ratio: 5 / 3;
+  }
+}

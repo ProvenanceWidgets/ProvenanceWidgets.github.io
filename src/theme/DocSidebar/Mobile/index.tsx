@@ -8,7 +8,6 @@ import {
 import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import DocSidebarItems from "@theme/DocSidebarItems";
 import type { Props } from "@theme/DocSidebar/Mobile";
-import DocsVersionSwitch from "@site/src/components/DocsVersionSwitch";
 
 const DocSidebarMobileSecondaryMenu: NavbarSecondaryMenuComponent<Props> = ({
   sidebar,
@@ -18,7 +17,6 @@ const DocSidebarMobileSecondaryMenu: NavbarSecondaryMenuComponent<Props> = ({
 
   return (
     <>
-      <DocsVersionSwitch onNavigate={mobileSidebar.toggle} />
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, "menu__list")}>
         <DocSidebarItems
           items={sidebar}

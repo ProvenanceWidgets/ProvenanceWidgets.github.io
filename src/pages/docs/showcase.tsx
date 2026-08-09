@@ -1,5 +1,4 @@
 import Link from "@docusaurus/Link";
-import { useHistory, useLocation } from "@docusaurus/router";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
 import clsx from "clsx";
@@ -217,17 +216,16 @@ function ProjectCard({
   );
 }
 
-export default function Showcase(): JSX.Element {
-  const history = useHistory();
-  const { search } = useLocation();
-  const requestedVersion = new URLSearchParams(search).get("version");
-  const activeVersion: ShowcaseVersion =
-    requestedVersion === "1.0" ? "1.0" : "2.0";
-  const activeShowcase = showcases[activeVersion];
+export function ShowcasePage({
+  version,
+}: {
+  version: ShowcaseVersion;
+}): JSX.Element {
+  const activeShowcase = showcases[version];
 
   return (
     <Layout
-      title={`Showcase ${activeVersion}`}
+      title={`Showcase ${version}`}
       description={activeShowcase.description}
       wrapperClassName={styles.layout}
     >
@@ -236,23 +234,7 @@ export default function Showcase(): JSX.Element {
           <Heading as="h1" className="hero__title">
             Showcase
           </Heading>
-          <div className={styles.subtitleRow}>
-            <p className="hero__subtitle">{activeShowcase.description}</p>
-            <div className={styles.versionPicker}>
-              <select
-                className={styles.versionSelect}
-                value={activeVersion}
-                aria-label="Showcase version"
-                onChange={event => {
-                  const version = event.currentTarget.value as ShowcaseVersion;
-                  history.push(`/docs/showcase/?version=${version}`);
-                }}
-              >
-                <option value="2.0">2.0</option>
-                <option value="1.0">1.0</option>
-              </select>
-            </div>
-          </div>
+          <p className="hero__subtitle">{activeShowcase.description}</p>
         </header>
 
         <div className="grid">
@@ -265,4 +247,8 @@ export default function Showcase(): JSX.Element {
       </main>
     </Layout>
   );
+}
+
+export default function LegacyShowcase(): JSX.Element {
+  return <ShowcasePage version="2.0" />;
 }

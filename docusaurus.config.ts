@@ -49,12 +49,13 @@ const config: Config = {
           lastVersion: "current",
           versions: {
             current: {
-              label: "SW",
+              label: "2.0",
+              path: "sw",
               banner: "none",
               badge: false,
             },
             "1.0": {
-              label: "PW",
+              label: "1.0",
               path: "pw",
               banner: "none",
               badge: false,
@@ -104,16 +105,21 @@ const config: Config = {
       },
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          type: "custom-siteVersionLink",
+          target: "docs",
           position: "left",
           label: "Docs",
         },
         {
-          to: "docs/showcase/?version=2.0",
-          label: "Showcase",
+          type: "custom-siteVersionLink",
+          target: "showcase",
           position: "left",
-          activeBaseRegex: "^/docs/showcase/",
+          label: "Showcase",
+        },
+        {
+          type: "docsVersionDropdown",
+          position: "left",
+          dropdownActiveClassDisabled: true,
         },
         {
           href: `https://github.com/ProvenanceWidgets/ProvenanceWidgets`,

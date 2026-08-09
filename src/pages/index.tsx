@@ -1,4 +1,5 @@
 import Link from "@docusaurus/Link";
+import { Redirect } from "@docusaurus/router";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import React from "react";
@@ -137,7 +138,7 @@ function HomepageHeader() {
           an entire interface.
         </p>
         <div className={styles.heroActions}>
-          <Link className={styles.primaryAction} to="/docs">
+          <Link className={styles.primaryAction} to="/docs/sw/">
             Get started
           </Link>
           <Link
@@ -209,7 +210,7 @@ function PaperCard({ paper }: { paper: Paper }) {
   );
 }
 
-export default function Home(): JSX.Element {
+export function SuperProvenanceWidgetsHome(): JSX.Element {
   return (
     <Layout
       title="ProvenanceWidgets"
@@ -230,4 +231,8 @@ export default function Home(): JSX.Element {
       </main>
     </Layout>
   );
+}
+
+export default function HomeRedirect(): JSX.Element {
+  return <Redirect to="/sw/" />;
 }
