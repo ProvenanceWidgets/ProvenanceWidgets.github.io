@@ -110,7 +110,7 @@ const config: Config = {
           label: "Docs",
         },
         {
-          to: "docs/showcase/",
+          to: "docs/showcase/?version=2.0",
           label: "Showcase",
           position: "left",
           activeBaseRegex: "^/docs/showcase/",
