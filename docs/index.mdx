@@ -6,169 +6,104 @@ title: Introduction
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-SuperProvenanceWidgets (SW) is the React-based second generation of ProvenanceWidgets. It keeps the provenance views introduced by PW—Default, Aggregate, and Temporal—and adds a shared registry that can connect the histories of multiple controls in one interface.
+SuperProvenanceWidgets (SW) is the React-based second generation of ProvenanceWidgets, a JavaScript library of UI control elements that track and dynamically overlay a user's analytic provenance ***in situ*** and ***out of the box***. SW preserves the frequency and recency overlays introduced by PW and extends them with Aggregate and Temporal views, including a shared provenance view that connects the interaction histories of multiple controls in one interface.
 
-Use the version selector in the navigation bar to switch documentation versions. PW is the preserved 1.0 documentation; SW documents the current 2.0 implementation.
+## Getting Started
 
-## What SW provides
+### What you'll need
 
-- Seven provenance-aware React controls: single slider, range slider, input text, single-select dropdown, multiselect dropdown, radio group, and checkbox group.
-- A shared public provenance contract for importing, exporting, freezing, sampling, and observing history.
-- Aggregate and Temporal views on each widget, with click-to-restore navigation.
-- `ProvenanceProvider` and `SuperProvenanceWidget` for cross-widget Aggregate and Temporal provenance.
-- Six Web Components for applications that do not render the controls directly with React.
+- [Node.js](https://nodejs.org/en/download/) 20.19+ or 22.12+, and npm 10.0+.
 
-## Installation
+## Quick Start
 
-SW 2.0 requires React 19, React DOM 19, and Preact 10. Install the library and its peer dependencies together:
+For getting started quickly, clone one of our starter code repositories:
+
+<Tabs groupId='framework'>
+  <TabItem value='react' label='React'>
+    ```bash
+    npm create vite@latest provenance-widgets-starter -- --template react
+    ```
+  </TabItem>
+  <TabItem value='web-components' label='Web Components'>
+    ```bash
+    npm create vite@latest provenance-widgets-vanilla-starter -- --template vanilla
+    ```
+  </TabItem>
+</Tabs>
+
+Then, navigate to the project directory:
+
+<Tabs groupId='framework'>
+  <TabItem value='react' label='React'>
+    ```bash
+    cd provenance-widgets-starter
+    ```
+  </TabItem>
+  <TabItem value='web-components' label='Web Components'>
+    ```bash
+    cd provenance-widgets-vanilla-starter
+    ```
+  </TabItem>
+</Tabs>
+
+Finally, install SW and its peer dependencies and start the development server:
 
 ```bash
 npm install provenance-widgets@2 react@^19.2 react-dom@^19.2 preact@^10.29
+npm run dev
 ```
 
-## React setup
+## Manual Setup
 
-Place one `ProvenanceProvider` above all widgets that should participate in the same provenance session. A widget registers itself by `id`; the matching `ProvenanceButton` opens its Aggregate and Temporal views.
+### Installation
 
-```tsx
-import { useState } from "react";
-import { PrimeReactProvider } from "primereact/api/api.esm.js";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
-import {
-  ProvenanceButton,
-  ProvenanceProvider,
-  Singleslider,
-  SuperProvenanceWidget,
-} from "provenance-widgets";
+```bash
+npm install provenance-widgets@2
+```
 
-export default function App() {
-  const [price, setPrice] = useState(25);
+### Configuration
 
-  return (
-    <PrimeReactProvider>
+<Tabs groupId='framework'>
+  <TabItem value='react' label='React'>
+    SW builds on PrimeReact components. Add the following to your project's entry file to apply PrimeReact's styles:
+
+    ```jsx
+    // SW relies on a PrimeReact theme for styling.
+    import "primereact/resources/themes/lara-light-cyan/theme.css";
+    ```
+
+    Then, import ProvenanceProvider in your application's entry file. It provides the shared registry used by SW's Aggregate and Temporal provenance views:
+
+    ```jsx {2,8-11} showLineNumbers
+    import { createRoot } from "react-dom/client";
+    import { ProvenanceProvider } from "provenance-widgets";
+
+    // Your application imports here
+    import App from "./App.jsx";
+
+    createRoot(document.getElementById("root")).render(
       <ProvenanceProvider>
-        <SuperProvenanceWidget
-          id="dashboard-history"
-          components={["price"]}
-          default
-        >
-          <div>
-            <ProvenanceButton target="price" />
-            <Singleslider
-              id="price"
-              value={price}
-              onChange={setPrice}
-              min={0}
-              max={100}
-              showTicks
-              tickStep={10}
-              dataLabel="Price"
-              onProvenanceChange={(provenance, meta) => {
-                console.log(provenance, meta);
-              }}
-            />
-          </div>
-        </SuperProvenanceWidget>
-      </ProvenanceProvider>
-    </PrimeReactProvider>
-  );
-}
-```
+        {/* All SW widgets in this tree share one provenance registry. */}
+        <App />
+      </ProvenanceProvider>,
+    );
+    ```
+  </TabItem>
+  <TabItem value='web-components' label='Web Components'>
+    Add the following to your project's `index.html` file to import SW's Web Components and styles:
 
-`SuperProvenanceWidget` is optional. Use it when a single view should summarize and replay multiple registered widgets. Its `components` array contains the exact widget IDs to include.
-
-## Web Components setup
-
-The Web Components build registers the six PW-compatible custom element names and renders each element with its own provider and footprint button.
-
-```js
-import "provenance-widgets/web-components";
-import "provenance-widgets/web-components/styles.css";
-```
-
-```html
-<web-provenance-slider
-  id="price"
-  value="25"
-  min="0"
-  max="100"
-  data-label="Price"
-></web-provenance-slider>
-```
-
-Arrays and objects must be assigned as element properties rather than serialized HTML attributes:
-
-```js
-const slider = document.querySelector("#price");
-
-slider.options = {
-  floor: 0,
-  ceil: 100,
-  showTicks: true,
-  tickStep: 10,
-};
-
-slider.addEventListener("valueChange", event => {
-  console.log(event.detail);
-});
-
-slider.addEventListener("provenanceChange", event => {
-  console.log(event.detail);
-});
-```
-
-## Provenance views
-
-1. **Default** shows the normal control and a compact provenance scent.
-2. **Aggregate** groups repeated values or selections. Frequency is encoded by size and recency by color.
-3. **Temporal** shows the interaction sequence. Clicking a historical point or interval restores that earlier widget value.
-
-Before the first recorded interaction, the individual footprint button is disabled. The Super Aggregate bar remains visible but empty so the interface layout does not jump when history begins.
-
-## Common provenance properties
-
-Every SW widget accepts the following properties.
-
-| Property | Type | Default | Purpose |
-| --- | --- | --- | --- |
-| `id` | `string` | required | Unique registry key used by the widget, its footprint button, and SuperProvenance. |
-| `provenance` | `SerializedProvenance<V> \| LegacySerializedProvenance<V>` | — | Initializes or replaces the widget history. V1 `data` and `selections` payloads are accepted. |
-| `onProvenanceChange` | `(provenance, meta) => void` | — | Receives a JSON-safe snapshot after a provenance record is created or restored. |
-| `mode` | `"interaction" \| "time"` | `"interaction"` | Records committed interactions or samples the current value over time. |
-| `sampleIntervalMs` | `number` | `1000` | Sampling interval used by `mode="time"`. |
-| `freeze` | `boolean` | `false` | Stops new provenance records while leaving the control usable. |
-| `visualize` | `boolean` | `true` | Hides or shows provenance overlays without disabling the control. |
-| `dataLabel` | `string` | widget `id` | Business label shown in provenance tooltips. `data-label` is also accepted. |
-| `temporalBrush` | `boolean` | `false` | Enables the optional Temporal range filter. It remains available but hidden by default. |
-
-The compatibility aliases `provenanceChange`, `selectedChange`, and `valueChange` are retained for PW-style integrations. New React code should prefer callbacks beginning with `on`.
-
-## Serialized provenance
-
-`onProvenanceChange` emits plain JSON data that can be stored and later passed back through `provenance`.
-
-```ts
-type SerializedProvenance<V> = {
-  schemaVersion: 2;
-  widgetId: string;
-  widgetType:
-    | "single-slider"
-    | "range-slider"
-    | "input-text"
-    | "dropdown"
-    | "multiselect"
-    | "radio-group"
-    | "checkbox-group";
-  mode: "interaction" | "time";
-  sampleIntervalMs: number;
-  data: Array<{
-    value: V;
-    timestamp: string;
-    source: "initial" | "user" | "history" | "external" | "time";
-    kind: "baseline" | "interaction" | "sample";
-    caller?: string | number;
-  }>;
-};
-```
-
-Aggregate statistics are derived again when provenance is restored; they are intentionally not serialized.
+    ```html {5-6} showLineNumbers
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <!-- Your head tags here -->
+        <script type="text/javascript" src="/node_modules/provenance-widgets/dist/web-components/index.js"></script>
+        <link rel="stylesheet" href="/node_modules/provenance-widgets/dist/web-components/styles.css" />
+      </head>
+      <body>
+        <!-- Your body here -->
+      </body>
+    </html>
+    ```
+  </TabItem>
+</Tabs>
