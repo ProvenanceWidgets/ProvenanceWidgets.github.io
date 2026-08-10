@@ -1,8 +1,10 @@
 # Dependencies
 /node_modules
+/playgrounds/sw-live/node_modules
 
 # Production
 /build
+/static/sw-live
 
 # Generated files
 .docusaurus

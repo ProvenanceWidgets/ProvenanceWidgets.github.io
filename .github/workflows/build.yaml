@@ -17,11 +17,20 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            playgrounds/sw-live/package-lock.json
 
-      - name: Install dependencies
+      - name: Install documentation dependencies
         run: npm ci
+      - name: Use HTTPS for GitHub dependencies
+        run: |
+          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+      - name: Install SW Live Playground dependencies
+        run: npm ci --prefix playgrounds/sw-live
       - name: Build website
         run: npm run build
 

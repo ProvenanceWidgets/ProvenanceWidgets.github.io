@@ -6,76 +6,128 @@ description: A Checkbox is a user interface control element that allows users to
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
 
 # Checkbox
 
-`CheckboxGroup` owns the selected array and the provenance for the complete group. It can render from a `data` array or compose individual `Checkbox` children.
+A Checkbox is a user interface control element that allows users to select one or more options from a set of options.
 
-<Tabs groupId="framework">
-  <TabItem value="react" label="React">
+## Playground
 
-```tsx
+<SWLivePlayground
+  example="checkbox"
+  title="SW Checkbox Live Playground"
+/>
+
+:::info
+
+The **serialized provenance** panel shows the latest schema v2 snapshot emitted by `onProvenanceChange`.
+
+The above example uses React JSX. See corresponding static examples for React and Web Components below.
+
+:::
+
+<Tabs>
+  <TabItem
+    value="checkbox.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="checkbox.jsx"
+      />
+    }
+  >
+
+```jsx
 import { useState } from "react";
 import { CheckboxGroup, ProvenanceButton } from "provenance-widgets";
 
-const ingredients = [
-  { label: "Chicken", value: "chicken" },
-  { label: "Beef", value: "beef" },
-  { label: "Lamb", value: "lamb" },
+const data = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
 ];
 
-export function Ingredients() {
-  const [selected, setSelected] = useState([]);
+export default function CheckboxExample() {
+  const [selected, setSelected] = useState(["New York", "Rome"]);
+
+  const selectedChange = nextSelected => {
+    console.log(nextSelected);
+    setSelected(nextSelected);
+  };
 
   return (
     <div>
-      <ProvenanceButton target="ingredients" />
+      <ProvenanceButton target="cities" />
       <CheckboxGroup
-        id="ingredients"
-        data={ingredients}
+        id="cities"
+        name="cities"
+        data={data}
         selected={selected}
-        onSelectedChange={setSelected}
         optionLabel="label"
         optionValue="value"
-        dataLabel="Ingredients"
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={console.log}
+        onSelectedChange={selectedChange}
       />
     </div>
   );
 }
 ```
 
-The controlled value is an array of option keys—for example `['chicken', 'lamb']` when `optionValue="value"`.
-
   </TabItem>
-  <TabItem value="web-components" label="Web Components">
-
-```html
-<web-provenance-checkbox
-  id="ingredients"
-  data-label="Ingredients"
-></web-provenance-checkbox>
-```
+  <TabItem
+    value="checkbox.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="checkbox.webcomponent.js"
+      />
+    }
+  >
 
 ```js
-const checkbox = document.querySelector("#ingredients");
-checkbox.data = [
-  { label: "Chicken", value: "chicken" },
-  { label: "Beef", value: "beef" },
-  { label: "Lamb", value: "lamb" },
+// Create a new instance of the Checkbox
+const checkbox = document.createElement("web-provenance-checkbox");
+
+const data = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
 ];
-checkbox.selected = [];
+
+// Set the properties
+checkbox.id = "cities";
+checkbox.name = "cities";
+checkbox.data = data;
+checkbox.selected = ["New York", "Rome"];
 checkbox.optionLabel = "label";
 checkbox.optionValue = "value";
+checkbox.freeze = false;
+checkbox.visualize = true;
 
 checkbox.addEventListener("selectedChange", event => {
-  checkbox.selected = event.detail;
+  console.log(event.detail);
 });
+
+checkbox.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
+});
+
+// Append it to the DOM
+document.body.appendChild(checkbox);
 ```
 
   </TabItem>
 </Tabs>
 
-## Composed React options
+### Composed React options
 
 Use children when each option needs custom layout or props. The group still owns the state and provenance.
 
