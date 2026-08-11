@@ -8,6 +8,7 @@ import {
 import {
   CheckboxGroup,
   ProvenanceButton,
+  SingleSelectDropdown,
   useProvenance,
 } from "provenance-widgets";
 
@@ -82,6 +83,12 @@ const asPwEvent = event => {
   };
 };
 
+const asPwSelectionValue = value => {
+  if (value === undefined || value === null) return [];
+  if (value instanceof Set) return Array.from(value);
+  return Array.isArray(value) ? value : [value];
+};
+
 // Present SW's runtime SelectionProvenance using the seven fields exposed by
 // PW 1.0. This is a display adapter; it does not replace SW's runtime model or
 // its schema v2 serialization contract.
@@ -109,7 +116,7 @@ const asPwProvenance = strategy => {
     events,
     hasUserInteracted: strategy?.hasUserInteracted === true,
     selections: (strategy?.temporalData ?? []).map(({ value, time }) => ({
-      value: Array.from(value ?? []),
+      value: asPwSelectionValue(value),
       timestamp: asDate(time),
     })),
   };
@@ -165,7 +172,65 @@ function CheckboxPlayground({ children }) {
       {React.cloneElement(checkbox, {
         selected,
         onSelectedChange: handleSelectedChange,
+        selectedChange: undefined,
+        onChange: undefined,
       })}
+      <StateView selected={selected} strategy={strategy} />
+    </div>
+  );
+}
+
+const getInitialDropdownSelection = props => {
+  for (const key of [
+    "selected",
+    "value",
+    "defaultSelected",
+    "defaultValue",
+  ]) {
+    if (
+      Object.prototype.hasOwnProperty.call(props, key) &&
+      props[key] !== undefined
+    ) {
+      return props[key];
+    }
+  }
+  return null;
+};
+
+// Documentation-only adapter that keeps the live example controlled and
+// presents the same provenance/selection state panels as PW 1.0.
+function DropdownPlayground({ children }) {
+  const dropdown = React.Children.only(children);
+  const [registeredComponents] = useProvenance();
+  const [selected, setSelected] = React.useState(() =>
+    getInitialDropdownSelection(dropdown.props),
+  );
+  const strategy = registeredComponents.get(dropdown.props.id);
+
+  const handleSelectedChange = (nextSelected, event) => {
+    setSelected(nextSelected);
+    callUnique(
+      [
+        dropdown.props.onSelectedChange,
+        dropdown.props.selectedChange,
+        dropdown.props.onChange,
+      ],
+      nextSelected,
+      event,
+    );
+  };
+
+  return (
+    <div className="dropdown-example">
+      <div className="dropdown-example__control">
+        <ProvenanceButton target={dropdown.props.id} />
+        {React.cloneElement(dropdown, {
+          selected,
+          onSelectedChange: handleSelectedChange,
+          selectedChange: undefined,
+          onChange: undefined,
+        })}
+      </div>
       <StateView selected={selected} strategy={strategy} />
     </div>
   );
@@ -190,6 +255,27 @@ const checkboxCode = `<CheckboxPlayground>
   />
 </CheckboxPlayground>`;
 
+const dropdownCode = `<DropdownPlayground>
+  <SingleSelectDropdown
+    id="jsx-provenance-dropdown"
+    name="jsx-provenance-dropdown"
+    options={[
+      { label: 'New York', value: 'New York' },
+      { label: 'Rome', value: 'Rome' },
+      { label: 'London', value: 'London' },
+      { label: 'Istanbul', value: 'Istanbul' },
+      { label: 'Paris', value: 'Paris' }
+    ]}
+    selected={{ label: 'New York', value: 'New York' }}
+    optionLabel="label"
+    dataKey="value"
+    freeze={false}
+    visualize={true}
+    onProvenanceChange={console.log}
+    onSelectedChange={console.log}
+  />
+</DropdownPlayground>`;
+
 const examples = {
   checkbox: {
     code: checkboxCode,
@@ -197,6 +283,14 @@ const examples = {
       React,
       CheckboxGroup,
       CheckboxPlayground,
+    },
+  },
+  dropdown: {
+    code: dropdownCode,
+    scope: {
+      React,
+      DropdownPlayground,
+      SingleSelectDropdown,
     },
   },
 };

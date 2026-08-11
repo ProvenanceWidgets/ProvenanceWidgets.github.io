@@ -6,42 +6,84 @@ description: A Dropdown is a user interface control element that allows users to
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import APIAdmonition from './_api_admonition.mdx';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # Dropdown
 
-`SingleSelectDropdown` selects one option and stores a stable option key in provenance. Its public callback receives the resolved option object, so controlled applications can keep using their original option data.
+A Dropdown is a user interface control element that allows users to select one option from a set of options.
 
-<Tabs groupId="framework">
-  <TabItem value="react" label="React">
+## Playground
 
-```tsx
+<SWLivePlayground
+  example="dropdown"
+  title="SW Dropdown Live Playground"
+/>
+
+:::info
+
+The example above is editable. The examples below show the same Dropdown as a complete React component and with the Web Components API.
+
+:::
+
+<Tabs>
+  <TabItem
+    value="dropdown.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="dropdown.jsx"
+      />
+    }
+  >
+
+```jsx
 import { useState } from "react";
 import {
   ProvenanceButton,
   SingleSelectDropdown,
 } from "provenance-widgets";
 
-const cities = [
-  { label: "New York", value: "NY" },
-  { label: "Rome", value: "RM" },
-  { label: "London", value: "LDN" },
+const options = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
 ];
 
-export function CityDropdown() {
-  const [city, setCity] = useState(cities[0]);
+export default function DropdownExample() {
+  const [selected, setSelected] = useState(options[0]);
+
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
+
+  const selectedChange = nextSelected => {
+    console.log(nextSelected);
+    setSelected(nextSelected);
+  };
 
   return (
     <div>
-      <ProvenanceButton target="city" />
+      <ProvenanceButton target="jsx-provenance-dropdown" />
       <SingleSelectDropdown
-        id="city"
-        options={cities}
-        selected={city}
-        onSelectedChange={setCity}
+        id="jsx-provenance-dropdown"
+        name="jsx-provenance-dropdown"
+        options={options}
+        selected={selected}
         optionLabel="label"
-        optionValue="value"
-        placeholder="Select a city"
-        dataLabel="City"
+        dataKey="value"
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={provenanceChange}
+        onSelectedChange={selectedChange}
       />
     </div>
   );
@@ -49,60 +91,116 @@ export function CityDropdown() {
 ```
 
   </TabItem>
-  <TabItem value="web-components" label="Web Components">
-
-```html
-<web-provenance-dropdown
-  id="city"
-  placeholder="Select a city"
-  data-label="City"
-></web-provenance-dropdown>
-```
+  <TabItem
+    value="dropdown.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="dropdown.webcomponent.js"
+      />
+    }
+  >
 
 ```js
-const cities = [
-  { label: "New York", value: "NY" },
-  { label: "Rome", value: "RM" },
-  { label: "London", value: "LDN" },
+// Create a new instance of the Dropdown
+const dropdown = document.createElement("web-provenance-dropdown");
+
+const options = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
 ];
 
-const dropdown = document.querySelector("#city");
-dropdown.options = cities;
-dropdown.selected = cities[0];
+// Set the properties
+dropdown.id = "webcomponent-provenance-dropdown";
+dropdown.options = options;
+dropdown.selected = options[0];
 dropdown.optionLabel = "label";
-dropdown.optionValue = "value";
+dropdown.dataKey = "value";
+dropdown.freeze = false;
+dropdown.visualize = true;
+
+dropdown.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
+});
 
 dropdown.addEventListener("selectedChange", event => {
-  dropdown.selected = event.detail;
+  console.log(event.detail);
 });
+
+// Append it to the DOM
+document.body.appendChild(dropdown);
 ```
 
   </TabItem>
 </Tabs>
 
-## React properties
+## API
 
-| Property | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `options` | `unknown[]` | `[]` | Available primitive values or option objects. |
-| `selected` | `unknown` | — | Preferred controlled selection. |
-| `value` | `unknown` | — | Controlled alias for `selected`. |
-| `defaultSelected` / `defaultValue` | `unknown` | — | Initial selection for uncontrolled use. |
-| `optionLabel` | `string` | inferred | Field displayed to the user. Falls back to `label` or `name`. |
-| `optionValue` | `string` | inferred | Field used as the stable provenance key. |
-| `dataKey` | `string` | inferred | Highest-priority stable key field. |
-| `placeholder` | `string` | — | Text shown while no option is selected. |
-| `onSelectedChange` | `(option, event) => void` | — | Receives the resolved option after selection or history restoration. |
-| `onChange` | `(option, event) => void` | — | Alias callback invoked with the same resolved option. |
-| `dropdownProps` | `object` | `{}` | Additional props forwarded to PrimeReact Dropdown. |
+<APIAdmonition />
 
-The key inference order is `dataKey`, `optionValue`, `value`, `code`, `id`, then `label`. Set `optionValue` or `dataKey` explicitly when option identity must remain stable across data reloads.
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact Dropdown',
+  }}
+  reactComponent='SingleSelectDropdown'
+  webComponentTag='web-provenance-dropdown'
+/>
 
-## Web Component events
+### Properties
 
-| Event | `event.detail` |
-| --- | --- |
-| `selectedChange` | The selected option object or primitive. |
-| `provenanceChange` | Latest serialized provenance snapshot. |
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<unknown>'
+  rows={[
+    {
+      name: 'options',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of objects or primitive values to display as options.</>,
+    },
+    {
+      name: 'optionLabel',
+      type: 'string',
+      default: 'inferred',
+      required: false,
+      description: <>Name of the field displayed as the option label. SW falls back to <code>label</code> or <code>name</code>.</>,
+    },
+    {
+      name: 'dataKey',
+      type: 'string',
+      default: 'inferred',
+      required: false,
+      description: <>Name of the field used as the stable option key in provenance. SW falls back to <code>value</code>, <code>code</code>, <code>id</code>, or <code>label</code>.</>,
+    },
+    {
+      name: 'selected',
+      type: 'unknown',
+      default: 'undefined',
+      required: false,
+      description: <>The selected option object or primitive value. Use <code>onSelectedChange</code> to update it in a controlled React component.</>,
+    },
+  ]}
+/>
 
-Aggregate bars show how often and how recently each option was selected. In Temporal view, selecting a historical interval restores the option active at that position.
+### Events
+
+In React, use `onSelectedChange` and `onProvenanceChange`. Web Components use `selectedChange` and `provenanceChange`, with emitted values available in `event.detail`.
+
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'selectedChange',
+      type: 'unknown',
+      description: <>Emits the updated selected option when the dropdown selection changes.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<unknown>',
+      description: <>Emits the serialized provenance when the dropdown selection changes.</>,
+    },
+  ]}
+/>

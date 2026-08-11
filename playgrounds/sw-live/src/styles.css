@@ -81,6 +81,22 @@ textarea {
   margin-top: 20px;
 }
 
+.dropdown-example {
+  width: min(100%, 760px);
+  margin-top: 20px;
+}
+
+.dropdown-example__control {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.dropdown-example__control > div {
+  margin-top: 0 !important;
+}
+
 .checkbox-example__heading {
   display: flex;
   align-items: center;
