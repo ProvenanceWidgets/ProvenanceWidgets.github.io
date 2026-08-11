@@ -16,49 +16,48 @@ SuperProvenanceWidgets (SW) is the React-based second generation of ProvenanceWi
 
 ## Quick Start
 
-For getting started quickly, clone one of our starter code repositories:
-
-<Tabs groupId='framework'>
-  <TabItem value='react' label='React'>
-    ```bash
-    npm create vite@latest provenance-widgets-starter -- --template react
-    ```
-  </TabItem>
-  <TabItem value='web-components' label='Web Components'>
-    ```bash
-    npm create vite@latest provenance-widgets-vanilla-starter -- --template vanilla
-    ```
-  </TabItem>
-</Tabs>
-
-Then, navigate to the project directory:
-
-<Tabs groupId='framework'>
-  <TabItem value='react' label='React'>
-    ```bash
-    cd provenance-widgets-starter
-    ```
-  </TabItem>
-  <TabItem value='web-components' label='Web Components'>
-    ```bash
-    cd provenance-widgets-vanilla-starter
-    ```
-  </TabItem>
-</Tabs>
-
-Finally, install SW and its peer dependencies and start the development server:
+For getting started quickly, clone the SW development repository:
 
 ```bash
-npm install provenance-widgets@2 react@^19.2 react-dom@^19.2 preact@^10.29
-npm run dev
+git clone --branch feat/v2-v1-compat https://github.com/LEONL0VE/ProvenanceWidgets.git
 ```
+
+Then, navigate to one of the starter projects:
+
+<Tabs groupId='framework'>
+  <TabItem value='react' label='React'>
+    ```bash
+    cd ProvenanceWidgets/starters/react
+    ```
+  </TabItem>
+  <TabItem value='web-components' label='Web Components'>
+    ```bash
+    cd ProvenanceWidgets/starters/web-components
+    ```
+  </TabItem>
+</Tabs>
+
+Finally, install the dependencies and start the development server:
+
+```bash
+npm install
+npm run start
+```
+
+:::info Development preview
+
+The starter projects currently install SW from the `feat/v2-v1-compat` GitHub branch. Their dependency will be changed to the npm package when SW 2.0 is published.
+
+:::
 
 ## Manual Setup
 
 ### Installation
 
+Until SW 2.0 is published to npm, install the development version directly from GitHub:
+
 ```bash
-npm install provenance-widgets@2
+npm install github:LEONL0VE/ProvenanceWidgets#feat/v2-v1-compat
 ```
 
 ### Configuration
