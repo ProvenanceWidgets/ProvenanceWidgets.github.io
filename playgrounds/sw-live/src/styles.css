@@ -86,6 +86,11 @@ textarea {
   margin-top: 20px;
 }
 
+.input-text-example {
+  width: min(100%, 760px);
+  margin-top: 20px;
+}
+
 .dropdown-example__control {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -94,6 +99,17 @@ textarea {
 }
 
 .dropdown-example__control > div {
+  margin-top: 0 !important;
+}
+
+.input-text-example__control {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.input-text-example__control > div {
   margin-top: 0 !important;
 }
 

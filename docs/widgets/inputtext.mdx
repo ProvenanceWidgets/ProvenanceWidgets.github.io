@@ -6,33 +6,68 @@ description: An InputText is a user interface control element that allows users 
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # InputText
 
-`InputText` separates typing from a committed provenance interaction. `onChange` updates the live field value; pressing **Enter** records the current text and calls `onValueChange`.
+An InputText is a user interface control element that allows users to input text.
 
-Repeated identical searches are meaningful: each Enter press creates another Temporal interaction and increases that text's Aggregate frequency.
+## Playground
 
-<Tabs groupId="framework">
-  <TabItem value="react" label="React">
+<SWLivePlayground
+  example="inputtext"
+  title="SW InputText Live Playground"
+/>
 
-```tsx
+:::info
+
+The example above is editable. Type a value and press **Enter** to record it. The examples below show the same InputText as a complete React component and with the Web Components API.
+
+:::
+
+<Tabs>
+  <TabItem
+    value="inputtext.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="inputtext.jsx"
+      />
+    }
+  >
+
+```jsx
 import { useState } from "react";
 import { InputText, ProvenanceButton } from "provenance-widgets";
 
-export function SearchInput() {
-  const [query, setQuery] = useState("");
+export default function InputTextExample() {
+  const [value, setValue] = useState("");
+
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
+
+  const valueChange = nextValue => {
+    console.log(nextValue);
+    setValue(nextValue);
+  };
 
   return (
     <div>
-      <ProvenanceButton target="search" />
+      <ProvenanceButton target="jsx-provenance-inputtext" />
       <InputText
-        id="search"
-        value={query}
-        onChange={setQuery}
-        onValueChange={value => console.log("searched", value)}
-        placeholder="Search and press Enter"
-        dataLabel="Search"
+        id="jsx-provenance-inputtext"
+        value={value}
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={provenanceChange}
+        onValueChange={valueChange}
       />
     </div>
   );
@@ -40,50 +75,88 @@ export function SearchInput() {
 ```
 
   </TabItem>
-  <TabItem value="web-components" label="Web Components">
-
-```html
-<web-provenance-inputtext
-  id="search"
-  value=""
-  placeholder="Search and press Enter"
-  data-label="Search"
-></web-provenance-inputtext>
-```
+  <TabItem
+    value="inputtext.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="inputtext.webcomponent.js"
+      />
+    }
+  >
 
 ```js
-const input = document.querySelector("#search");
+// Create a new instance of the InputText
+const inputtext = document.createElement("web-provenance-inputtext");
 
-input.addEventListener("valueChange", event => {
-  console.log("committed value", event.detail);
-});
+// Set the properties
+inputtext.id = "webcomponent-provenance-inputtext";
+inputtext.value = "";
+inputtext.freeze = false;
+inputtext.visualize = true;
 
-input.addEventListener("provenanceChange", event => {
+inputtext.addEventListener("provenanceChange", event => {
   console.log(event.detail);
 });
+
+inputtext.addEventListener("valueChange", event => {
+  console.log(event.detail);
+});
+
+// Append it to the DOM
+document.body.appendChild(inputtext);
 ```
 
   </TabItem>
 </Tabs>
 
-## React properties
+## API
 
-| Property | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `value` | `string` or object | — | Controlled text. If `field` is set, text is read from that object field. |
-| `defaultValue` | `string` or object | `""` | Initial uncontrolled value. |
-| `field` | `string` | — | Optional property to read from an object value. |
-| `placeholder` | `string` | — | Native input placeholder. |
-| `onChange` | `(value, event) => void` | — | Fires while the user types and when history is restored. |
-| `onInputChange` | `(value, event) => void` | — | Alias for live input changes. |
-| `onValueChange` | `(value, event) => void` | — | Fires when Enter commits the text or history restores a value. |
-| `inputProps` | `object` | `{}` | Additional props forwarded to the underlying PrimeReact input. |
+:::warning
 
-When the Aggregate view is open, selecting a previous string commits that value back to the input. Clicking a Temporal point restores that exact historical search and closes the provenance panel cleanly.
+SW InputText is built with PrimeReact InputText, but defines its own commit and provenance behavior. Typing updates the displayed text; pressing **Enter** commits the value and records provenance.
 
-## Web Component events
+:::
 
-| Event | `event.detail` |
-| --- | --- |
-| `valueChange` | Text committed by Enter or restored from provenance. |
-| `provenanceChange` | Latest serialized provenance snapshot. |
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact InputText',
+  }}
+  reactComponent='InputText'
+  webComponentTag='web-provenance-inputtext'
+/>
+
+### Properties
+
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<string>'
+  rows={[
+    {
+      name: 'value',
+      type: 'unknown',
+      default: 'undefined',
+      required: false,
+      description: <>Value of the input field. It is converted to text before being displayed and recorded. In React, an object value can be read from a named <code>field</code>.</>,
+    },
+  ]}
+/>
+
+### Events
+
+In React, use `onValueChange` and `onProvenanceChange`. Web Components use `valueChange` and `provenanceChange`, with emitted values available in `event.detail`.
+
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'valueChange',
+      type: 'string',
+      description: <>Emits the committed value when Enter is pressed, an Aggregate suggestion is selected, or a Temporal value is restored.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<string>',
+      description: <>Emits the serialized provenance when an input value is committed.</>,
+    },
+  ]}
+/>

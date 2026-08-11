@@ -7,6 +7,7 @@ import {
 } from "react-live";
 import {
   CheckboxGroup,
+  InputText,
   ProvenanceButton,
   SingleSelectDropdown,
   useProvenance,
@@ -14,6 +15,9 @@ import {
 
 const primitiveText = value => {
   if (value === undefined) return "undefined";
+  if (typeof value === "number" && !Number.isFinite(value)) {
+    return String(value);
+  }
   return JSON.stringify(value);
 };
 
@@ -122,14 +126,66 @@ const asPwProvenance = strategy => {
   };
 };
 
-function StateView({ selected, strategy }) {
+// Present SW's TextProvenance using PW 1.0's InputTextProvenance fields.
+// Empty baseline records are omitted because PW 1.0 did not add an initial
+// record when the input started with an empty string.
+const asPwInputTextProvenance = strategy => {
+  const records = strategy?.detailedData instanceof Map
+    ? Array.from(strategy.detailedData.values())
+        .filter(record => (
+          record.kind !== "baseline" || record.value !== ""
+        ))
+        .sort((left, right) => (
+          (left.index ?? 0) - (right.index ?? 0)
+        ))
+    : [];
+  const data = records.map(record => ({
+    value: String(record.value ?? ""),
+    timestamp: asDate(record.time),
+  }));
+  const dictionary = data.reduce((result, entry, index) => {
+    result[entry.value] = {
+      count: (result[entry.value]?.count ?? 0) + 1,
+      timestamp: entry.timestamp,
+      maxIndex: index,
+    };
+    return result;
+  }, Object.create(null));
+  const timestamps = data.map(entry => entry.timestamp);
+  const intervals = timestamps.slice(1).map((timestamp, index) => (
+    timestamp.getTime() - timestamps[index].getTime()
+  ));
+
+  return {
+    data,
+    dictionary,
+    minTime: timestamps[0],
+    oldMaxTime:
+      timestamps.length > 1
+        ? timestamps[timestamps.length - 2]
+        : timestamps[0],
+    maxTime: timestamps[timestamps.length - 1],
+    minMsBetweenInteractions:
+      intervals.length > 0 ? Math.min(...intervals) : Infinity,
+  };
+};
+
+function StateView({
+  selected,
+  strategy,
+  provenance,
+  selectedLabel = "selected",
+}) {
   return (
     <div className="state-view">
       <div className="state-panel">
-        <JsonTree label="provenance" value={asPwProvenance(strategy)} />
+        <JsonTree
+          label="provenance"
+          value={provenance ?? asPwProvenance(strategy)}
+        />
       </div>
       <div className="state-panel">
-        <JsonTree label="selected" value={selected} />
+        <JsonTree label={selectedLabel} value={selected} />
       </div>
     </div>
   );
@@ -236,6 +292,51 @@ function DropdownPlayground({ children }) {
   );
 }
 
+// Documentation-only adapter that keeps the committed value visible and
+// presents PW 1.0's InputTextProvenance shape beside the real SW control.
+function InputTextPlayground({ children }) {
+  const inputText = React.Children.only(children);
+  const [registeredComponents] = useProvenance();
+  const [value, setValue] = React.useState(
+    inputText.props.value ?? inputText.props.defaultValue ?? "",
+  );
+  const strategy = registeredComponents.get(inputText.props.id);
+
+  const handleValueChange = (nextValue, event) => {
+    setValue(nextValue);
+    callUnique(
+      [
+        inputText.props.onChange,
+        inputText.props.onInputChange,
+        inputText.props.onValueChange,
+        inputText.props.valueChange,
+      ],
+      nextValue,
+      event,
+    );
+  };
+
+  return (
+    <div className="input-text-example">
+      <div className="input-text-example__control">
+        <ProvenanceButton target={inputText.props.id} />
+        {React.cloneElement(inputText, {
+          value,
+          onChange: undefined,
+          onInputChange: undefined,
+          onValueChange: handleValueChange,
+          valueChange: undefined,
+        })}
+      </div>
+      <StateView
+        selected={value}
+        selectedLabel="value"
+        provenance={asPwInputTextProvenance(strategy)}
+      />
+    </div>
+  );
+}
+
 const checkboxCode = `<CheckboxPlayground>
   <CheckboxGroup
     id="jsx-provenance-checkbox"
@@ -276,6 +377,17 @@ const dropdownCode = `<DropdownPlayground>
   />
 </DropdownPlayground>`;
 
+const inputTextCode = `<InputTextPlayground>
+  <InputText
+    id="jsx-provenance-inputtext"
+    value=""
+    freeze={false}
+    visualize={true}
+    onProvenanceChange={console.log}
+    onValueChange={console.log}
+  />
+</InputTextPlayground>`;
+
 const examples = {
   checkbox: {
     code: checkboxCode,
@@ -291,6 +403,14 @@ const examples = {
       React,
       DropdownPlayground,
       SingleSelectDropdown,
+    },
+  },
+  inputtext: {
+    code: inputTextCode,
+    scope: {
+      React,
+      InputText,
+      InputTextPlayground,
     },
   },
 };
