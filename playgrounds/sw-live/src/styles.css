@@ -115,19 +115,6 @@ textarea {
   line-height: 1.5;
 }
 
-.state-panel__description {
-  margin: 0 0 10px;
-  color: #64748b;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.state-panel__description code {
-  color: #334155;
-  font-family: Consolas, "Courier New", monospace;
-}
-
 .json-branch,
 .json-row {
   margin: 2px 0;

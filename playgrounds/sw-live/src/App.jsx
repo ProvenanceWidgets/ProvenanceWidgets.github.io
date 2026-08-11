@@ -8,6 +8,7 @@ import {
 import {
   CheckboxGroup,
   ProvenanceButton,
+  useProvenance,
 } from "provenance-widgets";
 
 const primitiveText = value => {
@@ -17,15 +18,22 @@ const primitiveText = value => {
 
 function JsonTree({ label, value, depth = 0 }) {
   const [open, setOpen] = React.useState(depth === 0);
-  const isObject = value !== null && typeof value === "object";
+  const isDate = value instanceof Date;
+  const isObject = value !== null && typeof value === "object" && !isDate;
 
   if (!isObject) {
     return (
       <div className="json-row">
         <span className="json-key">{JSON.stringify(label)}</span>
         <span>: </span>
-        <span className={`json-value json-value--${typeof value}`}>
-          {primitiveText(value)}
+        <span
+          className={`json-value json-value--${
+            isDate ? "date" : typeof value
+          }`}
+        >
+          {isDate
+            ? `date ${value.toLocaleString("en-US")}`
+            : primitiveText(value)}
         </span>
       </div>
     );
@@ -61,20 +69,60 @@ function JsonTree({ label, value, depth = 0 }) {
   );
 }
 
-function StateView({ selected, provenance }) {
+const asDate = value => {
+  if (value === undefined || value === null) return undefined;
+  return value instanceof Date ? value : new Date(value);
+};
+
+const asPwEvent = event => {
+  if (!event) return undefined;
+  return {
+    date: asDate(event.time ?? event.date),
+    index: event.index,
+  };
+};
+
+// Present SW's runtime SelectionProvenance using the seven fields exposed by
+// PW 1.0. This is a display adapter; it does not replace SW's runtime model or
+// its schema v2 serialization contract.
+const asPwProvenance = strategy => {
+  const dataByOption = {};
+
+  if (strategy?.detailedData instanceof Map) {
+    strategy.detailedData.forEach((records, option) => {
+      dataByOption[String(option)] = records.map(record => ({
+        ...(record.select ? { select: asPwEvent(record.select) } : {}),
+        ...(record.unselect ? { unselect: asPwEvent(record.unselect) } : {}),
+      }));
+    });
+  }
+
+  const [minTime, oldMaxTime, maxTime] =
+    strategy?.domain?.get("time") ?? [];
+  const [, events = 0] = strategy?.domain?.get("index") ?? [];
+
+  return {
+    dataByOption,
+    minTime: asDate(minTime),
+    oldMaxTime: asDate(oldMaxTime),
+    maxTime: asDate(maxTime),
+    events,
+    hasUserInteracted: strategy?.hasUserInteracted === true,
+    selections: (strategy?.temporalData ?? []).map(({ value, time }) => ({
+      value: Array.from(value ?? []),
+      timestamp: asDate(time),
+    })),
+  };
+};
+
+function StateView({ selected, strategy }) {
   return (
     <div className="state-view">
       <div className="state-panel">
-        <JsonTree label="selected" value={selected} />
+        <JsonTree label="provenance" value={asPwProvenance(strategy)} />
       </div>
       <div className="state-panel">
-        <p className="state-panel__description">
-          Latest serializable snapshot emitted by <code>onProvenanceChange</code>.
-        </p>
-        <JsonTree
-          label="serialized provenance"
-          value={provenance ?? {}}
-        />
+        <JsonTree label="selected" value={selected} />
       </div>
     </div>
   );
@@ -88,12 +136,13 @@ const callUnique = (callbacks, ...args) => {
 // CheckboxGroup export used inside the preview.
 function CheckboxPlayground({ children }) {
   const checkbox = React.Children.only(children);
+  const [registeredComponents] = useProvenance();
   const [selected, setSelected] = React.useState(
     checkbox.props.selected ??
       checkbox.props.defaultSelected ??
       [],
   );
-  const [provenance, setProvenance] = React.useState(null);
+  const strategy = registeredComponents.get(checkbox.props.id);
 
   const handleSelectedChange = (nextSelected, event) => {
     setSelected(nextSelected);
@@ -107,18 +156,6 @@ function CheckboxPlayground({ children }) {
     );
   };
 
-  const handleProvenanceChange = (nextProvenance, meta) => {
-    setProvenance(nextProvenance);
-    callUnique(
-      [
-        checkbox.props.onProvenanceChange,
-        checkbox.props.provenanceChange,
-      ],
-      nextProvenance,
-      meta,
-    );
-  };
-
   return (
     <div className="checkbox-example">
       <div className="checkbox-example__heading">
@@ -128,9 +165,8 @@ function CheckboxPlayground({ children }) {
       {React.cloneElement(checkbox, {
         selected,
         onSelectedChange: handleSelectedChange,
-        onProvenanceChange: handleProvenanceChange,
       })}
-      <StateView selected={selected} provenance={provenance} />
+      <StateView selected={selected} strategy={strategy} />
     </div>
   );
 }
@@ -140,11 +176,13 @@ const checkboxCode = `<CheckboxPlayground>
     id="jsx-provenance-checkbox"
     name="jsx-provenance-checkbox"
     data={[
-      { label: 'Chicken', value: 'Chicken' },
-      { label: 'Beef', value: 'Beef' },
-      { label: 'Lamb', value: 'Lamb' }
+      { label: 'New York', value: 'New York' },
+      { label: 'Rome', value: 'Rome' },
+      { label: 'London', value: 'London' },
+      { label: 'Istanbul', value: 'Istanbul' },
+      { label: 'Paris', value: 'Paris' }
     ]}
-    selected={['Chicken', 'Beef']}
+    selected={['New York', 'Rome']}
     freeze={false}
     visualize={true}
     onProvenanceChange={console.log}

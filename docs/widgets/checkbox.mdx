@@ -8,6 +8,12 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Avatar from '@site/src/components/Avatar';
 import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import APIAdmonition from './_api_admonition.mdx';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # Checkbox
 
@@ -22,9 +28,7 @@ A Checkbox is a user interface control element that allows users to select one o
 
 :::info
 
-The **serialized provenance** panel shows the latest schema v2 snapshot emitted by `onProvenanceChange`.
-
-The above example uses React JSX. See corresponding static examples for React and Web Components below.
+The example above is editable. The examples below show the same Checkbox as a complete React component and with the Web Components API.
 
 :::
 
@@ -52,7 +56,13 @@ const data = [
 ];
 
 export default function CheckboxExample() {
-  const [selected, setSelected] = useState(["New York", "Rome"]);
+  const [selected, setSelected] = useState(
+    data.map(({ value }) => value).slice(0, 2),
+  );
+
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
 
   const selectedChange = nextSelected => {
     console.log(nextSelected);
@@ -61,17 +71,15 @@ export default function CheckboxExample() {
 
   return (
     <div>
-      <ProvenanceButton target="cities" />
+      <ProvenanceButton target="jsx-provenance-checkbox" />
       <CheckboxGroup
-        id="cities"
-        name="cities"
+        id="jsx-provenance-checkbox"
+        name="jsx-provenance-checkbox"
         data={data}
         selected={selected}
-        optionLabel="label"
-        optionValue="value"
         freeze={false}
         visualize={true}
-        onProvenanceChange={console.log}
+        onProvenanceChange={provenanceChange}
         onSelectedChange={selectedChange}
       />
     </div>
@@ -103,20 +111,18 @@ const data = [
 ];
 
 // Set the properties
-checkbox.id = "cities";
-checkbox.name = "cities";
+checkbox.id = "webcomponent-provenance-checkbox";
+checkbox.name = "webcomponent-provenance-checkbox";
 checkbox.data = data;
-checkbox.selected = ["New York", "Rome"];
-checkbox.optionLabel = "label";
-checkbox.optionValue = "value";
+checkbox.selected = data.map(({ value }) => value).slice(0, 2);
 checkbox.freeze = false;
 checkbox.visualize = true;
 
-checkbox.addEventListener("selectedChange", event => {
+checkbox.addEventListener("provenanceChange", event => {
   console.log(event.detail);
 });
 
-checkbox.addEventListener("provenanceChange", event => {
+checkbox.addEventListener("selectedChange", event => {
   console.log(event.detail);
 });
 
@@ -127,44 +133,56 @@ document.body.appendChild(checkbox);
   </TabItem>
 </Tabs>
 
-### Composed React options
+## API
 
-Use children when each option needs custom layout or props. The group still owns the state and provenance.
+<APIAdmonition />
 
-```tsx
-import { Checkbox, CheckboxGroup } from "provenance-widgets";
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact Checkbox',
+  }}
+  reactComponent='CheckboxGroup'
+  webComponentTag='web-provenance-checkbox'
+/>
 
-<CheckboxGroup
-  id="ingredients"
-  selected={selected}
-  onSelectedChange={setSelected}
->
-  <Checkbox value="chicken" label="Chicken" />
-  <Checkbox value="beef" label="Beef" />
-  <Checkbox value="lamb" label="Lamb" />
-</CheckboxGroup>
-```
+### Properties
 
-## React group properties
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<unknown[]>'
+  rows={[
+    {
+      name: 'data',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of objects to display as checkboxes. Each object must have a <code>label</code> and a <code>value</code> property.</>,
+    },
+    {
+      name: 'selected',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of selected values. Each value must match the <code>value</code> property of an object in the <code>data</code> array.</>,
+    },
+  ]}
+/>
 
-| Property | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `data` / `options` | `unknown[]` | `[]` | Options used for data-driven rendering. |
-| `selected` / `value` | `unknown[]` | `[]` | Controlled array of selected option keys. |
-| `defaultSelected` / `defaultValue` | `unknown[]` | `[]` | Initial uncontrolled selection. |
-| `optionLabel` | `string` | inferred | Field displayed beside each checkbox. |
-| `optionValue` / `valueField` | `string` | inferred | Field used as the option and provenance key. |
-| `dataKey` | `string` | inferred | Highest-priority stable key field. |
-| `name` | `string` | generated | Input group name. |
-| `onSelectedChange` | `(keys, event) => void` | — | Receives the complete selected key array. |
-| `onChange` | `(keys, event) => void` | — | Alias callback with the same array. |
-| `checkboxProps` | `object` | `{}` | Props applied to data-driven checkbox items. |
+### Events
 
-Every interaction records the full selected key array. Clicking the Temporal history restores all checkboxes active at that point.
+In React, use `onSelectedChange` and `onProvenanceChange`. Web Components use `selectedChange` and `provenanceChange`, with emitted values available in `event.detail`.
 
-## Web Component events
-
-| Event | `event.detail` |
-| --- | --- |
-| `selectedChange` | Complete selected key array. |
-| `provenanceChange` | Latest serialized provenance snapshot. |
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'selectedChange',
+      type: 'unknown[]',
+      description: <>Emits the updated selected values when the checkbox selection changes.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<unknown[]>',
+      description: <>Emits the serialized provenance when the checkbox selection changes.</>,
+    },
+  ]}
+/>
