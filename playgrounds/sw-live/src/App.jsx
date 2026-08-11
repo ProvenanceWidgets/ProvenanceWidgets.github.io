@@ -8,7 +8,10 @@ import {
 import {
   CheckboxGroup,
   InputText,
+  MultiSelectDropdown,
   ProvenanceButton,
+  RadioGroup,
+  Rangeslider,
   SingleSelectDropdown,
   useProvenance,
 } from "provenance-widgets";
@@ -170,6 +173,55 @@ const asPwInputTextProvenance = strategy => {
   };
 };
 
+// Present SW's RangedProvenance using PW 1.0's SliderProvenance fields.
+// The adapter affects only the state inspector shown in this documentation.
+const asPwSliderProvenance = (strategy, range) => {
+  const records = strategy?.detailedData instanceof Map
+    ? Array.from(strategy.detailedData.values()).sort(
+        (left, right) => (left.index ?? 0) - (right.index ?? 0),
+      )
+    : [];
+  const data = records.map(record => ({
+    value: Array.isArray(record.value)
+      ? [...record.value]
+      : record.value,
+    timestamp: asDate(record.time),
+  }));
+  const [minTime, oldMaxTime, maxTime] =
+    strategy?.domain?.get("time") ?? [];
+  const [, maxFrequency = 0] =
+    strategy?.domain?.get("count") ?? [];
+  const initialTime = data[0]?.timestamp;
+  const buckets = {};
+
+  if (strategy?.aggregateData instanceof Map) {
+    strategy.aggregateData.forEach((record, lowValue) => {
+      buckets[String(lowValue)] = {
+        date:
+          record.index === -1
+            ? initialTime
+            : asDate(record.time),
+        count: record.count,
+        highValue: record.highValue,
+        ...(record.index >= 1
+          ? { maxIndex: record.index - 1 }
+          : {}),
+      };
+    });
+  }
+
+  return {
+    data,
+    minTime: asDate(minTime),
+    oldMaxTime: asDate(oldMaxTime),
+    maxTime: asDate(maxTime),
+    maxFrequency,
+    buckets,
+    value: range[0],
+    highValue: range[1],
+  };
+};
+
 function StateView({
   selected,
   strategy,
@@ -236,6 +288,62 @@ function CheckboxPlayground({ children }) {
   );
 }
 
+const getInitialRadioSelection = props => {
+  for (const key of [
+    "selected",
+    "value",
+    "defaultSelected",
+    "defaultValue",
+  ]) {
+    if (
+      Object.prototype.hasOwnProperty.call(props, key) &&
+      props[key] !== undefined
+    ) {
+      return props[key];
+    }
+  }
+  return null;
+};
+
+// Documentation-only adapter that keeps the scalar group value controlled
+// and presents the same provenance/selection state panels as PW 1.0.
+function RadioButtonPlayground({ children }) {
+  const radioGroup = React.Children.only(children);
+  const [registeredComponents] = useProvenance();
+  const [selected, setSelected] = React.useState(() =>
+    getInitialRadioSelection(radioGroup.props),
+  );
+  const strategy = registeredComponents.get(radioGroup.props.id);
+
+  const handleSelectedChange = (nextSelected, event) => {
+    setSelected(nextSelected);
+    callUnique(
+      [
+        radioGroup.props.onSelectedChange,
+        radioGroup.props.selectedChange,
+        radioGroup.props.onChange,
+      ],
+      nextSelected,
+      event,
+    );
+  };
+
+  return (
+    <div className="radio-button-example">
+      <div className="radio-button-example__provenance">
+        <ProvenanceButton target={radioGroup.props.id} />
+      </div>
+      {React.cloneElement(radioGroup, {
+        selected,
+        onSelectedChange: handleSelectedChange,
+        selectedChange: undefined,
+        onChange: undefined,
+      })}
+      <StateView selected={selected} strategy={strategy} />
+    </div>
+  );
+}
+
 const getInitialDropdownSelection = props => {
   for (const key of [
     "selected",
@@ -292,6 +400,49 @@ function DropdownPlayground({ children }) {
   );
 }
 
+// Documentation-only adapter that keeps the complete option selection
+// controlled and presents the same provenance/selection panels as PW 1.0.
+function MultiselectPlayground({ children }) {
+  const multiselect = React.Children.only(children);
+  const [registeredComponents] = useProvenance();
+  const [selected, setSelected] = React.useState(
+    multiselect.props.selected ??
+      multiselect.props.value ??
+      multiselect.props.defaultSelected ??
+      multiselect.props.defaultValue ??
+      [],
+  );
+  const strategy = registeredComponents.get(multiselect.props.id);
+
+  const handleSelectedChange = (nextSelected, event) => {
+    setSelected(nextSelected);
+    callUnique(
+      [
+        multiselect.props.onSelectedChange,
+        multiselect.props.selectedChange,
+        multiselect.props.onChange,
+      ],
+      nextSelected,
+      event,
+    );
+  };
+
+  return (
+    <div className="multiselect-example">
+      <div className="multiselect-example__control">
+        <ProvenanceButton target={multiselect.props.id} />
+        {React.cloneElement(multiselect, {
+          selected,
+          onSelectedChange: handleSelectedChange,
+          selectedChange: undefined,
+          onChange: undefined,
+        })}
+      </div>
+      <StateView selected={selected} strategy={strategy} />
+    </div>
+  );
+}
+
 // Documentation-only adapter that keeps the committed value visible and
 // presents PW 1.0's InputTextProvenance shape beside the real SW control.
 function InputTextPlayground({ children }) {
@@ -332,6 +483,79 @@ function InputTextPlayground({ children }) {
         selected={value}
         selectedLabel="value"
         provenance={asPwInputTextProvenance(strategy)}
+      />
+    </div>
+  );
+}
+
+const getInitialSliderRange = props => {
+  const options = props.options ?? {};
+  const min = Number(props.min ?? options.floor ?? 0);
+  const max = Number(props.max ?? options.ceil ?? 100);
+
+  if (Array.isArray(props.value) && props.value.length === 2) {
+    return [...props.value];
+  }
+  if (props.value !== undefined && props.highValue !== undefined) {
+    return [Number(props.value), Number(props.highValue)];
+  }
+  if (
+    Array.isArray(props.defaultValue) &&
+    props.defaultValue.length === 2
+  ) {
+    return [...props.defaultValue];
+  }
+  if (
+    props.defaultValue !== undefined &&
+    props.defaultHighValue !== undefined
+  ) {
+    return [
+      Number(props.defaultValue),
+      Number(props.defaultHighValue),
+    ];
+  }
+  return [min, max];
+};
+
+// Documentation-only adapter for PW's range-slider example. It keeps the
+// React tuple controlled while displaying PW 1.0 SliderProvenance fields.
+function SliderPlayground({ children }) {
+  const slider = React.Children.only(children);
+  const [registeredComponents] = useProvenance();
+  const [range, setRange] = React.useState(() =>
+    getInitialSliderRange(slider.props),
+  );
+  const strategy = registeredComponents.get(slider.props.id);
+
+  const handleSelectedChange = (nextRange, event) => {
+    setRange([...nextRange]);
+    callUnique(
+      [
+        slider.props.onSelectedChange,
+        slider.props.selectedChange,
+        slider.props.onChange,
+      ],
+      nextRange,
+      event,
+    );
+  };
+
+  return (
+    <div className="slider-example">
+      <div className="slider-example__control">
+        <ProvenanceButton target={slider.props.id} />
+        {React.cloneElement(slider, {
+          value: range[0],
+          highValue: range[1],
+          onChange: undefined,
+          onSelectedChange: handleSelectedChange,
+          selectedChange: undefined,
+        })}
+      </div>
+      <StateView
+        selected={{ value: range[0], highValue: range[1] }}
+        strategy={strategy}
+        provenance={asPwSliderProvenance(strategy, range)}
       />
     </div>
   );
@@ -388,6 +612,64 @@ const inputTextCode = `<InputTextPlayground>
   />
 </InputTextPlayground>`;
 
+const multiselectCode = `<MultiselectPlayground>
+  <MultiSelectDropdown
+    id="jsx-provenance-multiselect"
+    name="jsx-provenance-multiselect"
+    options={[
+      { label: 'New York', value: 'New York' },
+      { label: 'Rome', value: 'Rome' },
+      { label: 'London', value: 'London' },
+      { label: 'Istanbul', value: 'Istanbul' },
+      { label: 'Paris', value: 'Paris' }
+    ]}
+    selected={[{ label: 'New York', value: 'New York' }]}
+    optionLabel="label"
+    dataKey="value"
+    freeze={false}
+    visualize={true}
+    onProvenanceChange={console.log}
+    onSelectedChange={console.log}
+  />
+</MultiselectPlayground>`;
+
+const radioButtonCode = `<RadioButtonPlayground>
+  <RadioGroup
+    id="jsx-provenance-radiobutton"
+    name="jsx-provenance-radiobutton"
+    data={[
+      { label: 'New York', value: 'New York' },
+      { label: 'Rome', value: 'Rome' },
+      { label: 'London', value: 'London' },
+      { label: 'Istanbul', value: 'Istanbul' },
+      { label: 'Paris', value: 'Paris' }
+    ]}
+    selected="New York"
+    freeze={false}
+    visualize={true}
+    onProvenanceChange={console.log}
+    onSelectedChange={console.log}
+  />
+</RadioButtonPlayground>`;
+
+const sliderCode = `<SliderPlayground>
+  <Rangeslider
+    id="jsx-provenance-slider"
+    value={50}
+    highValue={150}
+    options={{
+      floor: 0,
+      ceil: 250,
+      showTicks: true,
+      tickStep: 25
+    }}
+    freeze={false}
+    visualize={true}
+    onProvenanceChange={console.log}
+    onSelectedChange={console.log}
+  />
+</SliderPlayground>`;
+
 const examples = {
   checkbox: {
     code: checkboxCode,
@@ -413,6 +695,30 @@ const examples = {
       InputTextPlayground,
     },
   },
+  multiselect: {
+    code: multiselectCode,
+    scope: {
+      React,
+      MultiSelectDropdown,
+      MultiselectPlayground,
+    },
+  },
+  radiobutton: {
+    code: radioButtonCode,
+    scope: {
+      React,
+      RadioButtonPlayground,
+      RadioGroup,
+    },
+  },
+  slider: {
+    code: sliderCode,
+    scope: {
+      React,
+      Rangeslider,
+      SliderPlayground,
+    },
+  },
 };
 
 const getExample = () => {
@@ -422,7 +728,29 @@ const getExample = () => {
 };
 
 const postHeight = () => {
-  const height = Math.ceil(document.documentElement.scrollHeight);
+  const playground = document.querySelector(".live-playground");
+  const rootTop = document.documentElement.getBoundingClientRect().top;
+  let visualBottom = playground?.getBoundingClientRect().bottom ?? 0;
+
+  // Provenance charts and suggestion panels are positioned absolutely, so
+  // they do not contribute to scrollHeight. Include visible out-of-flow
+  // elements when sizing the parent iframe, while ignoring fixed tooltips.
+  document.body.querySelectorAll("*").forEach(element => {
+    const style = window.getComputedStyle(element);
+    if (
+      style.display === "none" ||
+      style.visibility === "hidden" ||
+      style.position === "fixed"
+    ) {
+      return;
+    }
+
+    const rect = element.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) return;
+    visualBottom = Math.max(visualBottom, rect.bottom);
+  });
+
+  const height = Math.ceil(visualBottom - rootTop + 1);
   window.parent.postMessage(
     { source: "sw-live-playground", height },
     window.location.origin,
@@ -433,14 +761,41 @@ export default function App() {
   const example = getExample();
 
   useEffect(() => {
-    const observer = new ResizeObserver(postHeight);
-    observer.observe(document.documentElement);
-    observer.observe(document.body);
-    postHeight();
-    window.addEventListener("load", postHeight);
+    let frameId;
+    const schedulePostHeight = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(postHeight);
+    };
+    const scheduleAfterOverlayUpdate = () => {
+      schedulePostHeight();
+      window.requestAnimationFrame(schedulePostHeight);
+    };
+    const resizeObserver = new ResizeObserver(schedulePostHeight);
+    const mutationObserver = new MutationObserver(schedulePostHeight);
+
+    resizeObserver.observe(document.documentElement);
+    resizeObserver.observe(document.body);
+    mutationObserver.observe(document.body, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+
+    schedulePostHeight();
+    window.addEventListener("load", schedulePostHeight);
+    window.addEventListener(
+      "provenance-dropdown-toggle",
+      scheduleAfterOverlayUpdate,
+    );
     return () => {
-      observer.disconnect();
-      window.removeEventListener("load", postHeight);
+      window.cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+      window.removeEventListener("load", schedulePostHeight);
+      window.removeEventListener(
+        "provenance-dropdown-toggle",
+        scheduleAfterOverlayUpdate,
+      );
     };
   }, []);
 

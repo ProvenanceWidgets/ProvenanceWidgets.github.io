@@ -6,38 +6,79 @@ description: A Radio Button is a user interface control element that allows user
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import APIAdmonition from './_api_admonition.mdx';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # Radio Button
 
-`RadioGroup` owns one scalar selection and one provenance history for the complete group. It supports both data-driven options and composed `Radiobutton` children.
+A Radio Button is a user interface control element that allows users to select one option from a set of options.
 
-<Tabs groupId="framework">
-  <TabItem value="react" label="React">
+## Playground
 
-```tsx
+<SWLivePlayground
+  example="radiobutton"
+  title="SW Radio Button Live Playground"
+/>
+
+:::info
+
+The example above is editable. The examples below show the same Radio Button group as a complete React component and with the Web Components API.
+
+:::
+
+<Tabs>
+  <TabItem
+    value="radiobutton.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="radiobutton.jsx"
+      />
+    }
+  >
+
+```jsx
 import { useState } from "react";
 import { ProvenanceButton, RadioGroup } from "provenance-widgets";
 
-const toppings = [
-  { label: "Cheese", value: "cheese" },
-  { label: "Mushroom", value: "mushroom" },
-  { label: "Peppers", value: "peppers" },
+const data = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
 ];
 
-export function ToppingGroup() {
-  const [selected, setSelected] = useState("cheese");
+export default function RadioButtonExample() {
+  const [selected, setSelected] = useState(data[0].value);
+
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
+
+  const selectedChange = nextSelected => {
+    console.log(nextSelected);
+    setSelected(nextSelected);
+  };
 
   return (
     <div>
-      <ProvenanceButton target="topping" />
+      <ProvenanceButton target="jsx-provenance-radiobutton" />
       <RadioGroup
-        id="topping"
-        data={toppings}
+        id="jsx-provenance-radiobutton"
+        name="jsx-provenance-radiobutton"
+        data={data}
         selected={selected}
-        onSelectedChange={setSelected}
-        optionLabel="label"
-        optionValue="value"
-        dataLabel="Topping"
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={provenanceChange}
+        onSelectedChange={selectedChange}
       />
     </div>
   );
@@ -45,71 +86,103 @@ export function ToppingGroup() {
 ```
 
   </TabItem>
-  <TabItem value="web-components" label="Web Components">
-
-```html
-<web-provenance-radiobutton
-  id="topping"
-  name="topping"
-  data-label="Topping"
-></web-provenance-radiobutton>
-```
+  <TabItem
+    value="radiobutton.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="radiobutton.webcomponent.js"
+      />
+    }
+  >
 
 ```js
-const radio = document.querySelector("#topping");
-radio.data = [
-  { label: "Cheese", value: "cheese" },
-  { label: "Mushroom", value: "mushroom" },
-  { label: "Peppers", value: "peppers" },
-];
-radio.selected = "cheese";
-radio.optionLabel = "label";
-radio.optionValue = "value";
+// Create a new instance of the Radio Button group
+const radiobutton = document.createElement(
+  "web-provenance-radiobutton",
+);
 
-radio.addEventListener("selectedChange", event => {
-  radio.selected = event.detail;
+const data = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
+];
+
+// Set the properties
+radiobutton.id = "webcomponent-provenance-radiobutton";
+radiobutton.name = "webcomponent-provenance-radiobutton";
+radiobutton.data = data;
+radiobutton.selected = data[0].value;
+radiobutton.freeze = false;
+radiobutton.visualize = true;
+
+radiobutton.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
 });
+
+radiobutton.addEventListener("selectedChange", event => {
+  console.log(event.detail);
+});
+
+// Append it to the DOM
+document.body.appendChild(radiobutton);
 ```
 
   </TabItem>
 </Tabs>
 
-## Composed React options
+## API
 
-```tsx
-import { RadioGroup, Radiobutton } from "provenance-widgets";
+<APIAdmonition />
 
-<RadioGroup
-  id="topping"
-  selected={selected}
-  onSelectedChange={setSelected}
->
-  <Radiobutton value="cheese" displayLabel="Cheese" />
-  <Radiobutton value="mushroom" displayLabel="Mushroom" />
-  <Radiobutton value="peppers" displayLabel="Peppers" />
-</RadioGroup>
-```
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact RadioButton',
+  }}
+  reactComponent='RadioGroup'
+  webComponentTag='web-provenance-radiobutton'
+/>
 
-## React group properties
+### Properties
 
-| Property | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `data` / `options` | `unknown[]` | `[]` | Options used for data-driven rendering. |
-| `selected` / `value` | `unknown` | `null` | Controlled selected key. |
-| `defaultSelected` / `defaultValue` | `unknown` | `null` | Initial uncontrolled selection. |
-| `optionLabel` | `string` | inferred | Field displayed beside each radio button. |
-| `optionValue` / `valueField` | `string` | inferred | Field used as the scalar selection and provenance key. |
-| `dataKey` | `string` | inferred | Highest-priority stable key field. |
-| `name` | `string` | generated | Native radio group name. |
-| `onSelectedChange` | `(key, event) => void` | — | Receives the selected key after user or history navigation. |
-| `onChange` | `(key, event) => void` | — | Alias callback with the same key. |
-| `radioButtonProps` | `object` | `{}` | Props applied to data-driven radio items. |
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<unknown>'
+  rows={[
+    {
+      name: 'data',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of objects to display as radio buttons. Each object must have a <code>label</code> and a <code>value</code> property.</>,
+    },
+    {
+      name: 'selected',
+      type: 'unknown',
+      default: 'null',
+      required: false,
+      description: <>The selected value. It must match the <code>value</code> property of an object in the <code>data</code> array.</>,
+    },
+  ]}
+/>
 
-Aggregate provenance is rendered behind each choice. Opening Temporal view shows the active intervals for all choices, and clicking history restores the scalar group value.
+### Events
 
-## Web Component events
+In React, use `onSelectedChange` and `onProvenanceChange`. Web Components use `selectedChange` and `provenanceChange`, with emitted values available in `event.detail`.
 
-| Event | `event.detail` |
-| --- | --- |
-| `selectedChange` | Selected option key. |
-| `provenanceChange` | Latest serialized provenance snapshot. |
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'selectedChange',
+      type: 'unknown',
+      description: <>Emits the updated selected value when the radio button selection changes.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<unknown>',
+      description: <>Emits the serialized provenance when the radio button selection changes.</>,
+    },
+  ]}
+/>

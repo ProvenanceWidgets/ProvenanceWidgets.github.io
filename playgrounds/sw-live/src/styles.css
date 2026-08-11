@@ -29,7 +29,7 @@ textarea {
 }
 
 .live-playground {
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid #d0d5dc;
   border-radius: 6px;
   background: #f8fafc;
@@ -91,6 +91,21 @@ textarea {
   margin-top: 20px;
 }
 
+.multiselect-example {
+  width: min(100%, 760px);
+  margin-top: 20px;
+}
+
+.radio-button-example {
+  width: min(100%, 760px);
+  margin-top: 20px;
+}
+
+.slider-example {
+  width: min(100%, 760px);
+  margin-top: 20px;
+}
+
 .dropdown-example__control {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -110,6 +125,50 @@ textarea {
 }
 
 .input-text-example__control > div {
+  margin-top: 0 !important;
+}
+
+/* InputText renders its provenance view as an absolute application overlay.
+   In the documentation result, keep it in flow so the complete chart remains
+   visible and the PW-style state panels are pushed below it. */
+.input-text-example
+  [data-provenance-temporal-panel]:not([hidden]) {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  margin-top: 5px !important;
+}
+
+.multiselect-example__control {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.multiselect-example__control > div {
+  margin-top: 0 !important;
+}
+
+.radio-button-example__provenance {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+  margin-bottom: 8px;
+}
+
+.radio-button-example__provenance > div {
+  margin-top: 0 !important;
+}
+
+.slider-example__control {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.slider-example__control > div {
   margin-top: 0 !important;
 }
 

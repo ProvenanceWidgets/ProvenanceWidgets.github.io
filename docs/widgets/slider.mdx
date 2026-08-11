@@ -6,105 +6,78 @@ description: A Slider is a user interface control element that allows users to s
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Avatar from '@site/src/components/Avatar';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import APIAdmonition from './_api_admonition.mdx';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # Slider
 
-SW provides a single-value `Singleslider` and a two-handle `Rangeslider`. Both update visually throughout a drag and commit one provenance interaction when the drag ends.
+A Slider is a user interface control element that allows users to select a numeric value or range from a given range.
 
-Add a `ProvenanceButton` whose `target` exactly matches the slider `id` to open its Aggregate and Temporal views.
+## Playground
 
-## Single slider
+<SWLivePlayground
+  example="slider"
+  title="SW Slider Live Playground"
+/>
 
-<Tabs groupId="framework">
-  <TabItem value="react" label="React">
+:::info
 
-```tsx
-import { useState } from "react";
-import { ProvenanceButton, Singleslider } from "provenance-widgets";
+The example above is editable. The examples below show the same Slider as a complete React component and with the Web Components API.
 
-export function ScoreSlider() {
-  const [score, setScore] = useState(45);
+:::
 
-  return (
-    <div>
-      <ProvenanceButton target="score" />
-      <Singleslider
-        id="score"
-        value={score}
-        onChange={setScore}
-        onSelectedChange={value => console.log("committed", value)}
-        min={0}
-        max={100}
-        step={1}
-        showTicks
-        tickStep={10}
-        dataLabel="Score"
+<Tabs>
+  <TabItem
+    value="slider.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="slider.jsx"
       />
-    </div>
-  );
-}
-```
+    }
+  >
 
-  </TabItem>
-  <TabItem value="web-components" label="Web Components">
-
-```html
-<web-provenance-slider
-  id="score"
-  value="45"
-  min="0"
-  max="100"
-  step="1"
-  data-label="Score"
-></web-provenance-slider>
-```
-
-```js
-const slider = document.querySelector("#score");
-slider.options = { showTicks: true, tickStep: 10 };
-
-slider.addEventListener("valueChange", event => {
-  console.log("live value", event.detail);
-});
-
-slider.addEventListener("selectedChange", event => {
-  console.log("committed value", event.detail.value);
-});
-```
-
-  </TabItem>
-</Tabs>
-
-## Range slider
-
-The preferred React value is a tuple: `value={[low, high]}`. The PW-compatible `value={low}` plus `highValue={high}` form is also supported.
-
-<Tabs groupId="framework">
-  <TabItem value="react" label="React">
-
-```tsx
+```jsx
 import { useState } from "react";
 import { ProvenanceButton, Rangeslider } from "provenance-widgets";
 
-export function PriceRange() {
-  const [price, setPrice] = useState([75, 180]);
+const options = {
+  floor: 0,
+  ceil: 250,
+  showTicks: true,
+  tickStep: 25,
+};
+
+export default function SliderExample() {
+  const [range, setRange] = useState([50, 150]);
+
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
+
+  const selectedChange = nextRange => {
+    console.log(nextRange);
+    setRange(nextRange);
+  };
 
   return (
     <div>
-      <ProvenanceButton target="price-range" />
+      <ProvenanceButton target="jsx-provenance-slider" />
       <Rangeslider
-        id="price-range"
-        value={price}
-        onChange={setPrice}
-        onSelectedChange={range => console.log("committed", range)}
-        options={{
-          floor: 0,
-          ceil: 250,
-          step: 1,
-          showTicks: true,
-          tickStep: 25,
-        }}
-        dataLabel="Price"
+        id="jsx-provenance-slider"
+        value={range[0]}
+        highValue={range[1]}
+        options={options}
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={provenanceChange}
+        onSelectedChange={selectedChange}
       />
     </div>
   );
@@ -112,60 +85,105 @@ export function PriceRange() {
 ```
 
   </TabItem>
-  <TabItem value="web-components" label="Web Components">
-
-```html
-<web-provenance-slider
-  id="price-range"
-  value="75"
-  high-value="180"
-  min="0"
-  max="250"
-  data-label="Price"
-></web-provenance-slider>
-```
+  <TabItem
+    value="slider.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="slider.webcomponent.js"
+      />
+    }
+  >
 
 ```js
-const range = document.querySelector("#price-range");
-range.options = { showTicks: true, tickStep: 25 };
+// Create a new instance of the Slider
+const slider = document.createElement("web-provenance-slider");
 
-range.addEventListener("selectedChange", event => {
-  const { value, highValue } = event.detail;
-  console.log([value, highValue]);
+// Set the properties
+slider.id = "webcomponent-provenance-slider";
+slider.value = 50;
+slider.highValue = 150;
+slider.options = {
+  floor: 0,
+  ceil: 250,
+  showTicks: true,
+  tickStep: 25,
+};
+slider.freeze = false;
+slider.visualize = true;
+
+slider.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
 });
+
+slider.addEventListener("selectedChange", event => {
+  console.log(event.detail);
+});
+
+// Append it to the DOM
+document.body.appendChild(slider);
 ```
 
   </TabItem>
 </Tabs>
 
-## React properties
+## API
 
-| Property | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `value` | `number` or `[number, number]` | — | Controlled value. Use a tuple for a range slider. |
-| `defaultValue` | `number` or `[number, number]` | minimum / full range | Initial value for uncontrolled use. |
-| `highValue` | `number` | — | PW-compatible upper value for `Rangeslider`. |
-| `defaultHighValue` | `number` | — | PW-compatible uncontrolled upper value. |
-| `min` / `max` | `number` | `0` / `100` | Numeric domain. |
-| `step` | `number` | `1` | Value increment. |
-| `options` | `object` | `{}` | PW-compatible `{floor, ceil, step, showTicks, tickStep, ticksArray}`. Direct props take precedence. |
-| `showTicks` | `boolean` | `false` | Shows axis ticks below the track. |
-| `tickStep` | `number` | `step` | Distance between generated ticks. |
-| `ticksArray` | `number[]` | — | Explicit tick values. |
-| `onChange` | `(value, event) => void` | — | Fires continuously while a handle moves. |
-| `onSelectedChange` | `(value, event) => void` | — | Fires when the drag is committed. |
-| `recordExternalChanges` | `boolean` | `true` | Range slider only. Records new controlled values supplied outside the drag interaction. |
-| `sliderProps` | `object` | `{}` | Additional props forwarded to the underlying PrimeReact slider. |
+<APIAdmonition />
 
-Range values are normalized to the configured bounds. A zero-width range is rejected because it cannot be represented by ranged Aggregate provenance.
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact Slider',
+  }}
+  reactComponent='Rangeslider'
+  webComponentTag='web-provenance-slider'
+/>
 
-## Web Component events
+### Properties
 
-| Event | `event.detail` |
-| --- | --- |
-| `valueChange` | Live single value, or live lower range value. |
-| `highValueChange` | Live upper range value. |
-| `selectedChange` | `{value}` for a single slider; `{value, highValue}` for a range slider. |
-| `provenanceChange` | Latest serialized provenance snapshot. |
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<[number, number]>'
+  rows={[
+    {
+      name: 'value',
+      type: 'number',
+      default: 'options.floor',
+      required: false,
+      description: <>The lower selected value. React also accepts a <code>[low, high]</code> tuple as the complete range.</>,
+    },
+    {
+      name: 'highValue',
+      type: 'number',
+      default: 'options.ceil',
+      required: false,
+      description: <>The upper selected value. Providing it makes <code>web-provenance-slider</code> render a range slider.</>,
+    },
+    {
+      name: 'options',
+      type: 'object',
+      default: '{}',
+      required: false,
+      description: <>Slider configuration. SW supports <code>floor</code>, <code>ceil</code>, <code>step</code>, <code>showTicks</code>, <code>tickStep</code>, and <code>ticksArray</code>.</>,
+    },
+  ]}
+/>
 
-Clicking an Aggregate bar or Temporal point restores the corresponding numeric value and calls the public value callbacks.
+### Events
+
+In React, use `onSelectedChange` and `onProvenanceChange`. Web Components use `selectedChange` and `provenanceChange`, with emitted values available in `event.detail`.
+
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'selectedChange',
+      type: '[number, number] / { value, highValue }',
+      description: <>Emits the committed range when the drag ends. React receives <code>[low, high]</code>; Web Components receive <code>{'{ value: low, highValue: high }'}</code>.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<[number, number]>',
+      description: <>Emits the serialized provenance when the slider range changes.</>,
+    },
+  ]}
+/>
