@@ -1,24 +1,23 @@
-# ProvenanceWidgets Homepage
-The homepage for ProvenanceWidgets - A JavaScript library of UI Controls for Tracking and Dynamically Overlaying Analytic Provenance. This repository includes demos that showcase the capabilities of ProvenanceWidgets and examples of how the library can be used in various scenarios.
-
-Authors: Arpit Narechania, Kaustubh Odak, Mennatallah El-Assady, and Alex Endert
+# SuperProvenanceWidgets (SW) Homepage
+The homepage for SuperProvenanceWidgets (SW) - the React-based second generation of ProvenanceWidgets, a JavaScript library of UI controls for tracking and dynamically overlaying analytic provenance. This repository includes documentation, demos, and live playgrounds that showcase the capabilities of SW and examples of how the library can be used in various scenarios.
 
 Operating Systems: Windows 10 or newer, MacOSX 11 or newer, Ubuntu 20.04.1 LTS or newer
 
 ## Setup
 - Open the command line/terminal on your machine and navigate to this project's top-level directory (i.e. where this file is).
-- Download and install node, npm from https://nodejs.org/en/download/. Optionally, use the <a href="https://github.com/nvm-sh/nvm" target="_blank">nvm (Node Version Manager)</a> to quickly install and use different versions of node via the command line. Note the compatible node/npm version in package.json > "engines".
-- `npm install` - installs required libraries from package.json. 
+- Download and install node, npm from https://nodejs.org/en/download/. Optionally, use the <a href="https://github.com/nvm-sh/nvm" target="_blank">nvm (Node Version Manager)</a> to quickly install and use different versions of node via the command line. Note the compatible node/npm version in package.json > "engines" (Node 18+; the docs recommend Node 20.19+ / 22.12+ and npm 10.0+).
+- `npm install` - installs required libraries from package.json.
+- `npm install --prefix playgrounds/sw-live` - installs the dependencies of the SW live playground (the site's `start`/`build` scripts build it first).
 
 ## Run
 - `npm run start`
-- Open the browser (preferably Chrome) at [http://localhost:4200](http://localhost:4200).
+- Open the browser at [http://localhost:3000](http://localhost:3000).
 
 ## Test
 - `npm run test`
 
 ## Build
-- `npm run build`  outputs the build in the `./build/` folder.
+- `npm run build` outputs the build in the `./build/` folder.
 
 ## Deployment
-- GitHub Actions is setup via the `.github/workflows/build.yaml` file. Built files are pushed to `gh-pages` branch and served via Github Pages at [https://provenancewidgets.github.io](https://provenancewidgets.github.io).
+- GitHub Actions is setup via the `.github/workflows/build.yaml` file. On push to `main`, the site is built and deployed to GitHub Pages at [https://provenancewidgets.github.io](https://provenancewidgets.github.io).
