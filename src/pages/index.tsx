@@ -76,7 +76,7 @@ const papers: Paper[] = [
     imageAlt:
       "Overview of SuperProvenanceWidgets showing aggregate and temporal provenance within and across controls",
     summary:
-      "SuperProvenanceWidgets extends the library from individual controls to the interface as a whole. Its SuperWidget summarizes which controls were used, how often, when, and in what sequence - supporting workflow auditing and sharing, reflection on exploration bias, and interface personalization.",
+      "SuperProvenanceWidgets extends the library from individual controls to the interface as a whole. Its cross-widget provenance view summarizes which controls were used, how often, when, and in what sequence - supporting workflow auditing and sharing, reflection on exploration bias, and interface personalization.",
     links: [
       {
         label: "PDF",

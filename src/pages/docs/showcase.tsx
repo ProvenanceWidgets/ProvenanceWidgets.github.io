@@ -16,8 +16,6 @@ type Project = {
   route: string;
 };
 
-// Add the deployed SuperProvenanceWidgets showcase base URL here when it is ready.
-// Example: "https://provenancewidgets.github.io/super-showcase/#"
 const swShowcaseBaseUrl: string = "";
 const pwShowcaseBaseUrl = "https://provenancewidgets.github.io/showcase/#";
 

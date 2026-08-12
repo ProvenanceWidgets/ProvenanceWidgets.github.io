@@ -96,9 +96,7 @@ const asPwSelectionValue = value => {
   return Array.isArray(value) ? value : [value];
 };
 
-// Present SW's runtime SelectionProvenance using the seven fields exposed by
-// PW 1.0. This is a display adapter; it does not replace SW's runtime model or
-// its schema v2 serialization contract.
+// Adapt the state inspector to PW 1.0's seven provenance fields.
 const asPwProvenance = strategy => {
   const dataByOption = {};
 
@@ -129,9 +127,7 @@ const asPwProvenance = strategy => {
   };
 };
 
-// Present SW's TextProvenance using PW 1.0's InputTextProvenance fields.
-// Empty baseline records are omitted because PW 1.0 did not add an initial
-// record when the input started with an empty string.
+// PW 1.0 omits an empty initial InputText record.
 const asPwInputTextProvenance = strategy => {
   const records = strategy?.detailedData instanceof Map
     ? Array.from(strategy.detailedData.values())
@@ -173,8 +169,7 @@ const asPwInputTextProvenance = strategy => {
   };
 };
 
-// Present SW's RangedProvenance using PW 1.0's SliderProvenance fields.
-// The adapter affects only the state inspector shown in this documentation.
+// Adapt the state inspector to PW 1.0's SliderProvenance fields.
 const asPwSliderProvenance = (strategy, range) => {
   const records = strategy?.detailedData instanceof Map
     ? Array.from(strategy.detailedData.values()).sort(
@@ -247,8 +242,6 @@ const callUnique = (callbacks, ...args) => {
   new Set(callbacks.filter(Boolean)).forEach(callback => callback(...args));
 };
 
-// Documentation-only adapter. Its distinct name avoids shadowing the public
-// CheckboxGroup export used inside the preview.
 function CheckboxPlayground({ children }) {
   const checkbox = React.Children.only(children);
   const [registeredComponents] = useProvenance();
@@ -305,8 +298,6 @@ const getInitialRadioSelection = props => {
   return null;
 };
 
-// Documentation-only adapter that keeps the scalar group value controlled
-// and presents the same provenance/selection state panels as PW 1.0.
 function RadioButtonPlayground({ children }) {
   const radioGroup = React.Children.only(children);
   const [registeredComponents] = useProvenance();
@@ -361,8 +352,6 @@ const getInitialDropdownSelection = props => {
   return null;
 };
 
-// Documentation-only adapter that keeps the live example controlled and
-// presents the same provenance/selection state panels as PW 1.0.
 function DropdownPlayground({ children }) {
   const dropdown = React.Children.only(children);
   const [registeredComponents] = useProvenance();
@@ -400,8 +389,6 @@ function DropdownPlayground({ children }) {
   );
 }
 
-// Documentation-only adapter that keeps the complete option selection
-// controlled and presents the same provenance/selection panels as PW 1.0.
 function MultiselectPlayground({ children }) {
   const multiselect = React.Children.only(children);
   const [registeredComponents] = useProvenance();
@@ -443,8 +430,6 @@ function MultiselectPlayground({ children }) {
   );
 }
 
-// Documentation-only adapter that keeps the committed value visible and
-// presents PW 1.0's InputTextProvenance shape beside the real SW control.
 function InputTextPlayground({ children }) {
   const inputText = React.Children.only(children);
   const [registeredComponents] = useProvenance();
@@ -517,8 +502,6 @@ const getInitialSliderRange = props => {
   return [min, max];
 };
 
-// Documentation-only adapter for PW's range-slider example. It keeps the
-// React tuple controlled while displaying PW 1.0 SliderProvenance fields.
 function SliderPlayground({ children }) {
   const slider = React.Children.only(children);
   const [registeredComponents] = useProvenance();
