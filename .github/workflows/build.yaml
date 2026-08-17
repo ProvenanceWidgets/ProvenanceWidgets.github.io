@@ -25,10 +25,6 @@ jobs:
 
       - name: Install documentation dependencies
         run: npm ci
-      - name: Use HTTPS for GitHub dependencies
-        run: |
-          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
       - name: Install SW Live Playground dependencies
         run: npm ci --prefix playgrounds/sw-live
       - name: Build website

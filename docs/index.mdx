@@ -16,48 +16,38 @@ SuperProvenanceWidgets (SW) is the React-based second generation of ProvenanceWi
 
 ## Quick Start
 
-For getting started quickly, clone the SW development repository:
-
-```bash
-git clone --branch feat/v2-v1-compat https://github.com/LEONL0VE/ProvenanceWidgets.git
-```
-
-Then, navigate to one of the starter projects:
+Choose a starter project:
 
 <Tabs groupId='framework'>
   <TabItem value='react' label='React'>
     ```bash
-    cd ProvenanceWidgets/starters/react
+    git clone --branch feat/pw-v2-starter https://github.com/ProvenanceWidgets/provenance-widgets-starter.git
+    cd provenance-widgets-starter
     ```
   </TabItem>
   <TabItem value='web-components' label='Web Components'>
     ```bash
-    cd ProvenanceWidgets/starters/web-components
+    git clone --branch feat/pw-v2-starter https://github.com/ProvenanceWidgets/provenance-widgets-vanilla-starter.git
+    cd provenance-widgets-vanilla-starter
     ```
   </TabItem>
 </Tabs>
 
-Finally, install the dependencies and start the development server:
+Finally, install PW 2.0 and the remaining dependencies, then start the development server:
 
 ```bash
-npm install
-npm run start
+npm install provenance-widgets@^2.0.0
+npm run dev
 ```
-
-:::info Development preview
-
-The starter projects currently install SW from the `feat/v2-v1-compat` GitHub branch. Their dependency will be changed to the npm package when SW 2.0 is published.
-
-:::
 
 ## Manual Setup
 
 ### Installation
 
-Until SW 2.0 is published to npm, install the development version directly from GitHub:
+Install SW from npm:
 
 ```bash
-npm install github:LEONL0VE/ProvenanceWidgets#feat/v2-v1-compat
+npm install provenance-widgets
 ```
 
 ### Configuration
@@ -89,20 +79,11 @@ npm install github:LEONL0VE/ProvenanceWidgets#feat/v2-v1-compat
     ```
   </TabItem>
   <TabItem value='web-components' label='Web Components'>
-    Add the following to your project's `index.html` file to import SW's Web Components and styles:
+    Add the following to your application's entry file to register SW's Web Components and load their styles:
 
-    ```html {5-6} showLineNumbers
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <!-- Your head tags here -->
-        <script type="text/javascript" src="/node_modules/provenance-widgets/dist/web-components/index.js"></script>
-        <link rel="stylesheet" href="/node_modules/provenance-widgets/dist/web-components/styles.css" />
-      </head>
-      <body>
-        <!-- Your body here -->
-      </body>
-    </html>
+    ```js
+    import "provenance-widgets/web-components";
+    import "provenance-widgets/web-components/styles.css";
     ```
   </TabItem>
 </Tabs>

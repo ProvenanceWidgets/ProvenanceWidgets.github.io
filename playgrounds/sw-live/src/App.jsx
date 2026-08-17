@@ -96,7 +96,7 @@ const asPwSelectionValue = value => {
   return Array.isArray(value) ? value : [value];
 };
 
-// Adapt the state inspector to PW 1.0's seven provenance fields.
+// Adapt aggregate provenance data for the state inspector.
 const asPwProvenance = strategy => {
   const dataByOption = {};
 
@@ -127,7 +127,7 @@ const asPwProvenance = strategy => {
   };
 };
 
-// PW 1.0 omits an empty initial InputText record.
+// Omit the empty initial InputText record.
 const asPwInputTextProvenance = strategy => {
   const records = strategy?.detailedData instanceof Map
     ? Array.from(strategy.detailedData.values())
@@ -169,7 +169,7 @@ const asPwInputTextProvenance = strategy => {
   };
 };
 
-// Adapt the state inspector to PW 1.0's SliderProvenance fields.
+// Adapt slider provenance data for the state inspector.
 const asPwSliderProvenance = (strategy, range) => {
   const records = strategy?.detailedData instanceof Map
     ? Array.from(strategy.detailedData.values()).sort(
