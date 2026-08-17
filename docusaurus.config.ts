@@ -91,7 +91,45 @@ const config: Config = {
     ]
   ],
 
-  plugins: ['docusaurus-plugin-hotjar'],
+  plugins: [
+    "docusaurus-plugin-hotjar",
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          { from: "/docs", to: "/docs/pw/" },
+          {
+            from: "/docs/category/widgets",
+            to: "/docs/pw/category/widgets",
+          },
+          {
+            from: "/docs/widgets/checkbox",
+            to: "/docs/pw/widgets/checkbox",
+          },
+          {
+            from: "/docs/widgets/dropdown",
+            to: "/docs/pw/widgets/dropdown",
+          },
+          {
+            from: "/docs/widgets/inputtext",
+            to: "/docs/pw/widgets/inputtext",
+          },
+          {
+            from: "/docs/widgets/multiselect",
+            to: "/docs/pw/widgets/multiselect",
+          },
+          {
+            from: "/docs/widgets/radiobutton",
+            to: "/docs/pw/widgets/radiobutton",
+          },
+          {
+            from: "/docs/widgets/slider",
+            to: "/docs/pw/widgets/slider",
+          },
+        ],
+      },
+    ],
+  ],
 
   themeConfig: {
     // Replace with your project's social card
