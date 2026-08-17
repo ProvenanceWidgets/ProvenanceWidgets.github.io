@@ -27,7 +27,7 @@ export default function SiteVersionNavbarLink({
   const versions = useVersions('default');
   const {preferredVersion} = useDocsPreferredVersion('default');
   const versionName: SiteVersionName =
-    getSiteVersionFromPath(pathname, search) ??
+    getSiteVersionFromPath(pathname) ??
     (activeDocContext.activeVersion?.name as SiteVersionName | undefined) ??
     (preferredVersion?.name as SiteVersionName | undefined) ??
     'current';

@@ -42,7 +42,7 @@ function LogoImage({
 }
 
 export default function NavbarLogo(): JSX.Element {
-  const {pathname, search} = useLocation();
+  const {pathname} = useLocation();
   const {
     siteConfig: {title},
   } = useDocusaurusContext();
@@ -52,7 +52,7 @@ export default function NavbarLogo(): JSX.Element {
   const activeDocContext = useActiveDocContext('default');
   const {preferredVersion} = useDocsPreferredVersion('default');
   const versionName: SiteVersionName =
-    getSiteVersionFromPath(pathname, search) ??
+    getSiteVersionFromPath(pathname) ??
     (activeDocContext.activeVersion?.name as SiteVersionName | undefined) ??
     (preferredVersion?.name as SiteVersionName | undefined) ??
     'current';

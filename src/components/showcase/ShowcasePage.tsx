@@ -247,6 +247,3 @@ export function ShowcasePage({
   );
 }
 
-export default function LegacyShowcase(): JSX.Element {
-  return <ShowcasePage version="2.0" />;
-}

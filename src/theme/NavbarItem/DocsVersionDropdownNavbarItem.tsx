@@ -59,10 +59,9 @@ export default function DocsVersionDropdownNavbarItem({
   const isVersionedHome =
     pathname === '/' || /^\/(?:sw|pw)\/?$/.test(pathname);
   const isShowcase =
-    /^\/(?:sw|pw)\/showcase(?:\/|$)/.test(pathname) ||
-    pathname.startsWith('/docs/showcase');
+    /^\/(?:sw|pw)\/showcase(?:\/|$)/.test(pathname);
   const pageVersionName =
-    getSiteVersionFromPath(pathname, search) ??
+    getSiteVersionFromPath(pathname) ??
     (activeDocContext.activeVersion?.name as SiteVersionName | undefined) ??
     (preferredVersion?.name as SiteVersionName | undefined) ??
     'current';
