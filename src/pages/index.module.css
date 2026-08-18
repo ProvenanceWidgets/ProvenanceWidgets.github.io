@@ -59,7 +59,7 @@
 .heroTitle {
   margin-bottom: 0.85rem;
   color: #1d2733;
-  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
   letter-spacing: -0.055em;
   line-height: 0.98;
 }
@@ -407,7 +407,7 @@
 
 @media screen and (max-width: 560px) {
   .heroTitle {
-    font-size: 2.65rem;
+    font-size: 2.15rem;
     line-height: 1.02;
   }
 

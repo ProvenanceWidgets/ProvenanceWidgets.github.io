@@ -1,6 +1,6 @@
-# SuperProvenanceWidgets (SW) Homepage
+# ProvenanceWidgets Documentation
 
-The homepage for SuperProvenanceWidgets (SW), the React-based second generation of ProvenanceWidgets. This repository contains its documentation and live playground.
+The homepage and documentation for ProvenanceWidgets. Version 2.0 integrates SuperProvenanceWidgets (SW), an extension for tracking and visualizing analytic provenance across multiple UI controls. This repository also contains the SW live playground.
 
 Operating Systems: Windows 10 or newer, MacOSX 11 or newer, Ubuntu 20.04.1 LTS or newer
 

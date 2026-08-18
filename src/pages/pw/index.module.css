@@ -4,6 +4,11 @@
   text-align: center;
 }
 
+.heroTitle {
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+  line-height: 1.05;
+}
+
 .citationLink {
   display: inline-flex;
   align-items: center;
@@ -27,5 +32,11 @@
   .video {
     height: auto;
     aspect-ratio: 5 / 3;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .heroTitle {
+    font-size: 2.15rem;
   }
 }
