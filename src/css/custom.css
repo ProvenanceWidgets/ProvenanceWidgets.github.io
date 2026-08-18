@@ -6,6 +6,8 @@
   --ifm-color-primary-light: #2d64bd;
   --ifm-color-primary-lighter: #2f69c6;
   --ifm-color-primary-lightest: #4379d2;
+  --pw-footer-link-color: #7dd3fc;
+  --pw-footer-link-hover-color: #bae6fd;
 }
 
 [data-theme='dark'] {
@@ -17,6 +19,8 @@
   --ifm-color-primary-lighter: #fca86b;
   --ifm-color-primary-lightest: #fdc399;
   --ifm-pre-background: rgb(246, 247, 248);
+  --pw-footer-link-color: var(--ifm-color-primary-light);
+  --pw-footer-link-hover-color: var(--ifm-color-primary-lightest);
 }
 
 web-provenance-slider.ngx-slider {
@@ -55,6 +59,24 @@ header time {
 
 .footer__copyright {
   line-height: 1.4;
+}
+
+.footer__copyright a {
+  color: var(--pw-footer-link-color);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.15em;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.footer__copyright a:hover,
+.footer__copyright a:focus-visible {
+  color: var(--pw-footer-link-hover-color);
+  text-decoration-color: currentColor;
+}
+
+.footer__copyright a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .pw-footer {
