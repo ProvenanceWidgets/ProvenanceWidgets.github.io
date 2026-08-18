@@ -41,7 +41,7 @@ export default function SiteVersionNavbarLink({
       to={to}
       isActive={() =>
         target === 'docs'
-          ? /^\/docs\/(?:sw|pw)(?:\/|$)/.test(pathname)
+          ? /^\/docs\/(?:v2|v1)(?:\/|$)/.test(pathname)
           : /^\/showcase(?:\/|$)/.test(pathname)
       }
     />

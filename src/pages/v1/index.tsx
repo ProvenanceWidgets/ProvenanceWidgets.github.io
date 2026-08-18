@@ -52,7 +52,7 @@ function HomepageHeader() {
           {(siteConfig.customFields.institutes as string[]).join(" and ")}
         </p>
         <div className="flex flex-column justify-content-center align-items-center gap-2 md:flex-row">
-          <Link className="button button--secondary button--lg" to="/docs/pw/">
+          <Link className="button button--secondary button--lg" to="/docs/v1/">
             Get Started
           </Link>
           <div className="dropdown dropdown--hoverable">

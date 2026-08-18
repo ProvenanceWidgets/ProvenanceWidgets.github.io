@@ -3,11 +3,11 @@ export type SiteVersionName = 'current' | '1.0';
 export function getSiteVersionFromPath(
   pathname: string,
 ): SiteVersionName | null {
-  if (/^\/pw(?:\/|$)/.test(pathname) || /^\/docs\/pw(?:\/|$)/.test(pathname)) {
+  if (/^\/v1(?:\/|$)/.test(pathname) || /^\/docs\/v1(?:\/|$)/.test(pathname)) {
     return '1.0';
   }
 
-  if (/^\/sw(?:\/|$)/.test(pathname) || /^\/docs\/sw(?:\/|$)/.test(pathname)) {
+  if (/^\/v2(?:\/|$)/.test(pathname) || /^\/docs\/v2(?:\/|$)/.test(pathname)) {
     return 'current';
   }
 
@@ -15,5 +15,5 @@ export function getSiteVersionFromPath(
 }
 
 export function getHomepagePath(versionName: SiteVersionName): string {
-  return versionName === '1.0' ? '/pw/' : '/sw/';
+  return versionName === '1.0' ? '/v1/' : '/v2/';
 }

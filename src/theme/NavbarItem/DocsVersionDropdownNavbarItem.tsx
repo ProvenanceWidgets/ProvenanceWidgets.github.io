@@ -56,7 +56,7 @@ export default function DocsVersionDropdownNavbarItem({
   const {preferredVersion, savePreferredVersionName} =
     useDocsPreferredVersion(docsPluginId);
   const isVersionedHome =
-    pathname === '/' || /^\/(?:sw|pw)\/?$/.test(pathname);
+    pathname === '/' || /^\/(?:v2|v1)\/?$/.test(pathname);
   const isShowcase = /^\/showcase(?:\/|$)/.test(pathname);
   const pageVersionName =
     getSiteVersionFromPath(pathname) ??

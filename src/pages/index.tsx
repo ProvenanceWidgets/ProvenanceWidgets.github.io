@@ -138,7 +138,7 @@ function HomepageHeader() {
           an entire interface.
         </p>
         <div className={styles.heroActions}>
-          <Link className={styles.primaryAction} to="/docs/sw/">
+          <Link className={styles.primaryAction} to="/docs/v2/">
             Get started
           </Link>
           <Link
@@ -234,5 +234,5 @@ export function SuperProvenanceWidgetsHome(): JSX.Element {
 }
 
 export default function HomeRedirect(): JSX.Element {
-  return <Redirect to="/sw/" />;
+  return <Redirect to="/v2/" />;
 }
