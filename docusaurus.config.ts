@@ -49,13 +49,13 @@ const config: Config = {
           lastVersion: "current",
           versions: {
             current: {
-              label: "2.0",
+              label: "2.x",
               path: "v2",
               banner: "none",
               badge: false,
             },
             "1.0": {
-              label: "1.0",
+              label: "1.x",
               path: "v1",
               banner: "none",
               badge: false,
