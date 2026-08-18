@@ -2,6 +2,8 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const config: Config = {
   title: "ProvenanceWidgets",
   tagline:
@@ -44,6 +46,21 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
+          lastVersion: "current",
+          versions: {
+            current: {
+              label: "2.0",
+              path: "sw",
+              banner: "none",
+              badge: false,
+            },
+            "1.0": {
+              label: "1.0",
+              path: "pw",
+              banner: "none",
+              badge: false,
+            },
+          },
         },
         blog: {
           showReadingTime: false,
@@ -62,15 +79,57 @@ const config: Config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
-        gtag: {
-          trackingID: 'G-XD9VD9JL4D',
-          anonymizeIP: true,
-        },
+        ...(isProduction
+          ? {
+              gtag: {
+                trackingID: "G-XD9VD9JL4D",
+                anonymizeIP: true,
+              },
+            }
+          : {}),
       } satisfies Preset.Options,
     ]
   ],
 
-  plugins: ['docusaurus-plugin-hotjar'],
+  plugins: [
+    "docusaurus-plugin-hotjar",
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          { from: "/docs", to: "/docs/pw/" },
+          {
+            from: "/docs/category/widgets",
+            to: "/docs/pw/category/widgets",
+          },
+          {
+            from: "/docs/widgets/checkbox",
+            to: "/docs/pw/widgets/checkbox",
+          },
+          {
+            from: "/docs/widgets/dropdown",
+            to: "/docs/pw/widgets/dropdown",
+          },
+          {
+            from: "/docs/widgets/inputtext",
+            to: "/docs/pw/widgets/inputtext",
+          },
+          {
+            from: "/docs/widgets/multiselect",
+            to: "/docs/pw/widgets/multiselect",
+          },
+          {
+            from: "/docs/widgets/radiobutton",
+            to: "/docs/pw/widgets/radiobutton",
+          },
+          {
+            from: "/docs/widgets/slider",
+            to: "/docs/pw/widgets/slider",
+          },
+        ],
+      },
+    ],
+  ],
 
   themeConfig: {
     // Replace with your project's social card
@@ -84,15 +143,21 @@ const config: Config = {
       },
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          type: "custom-siteVersionLink",
+          target: "docs",
           position: "left",
           label: "Docs",
         },
         {
-          to: "docs/showcase/",
-          label: "Showcase",
+          type: "custom-siteVersionLink",
+          target: "showcase",
           position: "left",
+          label: "Showcase",
+        },
+        {
+          type: "docsVersionDropdown",
+          position: "left",
+          dropdownActiveClassDisabled: true,
         },
         {
           href: `https://github.com/ProvenanceWidgets/ProvenanceWidgets`,

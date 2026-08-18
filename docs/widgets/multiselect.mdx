@@ -1,13 +1,19 @@
 ---
 sidebar_position: 4
+title: Multiselect
+description: A Multiselect is a user interface control element that allows users to select one or more options from a set of options.
 ---
 
-import PlaygroundAdmonition from './_pg_admonition.mdx';
-import APIAdmonition from './_api_admonition.mdx';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Avatar from '@site/src/components/Avatar';
-import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import APIAdmonition from './_api_admonition.mdx';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # Multiselect
 
@@ -15,215 +21,188 @@ A Multiselect is a user interface control element that allows users to select on
 
 ## Playground
 
-```jsx live
-<ProvenanceMultiselect 
-  id="jsx-provenance-multiselect"
-  name="jsx-provenance-multiselect"
-  options={[
-    { label: 'New York', value: 'New York' },
-    { label: 'Rome', value: 'Rome' },
-    { label: 'London', value: 'London' },
-    { label: 'Istanbul', value: 'Istanbul' },
-    { label: 'Paris', value: 'Paris' }
-  ]}
-  selected={[{ label: 'New York', value: 'New York' }]}
-  optionLabel="label"
-  dataKey="value"
-  freeze={false}
-  visualize={true}
-  provenanceChange={console.log} // hardcoded
-  selectedChange={console.log} // hardcoded
+<SWLivePlayground
+  example="multiselect"
+  title="SW Multiselect Live Playground"
 />
-```
 
-<PlaygroundAdmonition />
+:::info
+
+The example above is editable. The examples below show the same Multiselect as a complete React component and with the Web Components API.
+
+:::
 
 <Tabs>
-    <TabItem 
-        value='multiselect.component.ts' 
-        label={
-        <Avatar 
-            src="https://cdn.simpleicons.org/angular/red"
-            name="multiselect.component.ts"
-        />
-        }
-    >
+  <TabItem
+    value="multiselect.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="multiselect.jsx"
+      />
+    }
+  >
 
-        ```typescript
-        import { Component } from '@angular/core';
+```jsx
+import { useState } from "react";
+import {
+  MultiSelectDropdown,
+  ProvenanceButton,
+} from "provenance-widgets";
 
-        @Component({
-            selector: 'multiselect-root',
-            templateUrl: './multiselect.component.html',
-            styleUrls: ['./multiselect.component.css']
-        })
-        export class MultiselectComponent {
-            data = [
-                { label: 'New York', value: 'New York' },
-                { label: 'Rome', value: 'Rome' },
-                { label: 'London', value: 'London' },
-                { label: 'Istanbul', value: 'Istanbul' },
-                { label: 'Paris', value: 'Paris' }
-            ];
-            selected = data.slice(0, 1);
-            freeze = false;
-            visualize = true;
+const options = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
+];
 
-            provenanceChange(event) {
-                console.log(event.detail);
-            }
+export default function MultiselectExample() {
+  const [selected, setSelected] = useState(options.slice(0, 1));
 
-            selectedChange(event) {
-                console.log(event.detail);
-                // Mandatory to update the selected property manually, or use two-way binding
-                selected = event.detail;
-            }
-        }
-        ```
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
 
-    </TabItem>
-    <TabItem 
-        value="multiselect.component.html" 
-        label={
-        <Avatar 
-            src="https://cdn.simpleicons.org/angular/red"
-            name="multiselect.component.html"
-        />
-        }
-    >
+  const selectedChange = nextSelected => {
+    console.log(nextSelected);
+    setSelected(nextSelected);
+  };
 
-        ```html
-        <provenance-multiselect 
-            id="html-provenance-multiselect"
-            name="html-provenance-multiselect"
-            [data]="data"
-            [selected]="selected"
-            optionLabel="label"
-            dataKey="value"
-            [freeze]="freeze"
-            [visualize]="visualize"
-            (provenanceChange)="provenanceChange($event)"
-            (selectedChange)="selectedChange($event)"
-        ></provenance-multiselect>
-        ```
+  return (
+    <div>
+      <ProvenanceButton target="jsx-provenance-multiselect" />
+      <MultiSelectDropdown
+        id="jsx-provenance-multiselect"
+        name="jsx-provenance-multiselect"
+        options={options}
+        selected={selected}
+        optionLabel="label"
+        dataKey="value"
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={provenanceChange}
+        onSelectedChange={selectedChange}
+      />
+    </div>
+  );
+}
+```
 
-    </TabItem>
-    <TabItem
-        value="web-components"
-        label={
-        <Avatar 
-            src="https://cdn.simpleicons.org/webcomponentsdotorg"
-            name="multiselect.webcomponent.ts"
-        />
-        }
-    >
+  </TabItem>
+  <TabItem
+    value="multiselect.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="multiselect.webcomponent.js"
+      />
+    }
+  >
 
-        ```typescript
-        import { MultiselectComponent } from 'provenance-widgets';
-        import type { NgElement, WithProperties } from '@angular/elements'
+```js
+// Create a new instance of the Multiselect
+const multiselect = document.createElement(
+  "web-provenance-multiselect",
+);
 
-        // Create a new instance of the Multiselect
-        const multiselect = document.createElement("web-provenance-multiselect") as NgElement & WithProperties<MultiselectComponent>;
+const options = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
+];
 
-        const data = [
-            { label: 'New York', value: 'New York' },
-            { label: 'Rome', value: 'Rome' },
-            { label: 'London', value: 'London' },
-            { label: 'Istanbul', value: 'Istanbul' },
-            { label: 'Paris', value: 'Paris' }
-        ];
-        // Set the properties
-        multiselect.options = data;
-        multiselect.selected = data[0];
-        multiselect.optionLabel = 'label';
-        multiselect.dataKey = 'value';
-        multiselect.freeze = false;
-        multiselect.visualize = true;
-        
-        multiselect.addEventListener('provenanceChange', (event) => {
-            console.log(event.detail);
-        });
+// Set the properties
+multiselect.id = "webcomponent-provenance-multiselect";
+multiselect.options = options;
+multiselect.selected = options.slice(0, 1);
+multiselect.optionLabel = "label";
+multiselect.dataKey = "value";
+multiselect.freeze = false;
+multiselect.visualize = true;
 
-        multiselect.addEventListener('selectedChange', (event) => {
-            console.log(event.detail);
-            // Mandatory to update the selected property manually
-            multiselect.selected = event.detail;
-        });
-        
-        // Append it to the DOM
-        document.body.appendChild(multiselect);
-        ```
+multiselect.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
+});
 
-    </TabItem>
+multiselect.addEventListener("selectedChange", event => {
+  console.log(event.detail);
+});
+
+// Append it to the DOM
+document.body.appendChild(multiselect);
+```
+
+  </TabItem>
 </Tabs>
 
 ## API
 
 <APIAdmonition />
 
-<APIHeaderTable 
-    extends={{
-        link: 'https://www.primefaces.org/primeng-v15-lts/multiselect',
-        text: 'p-multiselect',
-    }}
-    selector='provenance-multiselect'
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact MultiSelect',
+  }}
+  reactComponent='MultiSelectDropdown'
+  webComponentTag='web-provenance-multiselect'
 />
 
 ### Properties
 
-<APIPropertyTable 
-    provenance={{
-        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/1.0.4/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
-        text: 'Provenance'
-    }}
-    rows={[
-        {
-            name: 'options',
-            type: 'any[]',
-            default: 'undefined',
-            required: true,
-            description: <>An array of objects to display as options</>
-        },
-        {
-            name: 'optionLabel',
-            type: 'string',
-            default: '',
-            required: true,
-            description: 'Name of the label field in the option object'
-        },
-        {
-            name: 'dataKey',
-            type: 'string',
-            default: '',
-            required: true,
-            description: 'Name of the value field in the option object'
-        },
-        {
-            name: 'selected',
-            type: 'any[]',
-            default: '',
-            required: false,
-            description: 'The selected options. It must have the same structure as the options array. Two-way binding is supported.'
-        }
-    ]}
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<unknown[]>'
+  rows={[
+    {
+      name: 'options',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of objects or primitive values to display as options.</>,
+    },
+    {
+      name: 'optionLabel',
+      type: 'string',
+      default: 'inferred',
+      required: false,
+      description: <>Name of the field displayed as the option label. SW falls back to <code>label</code> or <code>name</code>.</>,
+    },
+    {
+      name: 'dataKey',
+      type: 'string',
+      default: 'inferred',
+      required: false,
+      description: <>Name of the field used as the stable option key in provenance. SW falls back to <code>value</code>, <code>code</code>, <code>id</code>, or <code>label</code>.</>,
+    },
+    {
+      name: 'selected',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>The selected options. Use <code>onSelectedChange</code> to update the complete selection in a controlled React component.</>,
+    },
+  ]}
 />
 
 ### Events
 
-<APIEventTable 
-    rows={[
-        {
-            name: 'selectedChange',
-            type: 'any[]',
-            description: 'Emits the updated selected values when the multiselect selection changes.'
-        },
-        {
-            name: 'provenanceChange',
-            type: {
-                link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/1.0.4/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
-                text: '<Provenance>'
-            },
-            description: 'Emits the provenance when the multiselect selection changes.'
-        }
-    ]}
+In React, use `onSelectedChange` and `onProvenanceChange`. Web Components use `selectedChange` and `provenanceChange`, with emitted values available in `event.detail`.
+
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'selectedChange',
+      type: 'unknown[]',
+      description: <>Emits the complete updated selection when the multiselect selection changes.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<unknown[]>',
+      description: <>Emits the serialized provenance when the multiselect selection changes.</>,
+    },
+  ]}
 />

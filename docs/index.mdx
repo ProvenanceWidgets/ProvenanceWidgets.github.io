@@ -1,63 +1,50 @@
 ---
 sidebar_position: 1
+title: Introduction
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Introduction
-
-ProvenanceWidgets is a Javascript library of UI control elements that track and dynamically overlay a user's analytic provenance ***in situ*** and ***out of the box***. These enhanced widgets track how often (frequently) and how recently a user has interacted with them and display this information in a visual overlay. The in situ overlays not only save screen space but also minimize the amount of time and effort needed to access the same information from elsewhere in the UI.
+SuperProvenanceWidgets (SW) is the React-based second generation of ProvenanceWidgets, a JavaScript library of UI control elements that track and dynamically overlay a user's analytic provenance ***in situ*** and ***out of the box***. SW preserves the frequency and recency overlays introduced by PW and extends them with Aggregate and Temporal views, including a shared provenance view that connects the interaction histories of multiple controls in one interface.
 
 ## Getting Started
 
 ### What you'll need
 
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above and npm version 10.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+- [Node.js](https://nodejs.org/en/download/) 20.19+ or 22.12+, and npm 10.0+.
 
 ## Quick Start
 
-For getting started quickly, clone one of our starter code repositories:
+Choose a starter project:
 
 <Tabs groupId='framework'>
-  <TabItem value='angular' label='Angular'>
+  <TabItem value='react' label='React'>
     ```bash
-    git clone https://github.com/ProvenanceWidgets/provenance-widgets-starter
-    ```
-  </TabItem>
-  <TabItem value='web-components' label='Web Components'>
-  ```bash
-  git clone https://github.com/ProvenanceWidgets/provenance-widgets-vanilla-starter
-  ```
-  </TabItem>
-</Tabs>
-
-Then, navigate to the project directory and install the dependencies:
-
-<Tabs groupId='framework'>
-  <TabItem value='angular' label='Angular'>
-    ```bash
+    git clone --branch v2 https://github.com/ProvenanceWidgets/provenance-widgets-starter.git
     cd provenance-widgets-starter
     ```
   </TabItem>
   <TabItem value='web-components' label='Web Components'>
     ```bash
+    git clone --branch v2 https://github.com/ProvenanceWidgets/provenance-widgets-vanilla-starter.git
     cd provenance-widgets-vanilla-starter
     ```
   </TabItem>
 </Tabs>
 
-Finally, install the dependencies and start the development server:
+Finally, install PW 2.0 and the remaining dependencies, then start the development server:
 
 ```bash
-npm install
-npm run start
+npm install provenance-widgets@^2.0.0
+npm run dev
 ```
 
 ## Manual Setup
 
 ### Installation
+
+Install SW from npm:
 
 ```bash
 npm install provenance-widgets
@@ -66,74 +53,37 @@ npm install provenance-widgets
 ### Configuration
 
 <Tabs groupId='framework'>
-  <TabItem value='angular' label='Angular'>
-    Add the following to your projects's angular.json file to apply PrimeNG's styles:
+  <TabItem value='react' label='React'>
+    SW builds on PrimeReact components. Add the following to your project's entry file to apply PrimeReact's styles:
 
-    ```json {12,18-21} showLineNumbers
-    {
-        "projects": {
-            "<your-project>": {
-                "architect": {
-                    "build": {
-                        "options": {
-                            // Add the following:
-
-                            // Used by Provenance Widgets for deep object comparisons
-                            "allowedCommonJsDependencies": [
-                                // Your allowedCommonJsDependencies here
-                                "lodash.isequal"
-                            ],
-
-                            // Provenance Widgets builds up on PrimeNG's components. Hence, it relies on PrimeNG, PrimeFlex and PrimeIcons for styling.
-                            "styles": [
-                                // Your styles here
-                                "node_modules/primeicons/primeicons.css",
-                                "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                                "node_modules/primeng/resources/primeng.min.css",
-                                "node_modules/primeflex/primeflex.css"
-                                ]
-                        }
-                    }
-                }
-            }        
-        }
-    }
+    ```jsx
+    // SW relies on a PrimeReact theme for styling.
+    import "primereact/resources/themes/lara-light-cyan/theme.css";
     ```
-    Then, import the ProvenanceWidgetsModule in your app.module.ts file:
 
-    ```typescript {8} showLineNumbers
-    import { ProvenanceWidgetsModule } from 'provenance-widgets';
-    @NgModule({
-      declarations: [
-        // Your declarations here
-      ],
-      imports: [
-        // Your imports here
-        ProvenanceWidgetsModule
-      ],
-      providers: [
-        // Your providers here
-      ],
-      bootstrap: [AppComponent]
-    })
-    export class AppModule { }
+    Then, import ProvenanceProvider in your application's entry file. It provides the shared registry used by SW's Aggregate and Temporal provenance views:
+
+    ```jsx {2,8-11} showLineNumbers
+    import { createRoot } from "react-dom/client";
+    import { ProvenanceProvider } from "provenance-widgets";
+
+    // Your application imports here
+    import App from "./App.jsx";
+
+    createRoot(document.getElementById("root")).render(
+      <ProvenanceProvider>
+        {/* All SW widgets in this tree share one provenance registry. */}
+        <App />
+      </ProvenanceProvider>,
+    );
     ```
   </TabItem>
-  <TabItem value='web-components' label='Web components'>
-    Add the following to your project's index.html file to import Provenance Widgets' web components and styles:
+  <TabItem value='web-components' label='Web Components'>
+    Add the following to your application's entry file to register SW's Web Components and load their styles:
 
-    ```html {5-6} showLineNumbers
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <!-- Your head tags here -->
-        <script type="text/javascript" src="/node_modules/provenance-widgets/web-components/index.js"></script>
-        <link rel="stylesheet" href="/node_modules/provenance-widgets/web-components/styles.css" />
-      </head>
-      <body>
-        <!-- Your body here -->
-      </body>
-    </html>
+    ```js
+    import "provenance-widgets/web-components";
+    import "provenance-widgets/web-components/styles.css";
     ```
   </TabItem>
 </Tabs>

@@ -1,13 +1,19 @@
 ---
 sidebar_position: 1
+title: Checkbox
+description: A Checkbox is a user interface control element that allows users to select one or more options from a set of options.
 ---
 
-import PlaygroundAdmonition from './_pg_admonition.mdx';
-import APIAdmonition from './_api_admonition.mdx';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Avatar from '@site/src/components/Avatar';
-import { APIHeaderTable, APIPropertyTable, APIEventTable } from '@site/src/components/tables';
+import SWLivePlayground from '@site/src/components/SWLivePlayground';
+import APIAdmonition from './_api_admonition.mdx';
+import {
+  SWAPIEventTable,
+  SWAPIHeaderTable,
+  SWAPIPropertyTable,
+} from '@site/src/components/tables';
 
 # Checkbox
 
@@ -15,195 +21,168 @@ A Checkbox is a user interface control element that allows users to select one o
 
 ## Playground
 
-```jsx live
-<ProvenanceCheckbox 
-  id="jsx-provenance-checkbox"
-  name="jsx-provenance-checkbox"
-  data={[
-    { label: 'New York', value: 'New York' },
-    { label: 'Rome', value: 'Rome' },
-    { label: 'London', value: 'London' },
-    { label: 'Istanbul', value: 'Istanbul' },
-    { label: 'Paris', value: 'Paris' }
-  ]}
-  selected={['New York', 'Rome']}
-  freeze={false}
-  visualize={true}
-  provenanceChange={console.log} // hardcoded
-  selectedChange={console.log} // hardcoded
+<SWLivePlayground
+  example="checkbox"
+  title="SW Checkbox Live Playground"
 />
-```
 
-<PlaygroundAdmonition />
+:::info
+
+The example above is editable. The examples below show the same Checkbox as a complete React component and with the Web Components API.
+
+:::
 
 <Tabs>
-    <TabItem 
-        value='checkbox.component.ts' 
-        label={
-        <Avatar 
-            src="https://cdn.simpleicons.org/angular/red"
-            name="checkbox.component.ts"
-        />
-        }
-    >
+  <TabItem
+    value="checkbox.jsx"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/react/61DAFB"
+        name="checkbox.jsx"
+      />
+    }
+  >
 
-        ```typescript
-        import { Component } from '@angular/core';
+```jsx
+import { useState } from "react";
+import { CheckboxGroup, ProvenanceButton } from "provenance-widgets";
 
-        @Component({
-            selector: 'checkbox-root',
-            templateUrl: './checkbox.component.html',
-            styleUrls: ['./checkbox.component.css']
-        })
-        export class CheckboxComponent {
-            data = [
-                { label: 'New York', value: 'New York' },
-                { label: 'Rome', value: 'Rome' },
-                { label: 'London', value: 'London' },
-                { label: 'Istanbul', value: 'Istanbul' },
-                { label: 'Paris', value: 'Paris' }
-            ];
-            selected = data.map(({ value }) => value).slice(0, 2);
-            freeze = false;
-            visualize = true;
+const data = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
+];
 
-            provenanceChange(event) {
-                console.log(event.detail);
-            }
+export default function CheckboxExample() {
+  const [selected, setSelected] = useState(
+    data.map(({ value }) => value).slice(0, 2),
+  );
 
-            selectedChange(event) {
-                console.log(event.detail);
-                // Mandatory to update the selected property manually, or use two-way binding
-                selected = event.detail;
-            }
-        }
-        ```
+  const provenanceChange = provenance => {
+    console.log(provenance);
+  };
 
-    </TabItem>
-    <TabItem 
-        value="checkbox.component.html" 
-        label={
-        <Avatar 
-            src="https://cdn.simpleicons.org/angular/red"
-            name="checkbox.component.html"
-        />
-        }
-    >
+  const selectedChange = nextSelected => {
+    console.log(nextSelected);
+    setSelected(nextSelected);
+  };
 
-        ```html
-        <provenance-checkbox 
-            id="html-provenance-checkbox"
-            name="html-provenance-checkbox"
-            [data]="data"
-            [selected]="selected"
-            [freeze]="freeze"
-            [visualize]="visualize"
-            (provenanceChange)="provenanceChange($event)"
-            (selectedChange)="selectedChange($event)"
-        ></provenance-checkbox>
-        ```
+  return (
+    <div>
+      <ProvenanceButton target="jsx-provenance-checkbox" />
+      <CheckboxGroup
+        id="jsx-provenance-checkbox"
+        name="jsx-provenance-checkbox"
+        data={data}
+        selected={selected}
+        freeze={false}
+        visualize={true}
+        onProvenanceChange={provenanceChange}
+        onSelectedChange={selectedChange}
+      />
+    </div>
+  );
+}
+```
 
-    </TabItem>
-    <TabItem
-        value="web-components"
-        label={
-        <Avatar 
-            src="https://cdn.simpleicons.org/webcomponentsdotorg"
-            name="checkbox.webcomponent.ts"
-        />
-        }
-    >
+  </TabItem>
+  <TabItem
+    value="checkbox.webcomponent.js"
+    label={
+      <Avatar
+        src="https://cdn.simpleicons.org/webcomponentsdotorg"
+        name="checkbox.webcomponent.js"
+      />
+    }
+  >
 
-        ```typescript
-        import { CheckboxComponent } from 'provenance-widgets';
-        import type { NgElement, WithProperties } from '@angular/elements'
+```js
+// Create a new instance of the Checkbox
+const checkbox = document.createElement("web-provenance-checkbox");
 
-        // Create a new instance of the Checkbox
-        const checkbox = document.createElement("web-provenance-checkbox") as NgElement & WithProperties<CheckboxComponent>;
+const data = [
+  { label: "New York", value: "New York" },
+  { label: "Rome", value: "Rome" },
+  { label: "London", value: "London" },
+  { label: "Istanbul", value: "Istanbul" },
+  { label: "Paris", value: "Paris" },
+];
 
-        const data = [
-            { label: 'New York', value: 'New York' },
-            { label: 'Rome', value: 'Rome' },
-            { label: 'London', value: 'London' },
-            { label: 'Istanbul', value: 'Istanbul' },
-            { label: 'Paris', value: 'Paris' }
-        ];
-        // Set the properties
-        checkbox.data = data;
-        checkbox.selected = data.map(({ value }) => value).slice(0, 2);
-        checkbox.freeze = false;
-        checkbox.visualize = true;
-        
-        checkbox.addEventListener('provenanceChange', (event) => {
-            console.log(event.detail);
-        });
+// Set the properties
+checkbox.id = "webcomponent-provenance-checkbox";
+checkbox.name = "webcomponent-provenance-checkbox";
+checkbox.data = data;
+checkbox.selected = data.map(({ value }) => value).slice(0, 2);
+checkbox.freeze = false;
+checkbox.visualize = true;
 
-        checkbox.addEventListener('selectedChange', (event) => {
-            console.log(event.detail);
-            // Mandatory to update the selected property manually
-            checkbox.selected = event.detail;
-        });
-        
-        // Append it to the DOM
-        document.body.appendChild(checkbox);
-        ```
+checkbox.addEventListener("provenanceChange", event => {
+  console.log(event.detail);
+});
 
-    </TabItem>
+checkbox.addEventListener("selectedChange", event => {
+  console.log(event.detail);
+});
+
+// Append it to the DOM
+document.body.appendChild(checkbox);
+```
+
+  </TabItem>
 </Tabs>
 
 ## API
 
 <APIAdmonition />
 
-<APIHeaderTable 
-    extends={{
-        link: 'https://www.primefaces.org/primeng-v15-lts/checkbox',
-        text: 'p-checkbox',
-    }}
-    selector='provenance-checkbox'
+<SWAPIHeaderTable
+  builtWith={{
+    link: 'https://github.com/primefaces/primereact',
+    text: 'PrimeReact Checkbox',
+  }}
+  reactComponent='CheckboxGroup'
+  webComponentTag='web-provenance-checkbox'
 />
 
 ### Properties
 
-<APIPropertyTable 
-    provenance={{
-        link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/1.0.4/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
-        text: 'Provenance'
-    }}
-    rows={[
-        {
-            name: 'data',
-            type: 'any[]',
-            default: 'undefined',
-            required: true,
-            description: <>An array of objects to display as checkboxes. Each object must have a <code>label</code> and a <code>value</code> property. Alternatively, you can map your properties using <code>label="your_label_property"</code> and <code>value="your_value_property"</code>.</>
-        },
-        {
-            name: 'selected',
-            type: 'string[]',
-            default: '[]',
-            required: false,
-            description: <>An array of selected values. Must match the <code>value</code> property of the objects in the <code>data</code> array. Two-way binding is supported.</>
-        }
-    ]}
+<SWAPIPropertyTable
+  provenanceType='SerializedProvenance<unknown[]>'
+  rows={[
+    {
+      name: 'data',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of objects to display as checkboxes. Each object must have a <code>label</code> and a <code>value</code> property.</>,
+    },
+    {
+      name: 'selected',
+      type: 'unknown[]',
+      default: '[]',
+      required: false,
+      description: <>An array of selected values. Each value must match the <code>value</code> property of an object in the <code>data</code> array.</>,
+    },
+  ]}
 />
 
 ### Events
 
-<APIEventTable 
-    rows={[
-        {
-            name: 'selectedChange',
-            type: 'string[]',
-            description: 'Emits the updated selected values when the checkbox selection changes.'
-        },
-        {
-            name: 'provenanceChange',
-            type: {
-                link: 'https://github.com/ProvenanceWidgets/ProvenanceWidgets/blob/1.0.4/projects/provenance-widgets/src/lib/provenance-widgets.service.ts#L22',
-                text: '<Provenance>'
-            },
-            description: 'Emits the provenance when the checkbox selection changes.'
-        }
-    ]}
+In React, use `onSelectedChange` and `onProvenanceChange`. Web Components use `selectedChange` and `provenanceChange`, with emitted values available in `event.detail`.
+
+<SWAPIEventTable
+  rows={[
+    {
+      name: 'selectedChange',
+      type: 'unknown[]',
+      description: <>Emits the updated selected values when the checkbox selection changes.</>,
+    },
+    {
+      name: 'provenanceChange',
+      type: 'SerializedProvenance<unknown[]>',
+      description: <>Emits the serialized provenance when the checkbox selection changes.</>,
+    },
+  ]}
 />

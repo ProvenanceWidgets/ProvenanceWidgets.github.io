@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
+    "start": "npm run build:sw-live && docusaurus start",
+    "start:sw-live": "npm --prefix playgrounds/sw-live run dev",
+    "build": "npm run build:sw-live && docusaurus build",
+    "build:sw-live": "npm --prefix playgrounds/sw-live run build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -16,6 +18,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.6.1",
+    "@docusaurus/plugin-client-redirects": "^3.6.1",
     "@docusaurus/preset-classic": "3.6.1",
     "@docusaurus/theme-live-codeblock": "^3.6.1",
     "@mdx-js/react": "^3.0.0",

@@ -1,5 +1,4 @@
 import BrowserOnly from '@docusaurus/BrowserOnly';
-// import ReactJson, { ReactJsonViewProps } from '@microlink/react-json-view'
 import type { ReactJsonViewProps } from '@microlink/react-json-view'
 
 interface StateViewProps {
