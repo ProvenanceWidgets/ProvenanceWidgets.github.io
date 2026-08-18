@@ -1,6 +1,6 @@
 # ProvenanceWidgets Documentation
 
-The homepage and documentation for ProvenanceWidgets. Version 2.0 integrates SuperProvenanceWidgets (SW), an extension for tracking and visualizing analytic provenance across multiple UI controls. This repository also contains the SW live playground.
+The homepage and documentation for ProvenanceWidgets. Version 2.x integrates SuperProvenanceWidgets, an extension that introduces a SuperWidget for tracking and visualizing analytic provenance across multiple UI controls. This repository also contains the live ProvenanceWidgets playground.
 
 Operating Systems: Windows 10 or newer, MacOSX 11 or newer, Ubuntu 20.04.1 LTS or newer
 
@@ -9,7 +9,7 @@ Operating Systems: Windows 10 or newer, MacOSX 11 or newer, Ubuntu 20.04.1 LTS o
 - Open the command line/terminal on your machine and navigate to this project's top-level directory (i.e. where this file is).
 - Download and install node, npm from https://nodejs.org/en/download/. Optionally, use the <a href="https://github.com/nvm-sh/nvm" target="_blank">nvm (Node Version Manager)</a> to quickly install and use different versions of node via the command line. Note the compatible node/npm version in package.json > "engines" (Node 18+; the docs recommend Node 20.19+ / 22.12+ and npm 10.0+).
 - `npm install` - installs required libraries from package.json.
-- `npm install --prefix playgrounds/sw-live` - installs the dependencies of the SW live playground (the site's `start`/`build` scripts build it first).
+- `npm install --prefix playgrounds/sw-live` - installs the dependencies of the live ProvenanceWidgets playground (the site's `start`/`build` scripts build it first).
 
 ## Run
 

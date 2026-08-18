@@ -130,7 +130,7 @@ textarea {
 
 /* InputText renders its provenance view as an absolute application overlay.
    In the documentation result, keep it in flow so the complete chart remains
-   visible and the PW-style state panels are pushed below it. */
+   visible and the provenance state panels are pushed below it. */
 .input-text-example
   [data-provenance-temporal-panel]:not([hidden]) {
   position: relative !important;

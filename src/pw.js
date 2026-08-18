@@ -1,5 +1,5 @@
 if (typeof window !== "undefined") {
-    // Docusaurus calls `window.gtag` after client-side navigation. The PW 1.0
+    // Docusaurus calls `window.gtag` after client-side navigation. The ProvenanceWidgets 1.x
     // Web Components bundle installs Zone.js, which can cause that callback to
     // run before Docusaurus' inline analytics bootstrap has created the global
     // function. Keep the standard Google dataLayer queue available first so a

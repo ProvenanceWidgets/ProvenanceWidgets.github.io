@@ -30,7 +30,7 @@ export default function SWAPIPropertyTable(props: SWAPIPropertyTableProps) {
                     <td><code>—</code></td>
                     <td>Yes</td>
                     <td>
-                        Unique identifier for the element. Used by SW for
+                        Unique identifier for the element. Used by ProvenanceWidgets for
                         internal state management and visualizations.
                     </td>
                 </tr>

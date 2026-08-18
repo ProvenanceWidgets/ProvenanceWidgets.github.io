@@ -6,7 +6,7 @@ title: Introduction
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-ProvenanceWidgets is a JavaScript library of UI control elements that track and dynamically overlay a user's analytic provenance ***in situ*** and ***out of the box***. Version 2.0 integrates SuperProvenanceWidgets (SW), an extension that preserves PW's frequency and recency overlays while adding Aggregate and Temporal views, including a shared provenance view that connects the interaction histories of multiple controls in one interface.
+ProvenanceWidgets is a JavaScript library that tracks the recency and frequency of user interactions with individual UI controls and dynamically overlays this provenance onto them. Version 2.x integrates SuperProvenanceWidgets, an extension to ProvenanceWidgets featuring a SuperWidget that tracks and visualizes provenance across multiple UI controls.
 
 ## Getting Started
 
@@ -33,7 +33,7 @@ Choose a starter project:
   </TabItem>
 </Tabs>
 
-Finally, install PW 2.0 and the remaining dependencies, then start the development server:
+Finally, install ProvenanceWidgets 2.x and the remaining dependencies, then start the development server:
 
 ```bash
 npm install provenance-widgets@^2.0.0
@@ -44,7 +44,7 @@ npm run dev
 
 ### Installation
 
-Install SW from npm:
+Install ProvenanceWidgets from npm:
 
 ```bash
 npm install provenance-widgets
@@ -54,14 +54,14 @@ npm install provenance-widgets
 
 <Tabs groupId='framework'>
   <TabItem value='react' label='React'>
-    SW builds on PrimeReact components. Add the following to your project's entry file to apply PrimeReact's styles:
+    ProvenanceWidgets builds on PrimeReact components. Add the following to your project's entry file to apply PrimeReact's styles:
 
     ```jsx
-    // SW relies on a PrimeReact theme for styling.
+    // ProvenanceWidgets relies on a PrimeReact theme for styling.
     import "primereact/resources/themes/lara-light-cyan/theme.css";
     ```
 
-    Then, import ProvenanceProvider in your application's entry file. It provides the shared registry used by SW's Aggregate and Temporal provenance views:
+    Then, import ProvenanceProvider in your application's entry file. It provides the shared registry used by the Aggregate and Temporal provenance views:
 
     ```jsx {2,8-11} showLineNumbers
     import { createRoot } from "react-dom/client";
@@ -72,14 +72,14 @@ npm install provenance-widgets
 
     createRoot(document.getElementById("root")).render(
       <ProvenanceProvider>
-        {/* All SW widgets in this tree share one provenance registry. */}
+        {/* All ProvenanceWidgets controls in this tree share one provenance registry. */}
         <App />
       </ProvenanceProvider>,
     );
     ```
   </TabItem>
   <TabItem value='web-components' label='Web Components'>
-    Add the following to your application's entry file to register SW's Web Components and load their styles:
+    Add the following to your application's entry file to register the ProvenanceWidgets Web Components and load their styles:
 
     ```js
     import "provenance-widgets/web-components";
