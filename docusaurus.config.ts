@@ -173,48 +173,13 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      links: [
-        {
-          title: "Links",
-          items: [
-            {
-              label: "GitHub",
-              href: "https://github.com/ProvenanceWidgets/ProvenanceWidgets",
-            },
-            {
-              label: "2024 TVCG paper",
-              href: "https://doi.org/10.1109/TVCG.2024.3456144",
-            },
-            {
-              label: "arXiv Preprint",
-              href: "https://arxiv.org/abs/2407.17431",
-            },
-            {
-              label: "Supplemental Material (VIS 2024)",
-              href: "https://github.com/ProvenanceWidgets/Supplemental-Material",
-            },
-          ],
-        },
-        {
-          title: "Collaborators",
-          items: [
-            {
-              label: "Georgia Tech",
-              href: "https://www.gatech.edu/",
-            },
-            {
-              label: "ETH Zürich",
-              href: "https://ethz.ch/",
-            },
-            {
-              label: "AWS",
-              href: "https://aws.amazon.com/",
-            },
-          ],
-        },
-      ],
-      copyright:
-        'Copyright 2026 <a href="https://datavisards.com/">DataVisards Lab</a> at <a href="https://hkust.edu.hk/">HKUST</a>. Contact <a href="https://narechania.com/">Arpit Narechania</a> about anything.',
+      copyright: [
+        '<div class="pw-footer">',
+        '<div>Copyright 2026 <a href="https://datavisards.com/">DataVisards Lab</a> at <a href="https://hkust.edu.hk/">HKUST</a>.</div>',
+        '<div>Collaborators: <a href="https://www.gatech.edu/">Georgia Tech</a>, <a href="https://ethz.ch/">ETH Zurich</a>, and <a href="https://aws.amazon.com/">AWS</a>.</div>',
+        '<div class="pw-footer__contact">Contact <a href="https://narechania.com/">Arpit Narechania</a> about anything.</div>',
+        "</div>",
+      ].join(""),
     },
     prism: {
       additionalLanguages: ["bash", "json", "typescript"],

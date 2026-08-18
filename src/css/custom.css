@@ -48,3 +48,21 @@ header time {
 .button--outline:hover {
   color: var(--ifm-color-gray-900) !important;
 }
+
+.footer {
+  padding-block: 1.25rem;
+}
+
+.footer__copyright {
+  line-height: 1.4;
+}
+
+.pw-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.pw-footer__contact {
+  margin-top: 0.45rem;
+}
