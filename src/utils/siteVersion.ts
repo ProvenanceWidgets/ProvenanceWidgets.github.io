@@ -17,7 +17,3 @@ export function getSiteVersionFromPath(
 export function getHomepagePath(versionName: SiteVersionName): string {
   return versionName === '1.0' ? '/pw/' : '/sw/';
 }
-
-export function getShowcasePath(versionName: SiteVersionName): string {
-  return versionName === '1.0' ? '/pw/showcase/' : '/sw/showcase/';
-}

@@ -39,7 +39,7 @@ const papers: Paper[] = [
     links: [
       {
         label: "PDF",
-        href: "https://narechania.com/docs/publications/provenance_widgets_2024.pdf",
+        href: "https://datavisards.com/assets/pdfs/publications/2025-paper-provenance-widgets.pdf",
         kind: "primary",
       },
       {
@@ -76,11 +76,11 @@ const papers: Paper[] = [
     imageAlt:
       "Overview of SuperProvenanceWidgets showing aggregate and temporal provenance within and across controls",
     summary:
-      "SuperProvenanceWidgets extends the library from individual controls to the interface as a whole. Its cross-widget provenance view summarizes which controls were used, how often, when, and in what sequence - supporting workflow auditing and sharing, reflection on exploration bias, and interface personalization.",
+      "SuperProvenanceWidgets extends ProvenanceWidgets from individual controls to the interface as a whole. Its cross-widget provenance view summarizes which controls were used, how often, when, and in what sequence - supporting workflow auditing and sharing, reflection on exploration bias, and interface personalization.",
     links: [
       {
         label: "PDF",
-        href: "https://narechania.com/docs/publications/superprovenancewidgets_chi_2026.pdf",
+        href: "https://datavisards.com/assets/pdfs/publications/2026-paper-super-provenance-widgets.pdf",
         kind: "primary",
       },
       {

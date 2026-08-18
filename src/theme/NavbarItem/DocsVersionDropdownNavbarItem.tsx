@@ -11,7 +11,6 @@ import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import {
   getHomepagePath,
-  getShowcasePath,
   getSiteVersionFromPath,
   type SiteVersionName,
 } from '@site/src/utils/siteVersion';
@@ -49,7 +48,7 @@ export default function DocsVersionDropdownNavbarItem({
   dropdownItemsBefore,
   dropdownItemsAfter,
   ...props
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
   const {pathname, search, hash} = useLocation();
   const activeDocContext = useActiveDocContext(docsPluginId);
   const versions = useVersions(docsPluginId);
@@ -58,8 +57,7 @@ export default function DocsVersionDropdownNavbarItem({
     useDocsPreferredVersion(docsPluginId);
   const isVersionedHome =
     pathname === '/' || /^\/(?:sw|pw)\/?$/.test(pathname);
-  const isShowcase =
-    /^\/(?:sw|pw)\/showcase(?:\/|$)/.test(pathname);
+  const isShowcase = /^\/showcase(?:\/|$)/.test(pathname);
   const pageVersionName =
     getSiteVersionFromPath(pathname) ??
     (activeDocContext.activeVersion?.name as SiteVersionName | undefined) ??
@@ -71,6 +69,7 @@ export default function DocsVersionDropdownNavbarItem({
 
   useEffect(() => {
     if (
+      !isShowcase &&
       pageVersion &&
       pageVersion.name !== preferredVersion?.name
     ) {
@@ -80,22 +79,18 @@ export default function DocsVersionDropdownNavbarItem({
     pageVersion,
     preferredVersion,
     savePreferredVersionName,
+    isShowcase,
   ]);
+
+  if (isShowcase) {
+    return null;
+  }
 
   function versionToLink(version: GlobalVersion): LinkLikeNavbarItemProps {
     if (isVersionedHome) {
       return {
         label: version.label,
         to: `${getHomepagePath(getSiteVersionName(version))}${hash}`,
-        isActive: () => version.name === pageVersion.name,
-        onClick: () => savePreferredVersionName(version.name),
-      };
-    }
-
-    if (isShowcase) {
-      return {
-        label: version.label,
-        to: `${getShowcasePath(getSiteVersionName(version))}${hash}`,
         isActive: () => version.name === pageVersion.name,
         onClick: () => savePreferredVersionName(version.name),
       };
@@ -129,9 +124,7 @@ export default function DocsVersionDropdownNavbarItem({
       ? undefined
       : isVersionedHome
         ? getHomepagePath(getSiteVersionName(dropdownVersion))
-        : isShowcase
-          ? getShowcasePath(getSiteVersionName(dropdownVersion))
-          : getVersionTargetDoc(dropdownVersion, activeDocContext).path;
+        : getVersionTargetDoc(dropdownVersion, activeDocContext).path;
 
   if (items.length <= 1) {
     return (

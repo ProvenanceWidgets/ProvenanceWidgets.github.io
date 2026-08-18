@@ -97,6 +97,8 @@ const config: Config = {
       "@docusaurus/plugin-client-redirects",
       {
         redirects: [
+          { from: "/sw/showcase", to: "/showcase/" },
+          { from: "/pw/showcase", to: "/showcase/" },
           { from: "/docs", to: "/docs/pw/" },
           {
             from: "/docs/category/widgets",
@@ -194,28 +196,25 @@ const config: Config = {
           ],
         },
         {
-          title: "Contacts",
+          title: "Collaborators",
           items: [
             {
-              label: "Arpit Narechania",
-              href: "https://arpitnarechania.github.io/",
+              label: "Georgia Tech",
+              href: "https://www.gatech.edu/",
             },
             {
-              label: "Kaustubh Odak",
-              href: "https://kaustubhodak.me/",
+              label: "ETH Zürich",
+              href: "https://ethz.ch/",
             },
             {
-              label: "Mennatallah El-Assady",
-              href: "https://el-assady.com/",
-            },
-            {
-              label: "Alex Endert",
-              href: "https://va.gatech.edu/endert/",
+              label: "AWS",
+              href: "https://aws.amazon.com/",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} ProvenanceWidgets`,
+      copyright:
+        'Copyright 2026 <a href="https://datavisards.com/">DataVisards Lab</a> at <a href="https://hkust.edu.hk/">HKUST</a>. Contact <a href="https://narechania.com/">Arpit Narechania</a> about anything.',
     },
     prism: {
       additionalLanguages: ["bash", "json", "typescript"],

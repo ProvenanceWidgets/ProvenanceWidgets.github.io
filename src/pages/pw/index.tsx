@@ -33,10 +33,16 @@ function HomepageHeader() {
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
-        <Heading as="h1" className="hero__title hidden sm:block">
+        <Heading
+          as="h1"
+          className={clsx("hero__title hidden sm:block", styles.heroTitle)}
+        >
           {siteConfig.title}
         </Heading>
-        <Heading as="h1" className="text-5xl block sm:hidden">
+        <Heading
+          as="h1"
+          className={clsx("block sm:hidden", styles.heroTitle)}
+        >
           Provenance Widgets
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>

@@ -7,7 +7,6 @@ import {
 import {useLocation} from '@docusaurus/router';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {
-  getShowcasePath,
   getSiteVersionFromPath,
   type SiteVersionName,
 } from '@site/src/utils/siteVersion';
@@ -34,7 +33,7 @@ export default function SiteVersionNavbarLink({
   const version =
     versions.find(candidate => candidate.name === versionName) ?? versions[0];
   const mainDoc = version.docs.find(doc => doc.id === version.mainDocId)!;
-  const to = target === 'docs' ? mainDoc.path : getShowcasePath(versionName);
+  const to = target === 'docs' ? mainDoc.path : '/showcase/';
 
   return (
     <DefaultNavbarItem
@@ -43,7 +42,7 @@ export default function SiteVersionNavbarLink({
       isActive={() =>
         target === 'docs'
           ? /^\/docs\/(?:sw|pw)(?:\/|$)/.test(pathname)
-          : /^(?:\/sw|\/pw)\/showcase(?:\/|$)/.test(pathname)
+          : /^\/showcase(?:\/|$)/.test(pathname)
       }
     />
   );
