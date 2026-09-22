@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     title: "Playground",
     description:
-      "A playground to test SuperProvenanceWidgets across all available UI controls.",
+      "A showcase to test SuperProvenanceWidgets across all available UI controls.",
     image: "/img/showcase/v2/playground.png",
     imageAlt: "SuperProvenanceWidgets playground",
     route: "/playground",
@@ -28,7 +28,7 @@ const projects: Project[] = [
   {
     title: "Scented Widgets",
     description:
-      "A SuperProvenanceWidgets showcase based on Scented Widgets for navigating information spaces.",
+      "A showcase based on Scented Widgets for navigating information spaces.",
     image: "/img/showcase/v2/scented-widgets.png",
     imageAlt: "SuperProvenanceWidgets Scented Widgets showcase",
     route: "/scented-widgets",
@@ -36,7 +36,7 @@ const projects: Project[] = [
   {
     title: "Phosphor Objects",
     description:
-      "A SuperProvenanceWidgets showcase based on Phosphor objects and recent interaction history.",
+      "A showcase based on Phosphor objects and recent interaction history.",
     image: "/img/showcase/v2/phosphor-objects.png",
     imageAlt: "SuperProvenanceWidgets Phosphor Objects showcase",
     route: "/phosphor-objects",
