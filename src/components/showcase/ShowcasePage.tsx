@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     title: "Playground",
     description:
-      "Play around with your own provenance across all available widgets.",
+      "Play around with your provenance across all available widgets.",
     image: "/img/showcase/v2/playground.png",
     imageAlt: "SuperProvenanceWidgets playground",
     route: "/playground",
@@ -36,7 +36,7 @@ const projects: Project[] = [
   {
     title: "Phosphor Objects",
     description:
-      "Review your two most recent interactions with a web-based take on Phosphor Objects.",
+      "Review your two most recent interactions with Phosphor Objects.",
     image: "/img/showcase/v2/phosphor-objects.png",
     imageAlt: "SuperProvenanceWidgets Phosphor Objects showcase",
     route: "/phosphor-objects",
