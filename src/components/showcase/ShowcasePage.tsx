@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     title: "Playground",
     description:
-      "A showcase to test SuperProvenanceWidgets across all available UI controls.",
+      "Play around with your own provenance across all available widgets.",
     image: "/img/showcase/v2/playground.png",
     imageAlt: "SuperProvenanceWidgets playground",
     route: "/playground",
@@ -28,7 +28,7 @@ const projects: Project[] = [
   {
     title: "Scented Widgets",
     description:
-      "A showcase based on Scented Widgets for navigating information spaces.",
+      "Navigate information spaces with Scented Widgets.",
     image: "/img/showcase/v2/scented-widgets.png",
     imageAlt: "SuperProvenanceWidgets Scented Widgets showcase",
     route: "/scented-widgets",
@@ -36,7 +36,7 @@ const projects: Project[] = [
   {
     title: "Phosphor Objects",
     description:
-      "A showcase based on Phosphor objects and recent interaction history.",
+      "Review your two most recent interactions with a web-based take on Phosphor Objects.",
     image: "/img/showcase/v2/phosphor-objects.png",
     imageAlt: "SuperProvenanceWidgets Phosphor Objects showcase",
     route: "/phosphor-objects",
@@ -44,7 +44,7 @@ const projects: Project[] = [
   {
     title: "Data Distribution",
     description:
-      "A showcase of cross-control provenance while exploring data distributions.",
+      "Explore data distributions across attributes using different widgets.",
     image: "/img/showcase/v2/data-distribution.png",
     imageAlt: "SuperProvenanceWidgets Data Distribution showcase",
     route: "/data-distribution",
@@ -52,7 +52,7 @@ const projects: Project[] = [
   {
     title: "Vega Integration",
     description:
-      "A showcase demonstrating SuperProvenanceWidgets with Vega signals.",
+      "Connect ProvenanceWidgets to a visualization through Vega signals.",
     image: "/img/showcase/v2/vega-example.png",
     imageAlt: "SuperProvenanceWidgets Vega Integration showcase",
     route: "/vega-example",
@@ -60,7 +60,7 @@ const projects: Project[] = [
   {
     title: "Dynamic Query Widgets",
     description:
-      "A showcase of cross-control provenance in the HomeFinder dynamic query interface.",
+      "Find homes using provenance-aware query widgets.",
     image: "/img/showcase/v2/dynamic-query-widgets-homefinder.png",
     imageAlt: "SuperProvenanceWidgets Dynamic Query Widgets showcase",
     route: "/dynamic-query-widgets-homefinder",
@@ -68,7 +68,7 @@ const projects: Project[] = [
   {
     title: "Widgets to Visualization one-way",
     description:
-      "A showcase tracking interactions that flow from UI controls to a visualization.",
+      "Control a visualization through interactions with widgets.",
     image: "/img/showcase/v2/widgets-to-vis-one-way.png",
     imageAlt: "SuperProvenanceWidgets Widgets to Visualization showcase",
     route: "/widgets-to-vis-one-way",
@@ -76,7 +76,7 @@ const projects: Project[] = [
   {
     title: "Visualization to Widgets one-way",
     description:
-      "A showcase tracking updates that flow from a visualization to UI controls.",
+      "Update widgets by interacting with a visualization.",
     image: "/img/showcase/v2/vis-to-widgets-one-way.png",
     imageAlt: "SuperProvenanceWidgets Visualization to Widgets showcase",
     route: "/vis-to-widgets-one-way",
